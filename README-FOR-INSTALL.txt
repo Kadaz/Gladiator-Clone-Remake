@@ -1,0 +1,6 @@
+- Create a database in PHPMyAdmin you use.
+- Import the file "erpg.sql" located in the folder: "Gladiatus / SQL".
+- Go to the folder "Gladiatus / var" and edit the file: "ustawienia.php".
+- Go to the folder "Gladiatus / admin / var" and edit the file: "ustawienia.php".
+- Go to the browser and enter the web.
+- Enjoy your Gladiatus!
