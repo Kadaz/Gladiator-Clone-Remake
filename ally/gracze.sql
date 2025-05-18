@@ -1,0 +1,1 @@
+ALTER TABLE `gracze` ADD `ally_id` int(11) NOT NULL DEFAULT '0';
