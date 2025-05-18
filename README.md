@@ -21,3 +21,4 @@ db.php is the file you can modify the settings for mysql.
 ![image](https://github.com/user-attachments/assets/0b7a8b89-56a9-4f24-a85f-cbffaf8d3180)
 ![image2](https://github.com/user-attachments/assets/f8ee3dbe-e2ac-4329-8463-4c0f53dd843f)
 ![image4](https://github.com/user-attachments/assets/c6f22aaa-4ba0-42e7-b9a6-8ed8a98723c1)
+![image4](https://github.com/user-attachments/assets/edcb8ee7-68a1-4332-abbe-2168bf74015a)
