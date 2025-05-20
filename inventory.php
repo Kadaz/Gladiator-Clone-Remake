@@ -4,15 +4,27 @@ require 'db.php';
 require_once('var/ustawienia.php');
 require_once('gora_strony.php');
 require_once('menu_l.php');
+
 if (!isset($_SESSION['id'])) {
     header("Location: index.php");
     exit;
 }
 
 $player_id = $_SESSION['id'];
+$max_inventory_slots = 20;
+
+// Count current inventory items (unequipped only)
+$count_query = $conn->prepare("SELECT COUNT(*) FROM player_items WHERE player_id = ? AND equipped = 0");
+$count_query->bind_param("i", $player_id);
+$count_query->execute();
+$count_query->bind_result($inventory_count);
+$count_query->fetch();
+$count_query->close();
+
+$inventory_full = $inventory_count >= $max_inventory_slots;
 
 // Handle item equip
-if (isset($_GET['equip'])) {
+if (isset($_GET['equip']) && !$inventory_full) {
     $player_item_id = (int)$_GET['equip'];
 
     // Get item type
@@ -52,6 +64,11 @@ if (isset($_GET['equip'])) {
 
 <h2>Inventory</h2>
 
+<p><strong>Inventory Slots Used:</strong> <?= $inventory_count ?> / <?= $max_inventory_slots ?></p>
+<?php if ($inventory_full): ?>
+    <p style="color: red;"><strong>Inventory full! Sell or equip items to free up space.</strong></p>
+<?php endif; ?>
+
 <?php
 // Equipped Items
 echo "<h3>Equipped Items</h3>";
@@ -62,19 +79,16 @@ $equipped_query = $conn->prepare("
     WHERE pi.player_id = ? AND pi.equipped = 1
 ");
 $equipped_query->bind_param("i", $player_id);
+$equipped_query->execute();
+$equipped_result = $equipped_query->get_result();
 
-if ($equipped_query->execute()) {
-    $equipped_result = $equipped_query->get_result();
-    if ($equipped_result->num_rows > 0) {
-        while ($item = $equipped_result->fetch_assoc()) {
-            echo "<p>{$item['name']} ({$item['type']}) - Value: {$item['value']} 
-                <a href='unequip_item.php?id={$item['player_item_id']}'>Unequip</a></p>";
-        }
-    } else {
-        echo "<p>No items equipped.</p>";
+if ($equipped_result->num_rows > 0) {
+    while ($item = $equipped_result->fetch_assoc()) {
+        echo "<p>{$item['name']} ({$item['type']}) - Value: {$item['value']} 
+            <a href='unequip_item.php?id={$item['player_item_id']}'>Unequip</a></p>";
     }
 } else {
-    echo "<p>Error loading equipped items: " . $conn->error . "</p>";
+    echo "<p>No items equipped.</p>";
 }
 
 // Inventory Items
@@ -86,24 +100,22 @@ $inv_query = $conn->prepare("
     WHERE pi.player_id = ?
 ");
 $inv_query->bind_param("i", $player_id);
+$inv_query->execute();
+$inv_result = $inv_query->get_result();
 
-if ($inv_query->execute()) {
-    $inv_result = $inv_query->get_result();
-    if ($inv_result->num_rows > 0) {
-        while ($item = $inv_result->fetch_assoc()) {
-            echo "<p>{$item['name']} ({$item['type']}) - Value: {$item['value']} ";
-            if ($item['equipped']) {
-                echo "[Equipped]";
-            } else {
-                echo "<a href='inventory.php?equip={$item['player_item_id']}'>Equip</a>";
-            }
-            echo "</p>";
+if ($inv_result->num_rows > 0) {
+    while ($item = $inv_result->fetch_assoc()) {
+        echo "<p>{$item['name']} ({$item['type']}) - Value: {$item['value']} ";
+        if ($item['equipped']) {
+            echo "[Equipped]";
+        } else {
+            echo "<a href='inventory.php?equip={$item['player_item_id']}'>Equip</a> | ";
+            echo "<a href='sell_item.php?id={$item['player_item_id']}' onclick=\"return confirm('Sell this item?');\">Sell</a>";
         }
-    } else {
-        echo "<p>No items in inventory.</p>";
+        echo "</p>";
     }
 } else {
-    echo "<p>Error loading inventory: " . $conn->error . "</p>";
+    echo "<p>No items in inventory.</p>";
 }
 ?>
 

@@ -12,59 +12,61 @@ if (!isset($_SESSION['id'])) {
 
 $player_id = $_SESSION['id'];
 
-// Handle buying
+// Fetch player level and gold
+$player = $conn->query("SELECT nivel, zloto FROM gracze WHERE id = $player_id")->fetch_assoc();
+$level = $player['nivel'];
+$gold = $player['zloto'];
+
+// Buy item logic
 if (isset($_GET['buy'])) {
     $item_id = (int)$_GET['buy'];
+    $item = $conn->query("SELECT * FROM items WHERE id = $item_id")->fetch_assoc();
+    
+    if ($item && $item['level_required'] <= $level && $gold >= $item['value']) {
+        // Deduct gold
+        $conn->query("UPDATE gracze SET zloto = zloto - {$item['value']} WHERE id = $player_id");
 
-    // Get item info
-    $stmt = $conn->prepare("SELECT * FROM items WHERE id = ?");
-    $stmt->bind_param("i", $item_id);
-    $stmt->execute();
-    $item = $stmt->get_result()->fetch_assoc();
+        // Add to player inventory
+        $conn->query("INSERT INTO player_items (player_id, item_id, equipped) VALUES ($player_id, $item_id, 0)");
 
-    if ($item) {
-        // Check gold
-        $gold_check = $conn->prepare("SELECT zloto FROM gracze WHERE id = ?");
-        $gold_check->bind_param("i", $player_id);
-        $gold_check->execute();
-        $gold = $gold_check->get_result()->fetch_assoc()['zloto'];
-
-        if ($gold >= $item['price']) {
-            // Deduct gold and add item
-            $new_gold = $gold - $item['price'];
-
-            $conn->begin_transaction();
-            try {
-                $update = $conn->prepare("UPDATE gracze SET zloto = ? WHERE id = ?");
-                $update->bind_param("ii", $new_gold, $player_id);
-                $update->execute();
-
-                $insert = $conn->prepare("INSERT INTO player_items (player_id, item_id) VALUES (?, ?)");
-                $insert->bind_param("ii", $player_id, $item_id);
-                $insert->execute();
-
-                $conn->commit();
-                echo "<p style='color:green;'>Item bought successfully!</p>";
-            } catch (Exception $e) {
-                $conn->rollback();
-                echo "<p style='color:red;'>Transaction failed.</p>";
-            }
-        } else {
-            echo "<p style='color:red;'>Not enough gold.</p>";
-        }
+        echo "<p style='color:green;'>You bought: {$item['name']}</p>";
+        $gold -= $item['value'];
+    } else {
+        echo "<p style='color:red;'>Not enough gold or level too low.</p>";
     }
 }
 
-// Show available items
-$result = $conn->query("SELECT * FROM items");
-
-echo "<h2>Shop Inventory</h2>";
-while ($item = $result->fetch_assoc()) {
-    echo "<p><strong>{$item['name']}</strong><br>";
-    echo "Type: {$item['type']}<br>";
-    echo "Value: {$item['value']} | Price: {$item['price']}<br>";
-    echo "<a href='shop.php?buy={$item['id']}'>Buy</a></p><hr>";
-}
-
-echo "<br><a href='index.php'>← Back to Dashboard</a>";
+// Get shop items (random items for now)
+$shop_items = $conn->query("SELECT * FROM items WHERE level_required <= $level ORDER BY RAND() LIMIT 6");
 ?>
+
+<h2>🏪 Shop</h2>
+<p>Your Gold: <strong><?= $gold ?></strong></p>
+
+<style>
+.item-box {
+    display: inline-block;
+    text-align: center;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 8px;
+    width: 120px;
+    border-radius: 8px;
+    background: #fdfdfd;
+}
+.item-box img {
+    width: 64px;
+    height: 64px;
+}
+</style>
+
+<?php while ($item = $shop_items->fetch_assoc()): ?>
+    <div class="item-box">
+        <img src="items/<?= $item['image'] ?>" alt="<?= htmlspecialchars($item['name']) ?>"><br>
+        <strong><?= htmlspecialchars($item['name']) ?></strong><br>
+        Value: <?= $item['value'] ?> G<br>
+        <a href="shop.php?buy=<?= $item['id'] ?>">Buy</a>
+    </div>
+<?php endwhile; ?>
+
+<br><a href="index.php">← Back to Dashboard</a>
