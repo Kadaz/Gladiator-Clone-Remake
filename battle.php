@@ -12,19 +12,38 @@ if (!isset($_SESSION['id'])) {
 
 $player_id = $_SESSION['id'];
 
-// Load player data
-$stmt = $conn->prepare("SELECT * FROM gracze WHERE id = ?");
-if (!$stmt) {
-    die("Prepare failed: " . $conn->error);
+// 🔒 Battle Limit (10 per hour)
+$limit_check = $conn->prepare("SELECT COUNT(*) FROM battle_logs WHERE player_id = ? AND timestamp > NOW() - INTERVAL 1 HOUR");
+$limit_check->bind_param("i", $player_id);
+$limit_check->execute();
+$limit_check->bind_result($battles_last_hour);
+$limit_check->fetch();
+$limit_check->close();
+
+if ($battles_last_hour >= 10) {
+    die("<h3 style='color:red'>⛔ You have reached your battle limit (10 per hour). Try again later.</h3><a href='index.php'>← Back</a>");
 }
+
+// Reset battle manually (Start New Battle)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reset'])) {
+    $enemy = $enemy_pool[array_rand($enemy_pool)];
+    $_SESSION['enemy'] = $enemy;
+    $_SESSION['battle_enemy_hp'] = $enemy['hp'];
+    $_SESSION['battle_player_hp'] = $player['zycie'];
+    $_SESSION['reward_given'] = false;
+    $_SESSION['battle_log'] = [];
+    $_SESSION['skill_cooldowns'] = [];
+    header("Location: battle.php");
+    exit;
+}
+
+// Load player
+$stmt = $conn->prepare("SELECT * FROM gracze WHERE id = ?");
 $stmt->bind_param("i", $player_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $player = $result->fetch_assoc();
-
-if (!$player) {
-    die("Player not found.");
-}
+if (!$player) die("Player not found.");
 
 $enemy_pool = [
     ['name' => 'Training Dummy', 'hp' => 50, 'min_dmg' => 0, 'max_dmg' => 5],
@@ -38,117 +57,108 @@ if (!isset($_SESSION['enemy']) || !isset($_SESSION['battle_enemy_hp'])) {
     $enemy = $enemy_pool[array_rand($enemy_pool)];
     $_SESSION['enemy'] = $enemy;
     $_SESSION['battle_enemy_hp'] = $enemy['hp'];
+    $_SESSION['battle_player_hp'] = $player['zycie'];
+    $_SESSION['reward_given'] = false;
+    $_SESSION['battle_log'] = [];
+    $_SESSION['skill_cooldowns'] = [];
 } else {
     $enemy = $_SESSION['enemy'];
 }
 
-if (!isset($_SESSION['battle_player_hp'])) {
-    $_SESSION['battle_player_hp'] = $player['zycie'] ?? 100;
-}
 $player_hp = $_SESSION['battle_player_hp'];
-
-if (!isset($_SESSION['battle_enemy_hp'])) {
-    $_SESSION['battle_enemy_hp'] = $enemy['hp'] ?? 50;
-}
 $enemy_hp = $_SESSION['battle_enemy_hp'];
-
 $log = [];
 $cooldowns = $_SESSION['skill_cooldowns'] ?? [];
 $now = time();
 
-if (isset($_POST['reset'])) {
-    $enemy = $enemy_pool[array_rand($enemy_pool)];
-    $_SESSION['battle_player_hp'] = $player['zycie'] ?? 100;
-    $_SESSION['battle_enemy_hp'] = $enemy['hp'];
-    $_SESSION['battle_log'] = [];
-    $_SESSION['skill_cooldowns'] = [];
-    $_SESSION['reward_given'] = false;
-    $_SESSION['enemy'] = $enemy;
-
-    header("Location: battle.php");
-    exit;
+// Skill definitions from DB
+$skills = [];
+$basic_skills = [];
+$advanced_skills = [];
+$unlocked = $conn->query("SELECT s.* FROM skills s JOIN skill_unlocks u ON u.skill_id = s.id WHERE u.unlock_level <= {$player['nivel']}");
+while ($row = $unlocked->fetch_assoc()) {
+    $skills[$row['id']] = $row;
+    if ($row['cooldown'] <= 3) {
+        $basic_skills[] = $row;
+    } else {
+        $advanced_skills[] = $row;
+    }
 }
 
+// Process Battle Turn
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? 'basic';
     $time = date("H:i:s");
 
     $player_damage = rand(10, 20) + floor($player['sila'] * 0.5);
     $enemy_damage = rand($enemy['min_dmg'], $enemy['max_dmg']);
+    $sound = 'attack';
 
-    if ($action === 'power_strike' && (!isset($cooldowns['power_strike']) || $now >= $cooldowns['power_strike'])) {
-        $player_damage += 10;
-        $cooldowns['power_strike'] = $now + 10;
-        $log[] = "<span class='log-player-skill'>[$time] You used <strong>Power Strike</strong> and dealt $player_damage damage! ({$enemy['name']} HP: " . max($enemy_hp - $player_damage, 0) . ")</span>";
-    } elseif ($action === 'first_aid' && (!isset($cooldowns['first_aid']) || $now >= $cooldowns['first_aid'])) {
-        $heal = 10;
-        $player_hp += $heal;
-        $cooldowns['first_aid'] = $now + 15;
-        $log[] = "<span class='log-heal'>[$time] You used <strong>First Aid</strong> and healed $heal HP! (Your HP: $player_hp)</span>";
-        $player_damage = 0;
-    } else {
-        if ($action !== 'first_aid') {
-            $log[] = "<span class='log-player-attack'>[$time] You deal $player_damage damage to the {$enemy['name']} (HP left: " . max($enemy_hp - $player_damage, 0) . ")</span>";
+    if (ctype_digit($action) && isset($skills[$action])) {
+        $skill = $skills[$action];
+        $skill_id = $skill['id'];
+        $cd_key = 'skill_' . $skill_id;
+
+        if (!isset($cooldowns[$cd_key]) || $now >= $cooldowns[$cd_key]) {
+            $player_damage = $skill['damage'] + floor($player['sila'] * 0.5);
+            $player_hp += $skill['healing'];
+            $cooldowns[$cd_key] = $now + $skill['cooldown_seconds'];
+            $log[] = "<span class='log-player-skill' data-sound='power_strike'>[$time] You used <strong>{$skill['name']}</strong>: +{$skill['damage']} dmg, +{$skill['healing']} HP</span>";
+            $sound = $skill['healing'] ? 'heal' : 'power_strike';
+        } else {
+            $log[] = "<span class='log-enemy-attack'>[$time] Skill on cooldown!</span>";
+            $player_damage = 0;
         }
+    } elseif ($action === 'basic') {
+        $log[] = "<span class='log-player-attack' data-sound='attack'>[$time] You hit {$enemy['name']} for $player_damage!</span>";
     }
 
-    if ($enemy_hp - $player_damage > 0 && $action !== 'first_aid') {
+    // Enemy hits back
+    if ($enemy_hp - $player_damage > 0) {
         $player_hp -= $enemy_damage;
-        $log[] = "<span class='log-enemy-attack'>[$time] {$enemy['name']} deals $enemy_damage damage to you (HP left: $player_hp)</span>";
+        $log[] = "<span class='log-enemy-attack' data-sound='attack'>[$time] {$enemy['name']} hits you for $enemy_damage!</span>";
     }
 
     $enemy_hp -= $player_damage;
 
-    // Save HP and log back to session
-    $_SESSION['battle_player_hp'] = max($player_hp, 0);
-    $_SESSION['battle_enemy_hp'] = max($enemy_hp, 0);
+    // Update session
+    $_SESSION['battle_player_hp'] = max(0, $player_hp);
+    $_SESSION['battle_enemy_hp'] = max(0, $enemy_hp);
     $_SESSION['battle_log'] = array_merge($_SESSION['battle_log'] ?? [], $log);
     $_SESSION['skill_cooldowns'] = $cooldowns;
 
-    // === REWARDS & LEVEL-UP ===
-    if ($enemy_hp <= 0 && $player_hp > 0) {
-        if (!isset($_SESSION['reward_given']) || $_SESSION['reward_given'] === false) {
-            $xp_reward = rand(10, 25);
-            $gold_reward = rand(5, 15);
+        // Victory & Rewards
+    if ($enemy_hp <= 0 && $player_hp > 0 && !$_SESSION['reward_given']) {
+        $xp = rand(10, 25);
+        $gold = rand(5, 15);
+        $new_exp = $player['exp'] + $xp;
+        $new_lvl = $player['nivel'];
+        $new_hp = $player['zycie'];
+        $new_str = $player['sila'];
+        $leveled_up = false;
 
-            $new_exp = $player['exp'] + $xp_reward;
-            $new_gold = $player['zloto'] + $gold_reward;
-            $new_level = $player['nivel'];
-            $new_hp = $player['zycie'];
-            $new_str = $player['sila'];
-            $new_ep = $player['exp_max'];
-            $leveled_up = false;
-
-            // Level-up check loop
-            while ($new_exp >= $new_level * 100) {
-                $new_exp -= $new_level * 100;
-                $new_level++;
-                $new_hp += 10;
-                $new_str += 2;
-                $leveled_up = true;
-                $log[] = "<span class='log-reward'>🎉 You leveled up to <strong>Level $new_level</strong>! HP +10, Strength +2!</span>";
-            }
-
-            // Update database
-            $stmt = $conn->prepare("UPDATE gracze SET exp = ?, exp_max = nivel * 100, zloto = ?, nivel = ?, zycie = ?, sila = ? WHERE id = ?");
-            $stmt->bind_param("iiiiii", $new_exp, $new_gold, $new_level, $new_hp, $new_str, $player_id);
-            $stmt->execute();
-
-            // Update session player data for next battle
-            $player['exp'] = $new_exp;
-            $player['zloto'] = $new_gold;
-            $player['nivel'] = $new_level;
-            $player['zycie'] = $new_hp;
-            $player['sila'] = $new_str;
-            $player['exp_max'] = $new_ep;
-            $_SESSION['reward_given'] = true;
-            $_SESSION['battle_log'][] = "<span class='log-reward'>You earned $xp_reward XP and $gold_reward gold!</span>";
-
-            if ($leveled_up) {
-                $_SESSION['battle_player_hp'] = $new_hp;
-                $_SESSION['battle_log'][] = "<span class='log-heal'>Your level up to $new_level</span>";
-            }
+        while ($new_exp >= $new_lvl * 100) {
+            $new_exp -= $new_lvl * 100;
+            $new_lvl++;
+            $new_hp += 10;
+            $new_str += 2;
+            $leveled_up = true;
+            $log[] = "<span class='log-reward level-up' data-sound='levelup'>🎉 Level up! Now level $new_lvl. +10 HP, +2 Strength!</span>";
         }
+
+        $stmt = $conn->prepare("UPDATE gracze SET exp = ?, nivel = ?, zloto = zloto + ?, zycie = ?, sila = ? WHERE id = ?");
+        $stmt->bind_param("iiiiii", $new_exp, $new_lvl, $gold, $new_hp, $new_str, $player_id);
+        $stmt->execute();
+        $_SESSION['reward_given'] = true;
+
+        // Victory message (added to log, not session directly)
+        $log[] = "<span class='log-reward' data-sound='victory'>🏆 Victory! +$xp XP, +$gold gold.</span>";
+
+        // Save the battle log
+        $_SESSION['battle_log'] = array_merge($_SESSION['battle_log'] ?? [], $log);
+
+        // Log battle in DB
+        $conn->query("INSERT INTO battle_logs (player_id, timestamp) VALUES ($player_id, NOW())");
     }
 
     header("Location: battle.php");
@@ -158,15 +168,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $battle_log = $_SESSION['battle_log'] ?? [];
 $cooldowns = $_SESSION['skill_cooldowns'] ?? [];
 $now = time();
-
-function cooldownText($skill, $cooldowns, $now) {
-    return isset($cooldowns[$skill]) && $cooldowns[$skill] > $now
-        ? " (Cooldown: " . ($cooldowns[$skill] - $now) . "s)"
-        : "";
-}
-function isOnCooldown($skill, $cooldowns, $now) {
-    return isset($cooldowns[$skill]) && $cooldowns[$skill] > $now;
-}
 ?>
 
 <style>
@@ -196,52 +197,60 @@ function isOnCooldown($skill, $cooldowns, $now) {
     }
 </style>>
 
-<h2>⚔️ Battle: You vs <?= htmlspecialchars($enemy['name']) ?></h2>
-<p>
-    <strong>Your HP:</strong> <?= htmlspecialchars($_SESSION['battle_player_hp']) ?> |
-    <strong><?= htmlspecialchars($enemy['name']) ?> HP:</strong> <?= htmlspecialchars($_SESSION['battle_enemy_hp']) ?><br>
-    <strong>Level:</strong> <?= $player['nivel'] ?> |
-    <strong>XP:</strong> <?= $player['exp'] ?>/<?= $player['nivel'] * 100 ?>
-</p>
+<h2>⚔️ Battle: You vs <?= $enemy['name'] ?></h2>
+<p><strong>Your HP:</strong> <?= $player_hp ?> | <strong><?= $enemy['name'] ?> HP:</strong> <?= $enemy_hp ?></p>
+<p><strong>Level:</strong> <?= $player['nivel'] ?> | <strong>XP:</strong> <?= $player['exp'] ?>/<?= $player['nivel'] * 100 ?></p>
 
-<?php if ($_SESSION['battle_enemy_hp'] > 0 && $_SESSION['battle_player_hp'] > 0): ?>
+<?php if ($player_hp > 0 && $enemy_hp > 0): ?>
     <form method="post">
         <button type="submit" name="action" value="basic">Basic Attack</button>
-        <h3>Skills</h3>
-        <button type="submit" name="action" value="power_strike" <?= isOnCooldown('power_strike', $cooldowns, $now) ? 'disabled' : '' ?>>
-            Power Strike<?= cooldownText('power_strike', $cooldowns, $now) ?>
-        </button>
-        <p>Deals extra 10 damage.</p>
+    </form>
 
-        <button type="submit" name="action" value="first_aid" <?= isOnCooldown('first_aid', $cooldowns, $now) ? 'disabled' : '' ?>>
-            First Aid<?= cooldownText('first_aid', $cooldowns, $now) ?>
-        </button>
-        <p>Heals 10 HP.</p>
-    </form>
-<?php elseif ($_SESSION['battle_enemy_hp'] <= 0): ?>
-    <h3>🎉 You defeated the <?= htmlspecialchars($enemy['name']) ?>!</h3>
-    <form method="post">
-        <button type="submit" name="reset">Start New Battle</button>
-    </form>
-    <br><a href="index.php">← Back to Dashboard</a>
-<?php elseif ($_SESSION['battle_player_hp'] <= 0): ?>
-    <h3>💀 You were defeated by the <?= htmlspecialchars($enemy['name']) ?>.</h3>
-    <form method="post">
-        <button type="submit" name="reset">Try Again</button>
-    </form>
-    <br><a href="index.php">← Back to Dashboard</a>
+    <button onclick="showTab('basic')">Basic Skills</button>
+    <button onclick="showTab('advanced')">Advanced Skills</button>
+
+    <div id="skills-basic" style="display:none">
+        <form method="post">
+        <?php foreach ($basic_skills as $skill): ?>
+            <button type="submit" name="action" value="<?= $skill['id'] ?>" <?= isset($cooldowns['skill_' . $skill['id']]) && $cooldowns['skill_' . $skill['id']] > $now ? 'disabled' : '' ?>>
+                <?= $skill['name'] ?> (<?= $skill['description'] ?>)
+            </button>
+        <?php endforeach; ?>
+        </form>
+    </div>
+
+    <div id="skills-advanced" style="display:none">
+        <form method="post">
+        <?php foreach ($advanced_skills as $skill): ?>
+            <button type="submit" name="action" value="<?= $skill['id'] ?>" <?= isset($cooldowns['skill_' . $skill['id']]) && $cooldowns['skill_' . $skill['id']] > $now ? 'disabled' : '' ?>>
+                <?= $skill['name'] ?> (<?= $skill['description'] ?>)
+            </button>
+        <?php endforeach; ?>
+        </form>
+    </div>
+<?php elseif ($enemy_hp <= 0): ?>
+    <h3>🎉 You defeated the <?= $enemy['name'] ?>!</h3>
+    <form method="post"><button name="reset">Start New Battle</button></form>
+    <a href="index.php">← Back</a>
+<?php else: ?>
+    <h3>💀 You were defeated.</h3>
+    <form method="post"><button name="reset">Try Again</button></form>
+    <a href="index.php">← Back</a>
 <?php endif; ?>
 
 <h3>📜 Battle Log</h3>
-<ul>
+<ul id="battle-log">
     <?php foreach (array_reverse($battle_log) as $entry): ?>
         <li><?= $entry ?></li>
     <?php endforeach; ?>
 </ul>
-<br>
-<a href="index.php">← Back to Dashboard</a>
 
 <script>
+function showTab(tab) {
+    document.getElementById('skills-basic').style.display = (tab === 'basic') ? 'block' : 'none';
+    document.getElementById('skills-advanced').style.display = (tab === 'advanced') ? 'block' : 'none';
+}
+
 const sounds = {
     attack: new Audio("sounds/attack.mp3"),
     power_strike: new Audio("sounds/power_strike.mp3"),
@@ -252,9 +261,13 @@ const sounds = {
 };
 
 window.addEventListener("load", () => {
-    document.querySelectorAll("#battle-log li span[data-sound]").forEach(span => {
-        const sound = span.getAttribute("data-sound");
-        if (sounds[sound]) sounds[sound].play();
+    document.querySelectorAll("#battle-log span[data-sound]").forEach(el => {
+        const sound = el.dataset.sound;
+        if (sounds[sound]) {
+            sounds[sound].play().catch(() => {
+                // Autoplay blocked — user interaction required.
+            });
+        }
     });
 });
 </script>
