@@ -10,10 +10,58 @@ Target Server Type    : MYSQL
 Target Server Version : 50718
 File Encoding         : 65001
 
-Date: 2025-05-21 01:00:47
+Date: 2025-05-22 03:40:03
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `battle_logs`
+-- ----------------------------
+DROP TABLE IF EXISTS `battle_logs`;
+CREATE TABLE `battle_logs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `player_id` int(11) NOT NULL,
+  `timestamp` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `player_id` (`player_id`),
+  CONSTRAINT `battle_logs_ibfk_1` FOREIGN KEY (`player_id`) REFERENCES `gracze` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of battle_logs
+-- ----------------------------
+INSERT INTO `battle_logs` VALUES ('1', '6', '2025-05-22 02:48:09');
+INSERT INTO `battle_logs` VALUES ('2', '7', '2025-05-22 02:49:37');
+INSERT INTO `battle_logs` VALUES ('3', '7', '2025-05-22 03:03:49');
+INSERT INTO `battle_logs` VALUES ('4', '7', '2025-05-22 03:15:47');
+INSERT INTO `battle_logs` VALUES ('5', '7', '2025-05-22 03:15:56');
+INSERT INTO `battle_logs` VALUES ('6', '7', '2025-05-22 03:16:18');
+INSERT INTO `battle_logs` VALUES ('7', '7', '2025-05-22 03:16:24');
+INSERT INTO `battle_logs` VALUES ('8', '7', '2025-05-22 03:16:28');
+INSERT INTO `battle_logs` VALUES ('9', '7', '2025-05-22 03:16:33');
+INSERT INTO `battle_logs` VALUES ('10', '7', '2025-05-22 03:16:37');
+INSERT INTO `battle_logs` VALUES ('11', '7', '2025-05-22 03:16:41');
+INSERT INTO `battle_logs` VALUES ('12', '8', '2025-05-22 03:20:07');
+INSERT INTO `battle_logs` VALUES ('13', '8', '2025-05-22 03:20:28');
+INSERT INTO `battle_logs` VALUES ('14', '8', '2025-05-22 03:25:32');
+INSERT INTO `battle_logs` VALUES ('15', '8', '2025-05-22 03:26:03');
+INSERT INTO `battle_logs` VALUES ('16', '8', '2025-05-22 03:26:08');
+INSERT INTO `battle_logs` VALUES ('17', '8', '2025-05-22 03:26:12');
+INSERT INTO `battle_logs` VALUES ('18', '8', '2025-05-22 03:26:19');
+INSERT INTO `battle_logs` VALUES ('19', '8', '2025-05-22 03:26:50');
+INSERT INTO `battle_logs` VALUES ('20', '8', '2025-05-22 03:26:55');
+INSERT INTO `battle_logs` VALUES ('21', '8', '2025-05-22 03:27:01');
+INSERT INTO `battle_logs` VALUES ('22', '3', '2025-05-22 03:27:58');
+INSERT INTO `battle_logs` VALUES ('23', '3', '2025-05-22 03:28:10');
+INSERT INTO `battle_logs` VALUES ('24', '3', '2025-05-22 03:28:17');
+INSERT INTO `battle_logs` VALUES ('25', '3', '2025-05-22 03:28:23');
+INSERT INTO `battle_logs` VALUES ('26', '3', '2025-05-22 03:29:14');
+INSERT INTO `battle_logs` VALUES ('27', '3', '2025-05-22 03:37:48');
+INSERT INTO `battle_logs` VALUES ('28', '3', '2025-05-22 03:37:55');
+INSERT INTO `battle_logs` VALUES ('29', '3', '2025-05-22 03:38:09');
+INSERT INTO `battle_logs` VALUES ('30', '3', '2025-05-22 03:38:35');
+INSERT INTO `battle_logs` VALUES ('31', '3', '2025-05-22 03:38:40');
 
 -- ----------------------------
 -- Table structure for `br`
@@ -158,12 +206,12 @@ CREATE TABLE `gracze` (
 -- ----------------------------
 -- Records of gracze
 -- ----------------------------
-INSERT INTO `gracze` VALUES ('3', '1', 'tolis', 'e10adc3949ba59abbe56e057f20f883e', 'tolis@test1.com', '0', '3', 'dgfdg', 'gfdgfd', '1', '3', '312', '300', '0', '0', '9', '0', '0', '0', '0', '18', '49', '0', '10', '24', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '190', '100', '0', '2', '1555', '0', '0', '0', '1747529809', '0', '1747533530', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1747533530', '0', '0');
+INSERT INTO `gracze` VALUES ('3', '1', 'tolis', 'e10adc3949ba59abbe56e057f20f883e', 'tolis@test1.com', '0', '3', 'dgfdg', 'gfdgfd', '1', '80', '65', '300', '0', '0', '9', '0', '0', '0', '0', '18', '55', '0', '10', '24', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '220', '100', '0', '2', '1664', '0', '0', '0', '1747529809', '0', '1747874322', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1747874322', '0', '0');
 INSERT INTO `gracze` VALUES ('4', '2', 'Kadaz', 'e10adc3949ba59abbe56e057f20f883e', 'solidus8422@gmail.com', '0', '1', 'tolis', 'tolis', '1', '1', '0', '10', '0', '0', '0', '3', '0', '0', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '100', '100', '0', '2', '120', '0', '0', '0', '0', '0', '1747529610', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1747529610', '0', '0');
 INSERT INTO `gracze` VALUES ('5', '0', 'test', '25f9e794323b453885f5181f1b624d0b', 'test@gmail.com', '0', '1', 'test', 'test', '1', '1', '0', '10', '0', '0', '0', '2', '0', '0', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '100', '100', '0', '2', '130', '0', '0', '0', '0', '0', '0', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `gracze` VALUES ('6', '0', 'test2', 'ad0234829205b9033196ba818f7a872b', 'test2@gmail.com', '0', '1', 'test', 'test', '1', '100', '156', '10000', '0', '0', '0', '1', '0', '0', '0', '0', '7', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '110', '100', '0', '2', '953513', '0', '0', '0', '0', '0', '1747778120', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1747778120', '0', '0');
-INSERT INTO `gracze` VALUES ('7', '0', 'test3', '8ad8757baa8564dc136c1e07507f4a98', 'test3@gmail.com', '0', '1', 'test3', 'test3', '1', '1', '28', '100', '0', '0', '0', '0', '0', '0', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '100', '100', '0', '2', '127', '0', '0', '0', '0', '0', '1747676805', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1747676805', '0', '0');
-INSERT INTO `gracze` VALUES ('8', '0', 'test4', '86985e105f79b95d6bc918fb45ec7727', 'test4@gmail.com', '0', '3', 'test4', 'test4', '1', '3', '50', '300', '0', '0', '1', '4', '0', '0', '0', '0', '9', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '120', '100', '0', '2', '230', '0', '0', '0', '1747576645', '0', '1747771516', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1747771516', '0', '0');
+INSERT INTO `gracze` VALUES ('6', '0', 'test2', 'ad0234829205b9033196ba818f7a872b', 'test2@gmail.com', '0', '1', 'test', 'test', '1', '100', '1095', '10000', '0', '0', '0', '1', '0', '0', '0', '0', '7', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '110', '100', '0', '2', '954016', '0', '0', '0', '0', '0', '1747871341', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1747871341', '0', '0');
+INSERT INTO `gracze` VALUES ('7', '0', 'test3', '8ad8757baa8564dc136c1e07507f4a98', 'test3@gmail.com', '0', '1', 'test3', 'test3', '1', '1', '99', '100', '0', '0', '0', '0', '0', '0', '0', '0', '7', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '110', '100', '0', '2', '229', '0', '0', '0', '0', '0', '1747873011', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1747873011', '0', '0');
+INSERT INTO `gracze` VALUES ('8', '0', 'test4', '86985e105f79b95d6bc918fb45ec7727', 'test4@gmail.com', '0', '3', 'test4', 'test4', '1', '1', '96', '300', '0', '0', '1', '4', '0', '0', '0', '0', '11', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '130', '100', '0', '2', '327', '0', '0', '0', '1747576645', '0', '1747873626', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1747873626', '0', '0');
 
 -- ----------------------------
 -- Table structure for `items`
@@ -1355,27 +1403,11 @@ CREATE TABLE `player_skill_cooldowns` (
   KEY `skill_id` (`skill_id`),
   CONSTRAINT `player_skill_cooldowns_ibfk_1` FOREIGN KEY (`player_id`) REFERENCES `gracze` (`id`),
   CONSTRAINT `player_skill_cooldowns_ibfk_2` FOREIGN KEY (`skill_id`) REFERENCES `skills` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of player_skill_cooldowns
 -- ----------------------------
-INSERT INTO `player_skill_cooldowns` VALUES ('1', '3', '1', '2025-05-15 21:25:06');
-INSERT INTO `player_skill_cooldowns` VALUES ('2', '3', '1', '2025-05-15 21:27:12');
-INSERT INTO `player_skill_cooldowns` VALUES ('3', '3', '1', '2025-05-15 21:27:15');
-INSERT INTO `player_skill_cooldowns` VALUES ('4', '3', '2', '2025-05-15 21:27:20');
-INSERT INTO `player_skill_cooldowns` VALUES ('5', '3', '1', '2025-05-15 21:27:29');
-INSERT INTO `player_skill_cooldowns` VALUES ('6', '3', '1', '2025-05-15 21:41:18');
-INSERT INTO `player_skill_cooldowns` VALUES ('7', '3', '2', '2025-05-15 21:41:27');
-INSERT INTO `player_skill_cooldowns` VALUES ('8', '3', '1', '2025-05-15 21:41:36');
-INSERT INTO `player_skill_cooldowns` VALUES ('9', '3', '1', '2025-05-15 21:41:44');
-INSERT INTO `player_skill_cooldowns` VALUES ('10', '3', '1', '2025-05-15 21:42:11');
-INSERT INTO `player_skill_cooldowns` VALUES ('11', '3', '1', '2025-05-15 21:43:07');
-INSERT INTO `player_skill_cooldowns` VALUES ('12', '3', '1', '2025-05-15 21:43:09');
-INSERT INTO `player_skill_cooldowns` VALUES ('13', '3', '1', '2025-05-15 21:44:32');
-INSERT INTO `player_skill_cooldowns` VALUES ('14', '3', '2', '2025-05-15 21:44:36');
-INSERT INTO `player_skill_cooldowns` VALUES ('15', '3', '1', '2025-05-15 21:45:50');
-INSERT INTO `player_skill_cooldowns` VALUES ('16', '3', '1', '2025-05-15 21:46:10');
 
 -- ----------------------------
 -- Table structure for `potwory`
@@ -1539,10 +1571,45 @@ CREATE TABLE `skills` (
   `cooldown` int(11) DEFAULT '0',
   `cooldown_seconds` int(11) NOT NULL DEFAULT '10',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of skills
 -- ----------------------------
 INSERT INTO `skills` VALUES ('1', 'Power Strike', 'Deals extra 10 damage.', '10', '0', '2', '10');
-INSERT INTO `skills` VALUES ('2', 'First Aid', 'Heals 10 HP.', '0', '10', '3', '10');
+INSERT INTO `skills` VALUES ('2', 'First Aid', 'Heals 10 HP.', '0', '10', '3', '15');
+INSERT INTO `skills` VALUES ('3', 'Fireball', 'Burns enemy with fire.', '15', '0', '3', '12');
+INSERT INTO `skills` VALUES ('4', 'Shield Bash', 'Stuns enemy and deals small damage.', '5', '0', '4', '20');
+INSERT INTO `skills` VALUES ('5', 'Battle Cry', 'Boosts your strength temporarily.', '0', '0', '5', '30');
+INSERT INTO `skills` VALUES ('6', 'Quick Heal', 'Restores 25 HP.', '0', '25', '5', '20');
+INSERT INTO `skills` VALUES ('7', 'Piercing Arrow', 'Ignores some enemy defense.', '20', '0', '6', '15');
+INSERT INTO `skills` VALUES ('8', 'Magic Barrier', 'Reduces damage taken for 3 turns.', '0', '0', '7', '40');
+INSERT INTO `skills` VALUES ('9', 'Lightning Strike', 'High critical chance hit.', '25', '0', '8', '20');
+INSERT INTO `skills` VALUES ('10', 'Divine Blessing', 'Heals and increases all stats temporarily.', '0', '15', '10', '60');
+
+-- ----------------------------
+-- Table structure for `skill_unlocks`
+-- ----------------------------
+DROP TABLE IF EXISTS `skill_unlocks`;
+CREATE TABLE `skill_unlocks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `skill_id` int(11) NOT NULL,
+  `unlock_level` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `skill_id` (`skill_id`),
+  CONSTRAINT `skill_unlocks_ibfk_1` FOREIGN KEY (`skill_id`) REFERENCES `skills` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of skill_unlocks
+-- ----------------------------
+INSERT INTO `skill_unlocks` VALUES ('1', '1', '1');
+INSERT INTO `skill_unlocks` VALUES ('2', '2', '1');
+INSERT INTO `skill_unlocks` VALUES ('3', '3', '5');
+INSERT INTO `skill_unlocks` VALUES ('4', '4', '10');
+INSERT INTO `skill_unlocks` VALUES ('5', '5', '15');
+INSERT INTO `skill_unlocks` VALUES ('6', '6', '20');
+INSERT INTO `skill_unlocks` VALUES ('7', '7', '30');
+INSERT INTO `skill_unlocks` VALUES ('8', '8', '40');
+INSERT INTO `skill_unlocks` VALUES ('9', '9', '60');
+INSERT INTO `skill_unlocks` VALUES ('10', '10', '80');
