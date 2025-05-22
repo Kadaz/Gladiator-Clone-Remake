@@ -37,7 +37,7 @@ if (isset($_GET['buy'])) {
 }
 
 // Get shop items (random items for now)
-$shop_items = $conn->query("SELECT * FROM items WHERE level_required <= $level ORDER BY RAND() LIMIT 6");
+$shop_items = $conn->query("SELECT * FROM items WHERE level_required <= $level ORDER BY RAND() LIMIT 9");
 ?>
 
 <h2>🏪 Shop</h2>
