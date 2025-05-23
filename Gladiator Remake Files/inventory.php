@@ -68,7 +68,7 @@ if (isset($_GET['equip']) && !$inventory_full) {
 <?php if ($inventory_full): ?>
     <p style="color: red;"><strong>Inventory full! Sell or equip items to free up space.</strong></p>
 <?php endif; ?>
-
+<li><a href='character_equipment.php'>Character Equipment</a></li>
 <?php
 // Equipped Items
 echo "<h3>Equipped Items</h3>";

@@ -56,7 +56,7 @@ $avatarPath = "avatars/avatar" . ($avatar ?? 1) . ".gif";
     <ul>
         <li><a href='character_profile.php'>Character Profile</a></li>
 		<li><a href='online_players.php'>Online Players</a></li>
-		<li><a href='character_equipment.php'>Character Equipment</a></li>
+		<li><a href='dungeon.php'>Dungeons</a></li>
 		<a href="battle.php">⚔️ Fight a Training Dummy</a>
         <li><a href="pvp_arena.php">Arena</a></li>
         <li><a href="quest.php">Quests</a></li>

@@ -66,5 +66,5 @@ if ($result->num_rows == 0) {
     echo "</table>";
 }
 
-echo "<p><a href='index.php'>Back to Dashboard</a></p>";
+echo "<p><a href='inventory.php'>Back to Inventory</a></p>";
 ?>
