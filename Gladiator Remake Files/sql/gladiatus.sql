@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50718
 File Encoding         : 65001
 
-Date: 2025-05-23 04:16:47
+Date: 2025-05-23 16:47:51
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -28,7 +28,7 @@ CREATE TABLE `battle_logs` (
   PRIMARY KEY (`id`),
   KEY `player_id` (`player_id`),
   CONSTRAINT `battle_logs_ibfk_1` FOREIGN KEY (`player_id`) REFERENCES `gracze` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of battle_logs
@@ -112,6 +112,18 @@ INSERT INTO `battle_logs` VALUES ('76', '7', '2025-05-23 02:57:23', 'normal', 'a
 INSERT INTO `battle_logs` VALUES ('77', '7', '2025-05-23 04:02:21', 'normal', 'dungeon');
 INSERT INTO `battle_logs` VALUES ('78', '7', '2025-05-23 04:02:41', 'normal', 'dungeon');
 INSERT INTO `battle_logs` VALUES ('79', '7', '2025-05-23 04:04:41', 'normal', 'arena');
+INSERT INTO `battle_logs` VALUES ('80', '6', '2025-05-23 15:35:10', 'normal', 'arena_boss');
+INSERT INTO `battle_logs` VALUES ('81', '6', '2025-05-23 15:35:20', 'normal', 'arena_boss');
+INSERT INTO `battle_logs` VALUES ('82', '6', '2025-05-23 15:35:34', 'normal', 'arena_boss');
+INSERT INTO `battle_logs` VALUES ('83', '6', '2025-05-23 15:35:40', 'normal', 'arena_boss');
+INSERT INTO `battle_logs` VALUES ('84', '6', '2025-05-23 15:35:51', 'normal', 'arena_boss');
+INSERT INTO `battle_logs` VALUES ('85', '6', '2025-05-23 15:48:42', 'normal', 'arena_boss');
+INSERT INTO `battle_logs` VALUES ('86', '6', '2025-05-23 15:48:57', 'normal', 'arena_boss');
+INSERT INTO `battle_logs` VALUES ('87', '6', '2025-05-23 15:49:28', 'normal', 'arena_boss');
+INSERT INTO `battle_logs` VALUES ('88', '6', '2025-05-23 15:50:43', 'normal', 'arena_boss');
+INSERT INTO `battle_logs` VALUES ('89', '6', '2025-05-23 15:50:56', 'normal', 'arena_boss');
+INSERT INTO `battle_logs` VALUES ('90', '7', '2025-05-23 15:59:09', 'normal', 'arena_boss');
+INSERT INTO `battle_logs` VALUES ('91', '7', '2025-05-23 16:11:59', 'normal', 'arena_boss');
 
 -- ----------------------------
 -- Table structure for `br`
@@ -262,6 +274,61 @@ INSERT INTO `enemies` VALUES ('105', 'Buried Champion', '95', '80', '95', '20', 
 INSERT INTO `enemies` VALUES ('106', 'Titanus the Arena Champion', '100', '120', '150', '25', '30', '250', '150', '12.gif', '1');
 
 -- ----------------------------
+-- Table structure for `enemy_item_drops`
+-- ----------------------------
+DROP TABLE IF EXISTS `enemy_item_drops`;
+CREATE TABLE `enemy_item_drops` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `enemy_id` int(11) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `drop_chance` float NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `enemy_id` (`enemy_id`),
+  KEY `item_id` (`item_id`),
+  CONSTRAINT `enemy_item_drops_ibfk_1` FOREIGN KEY (`enemy_id`) REFERENCES `enemies` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `enemy_item_drops_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of enemy_item_drops
+-- ----------------------------
+INSERT INTO `enemy_item_drops` VALUES ('1', '101', '121', '0.3');
+INSERT INTO `enemy_item_drops` VALUES ('2', '101', '122', '0.3');
+INSERT INTO `enemy_item_drops` VALUES ('3', '101', '123', '0.3');
+INSERT INTO `enemy_item_drops` VALUES ('4', '101', '124', '0.3');
+INSERT INTO `enemy_item_drops` VALUES ('5', '101', '125', '0.3');
+INSERT INTO `enemy_item_drops` VALUES ('6', '102', '221', '0.3');
+INSERT INTO `enemy_item_drops` VALUES ('7', '102', '222', '0.3');
+INSERT INTO `enemy_item_drops` VALUES ('8', '102', '223', '0.3');
+INSERT INTO `enemy_item_drops` VALUES ('9', '102', '224', '0.3');
+INSERT INTO `enemy_item_drops` VALUES ('10', '102', '225', '0.3');
+INSERT INTO `enemy_item_drops` VALUES ('11', '103', '321', '0.25');
+INSERT INTO `enemy_item_drops` VALUES ('12', '103', '322', '0.25');
+INSERT INTO `enemy_item_drops` VALUES ('13', '103', '323', '0.25');
+INSERT INTO `enemy_item_drops` VALUES ('14', '103', '324', '0.25');
+INSERT INTO `enemy_item_drops` VALUES ('15', '103', '325', '0.25');
+INSERT INTO `enemy_item_drops` VALUES ('16', '104', '421', '0.2');
+INSERT INTO `enemy_item_drops` VALUES ('17', '104', '422', '0.2');
+INSERT INTO `enemy_item_drops` VALUES ('18', '104', '423', '0.2');
+INSERT INTO `enemy_item_drops` VALUES ('19', '104', '424', '0.2');
+INSERT INTO `enemy_item_drops` VALUES ('20', '104', '425', '0.2');
+INSERT INTO `enemy_item_drops` VALUES ('21', '105', '496', '0.15');
+INSERT INTO `enemy_item_drops` VALUES ('22', '105', '497', '0.15');
+INSERT INTO `enemy_item_drops` VALUES ('23', '105', '498', '0.15');
+INSERT INTO `enemy_item_drops` VALUES ('24', '105', '499', '0.15');
+INSERT INTO `enemy_item_drops` VALUES ('25', '105', '500', '0.15');
+INSERT INTO `enemy_item_drops` VALUES ('26', '106', '521', '0.2');
+INSERT INTO `enemy_item_drops` VALUES ('27', '106', '522', '0.25');
+INSERT INTO `enemy_item_drops` VALUES ('28', '106', '523', '0.3');
+INSERT INTO `enemy_item_drops` VALUES ('29', '106', '524', '0.2');
+INSERT INTO `enemy_item_drops` VALUES ('30', '106', '525', '0.2');
+INSERT INTO `enemy_item_drops` VALUES ('31', '106', '625', '0.1');
+INSERT INTO `enemy_item_drops` VALUES ('32', '106', '523', '0.1');
+INSERT INTO `enemy_item_drops` VALUES ('33', '106', '825', '0.1');
+INSERT INTO `enemy_item_drops` VALUES ('34', '106', '875', '0.1');
+INSERT INTO `enemy_item_drops` VALUES ('35', '106', '925', '0.1');
+
+-- ----------------------------
 -- Table structure for `enemy_skills`
 -- ----------------------------
 DROP TABLE IF EXISTS `enemy_skills`;
@@ -391,8 +458,8 @@ CREATE TABLE `gracze` (
 INSERT INTO `gracze` VALUES ('3', '1', 'tolis', 'e10adc3949ba59abbe56e057f20f883e', 'tolis@test1.com', '0', '3', 'dgfdg', 'gfdgfd', '1', '80', '65', '300', '0', '0', '9', '0', '0', '0', '0', '18', '55', '0', '10', '24', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '220', '100', '0', '2', '1664', '0', '0', '0', '1747529809', '0', '1747876328', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1747876328', '0', '0');
 INSERT INTO `gracze` VALUES ('4', '2', 'Kadaz', 'e10adc3949ba59abbe56e057f20f883e', 'solidus8422@gmail.com', '0', '1', 'tolis', 'tolis', '1', '1', '0', '10', '0', '0', '0', '3', '0', '0', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '100', '100', '0', '2', '120', '0', '0', '0', '0', '0', '1747529610', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1747529610', '0', '0');
 INSERT INTO `gracze` VALUES ('5', '0', 'test', '25f9e794323b453885f5181f1b624d0b', 'test@gmail.com', '0', '1', 'test', 'test', '1', '1', '0', '10', '0', '0', '0', '2', '0', '0', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '100', '100', '0', '2', '130', '0', '0', '0', '0', '0', '0', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `gracze` VALUES ('6', '0', 'test2', 'ad0234829205b9033196ba818f7a872b', 'test2@gmail.com', '0', '1', 'test', 'test', '1', '99', '1608', '10000', '0', '0', '0', '1', '0', '0', '0', '0', '7', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '110', '100', '0', '2', '987732', '0', '0', '0', '0', '0', '1747957647', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1747957647', '0', '0');
-INSERT INTO `gracze` VALUES ('7', '0', 'test3', '8ad8757baa8564dc136c1e07507f4a98', 'test3@gmail.com', '0', '1', 'test3', 'test3', '1', '20', '520', '100', '0', '0', '0', '0', '0', '0', '0', '0', '9', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '120', '100', '0', '2', '1052', '0', '0', '0', '0', '0', '1747962287', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1747962287', '0', '0');
+INSERT INTO `gracze` VALUES ('6', '0', 'test2', 'ad0234829205b9033196ba818f7a872b', 'test2@gmail.com', '0', '1', 'test', 'test', '1', '99', '2948', '10000', '0', '0', '0', '1', '0', '0', '0', '0', '7', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '110', '100', '0', '2', '988372', '0', '0', '0', '0', '0', '1748004963', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1748004963', '0', '0');
+INSERT INTO `gracze` VALUES ('7', '0', 'test3', '8ad8757baa8564dc136c1e07507f4a98', 'test3@gmail.com', '0', '1', 'test3', 'test3', '1', '20', '700', '100', '0', '0', '0', '0', '0', '0', '0', '0', '9', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '120', '100', '0', '2', '1212', '0', '0', '0', '0', '0', '1748005949', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1748005949', '0', '0');
 INSERT INTO `gracze` VALUES ('8', '0', 'test4', '86985e105f79b95d6bc918fb45ec7727', 'test4@gmail.com', '0', '3', 'test4', 'test4', '1', '1', '96', '300', '0', '0', '1', '4', '0', '0', '0', '0', '11', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '130', '100', '0', '2', '327', '0', '0', '0', '1747576645', '0', '1747873626', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1747873626', '0', '0');
 
 -- ----------------------------
@@ -1425,7 +1492,7 @@ CREATE TABLE `player_items` (
   KEY `item_id` (`item_id`),
   CONSTRAINT `player_items_ibfk_1` FOREIGN KEY (`player_id`) REFERENCES `gracze` (`id`),
   CONSTRAINT `player_items_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=145 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=146 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of player_items
@@ -1463,12 +1530,6 @@ INSERT INTO `player_items` VALUES ('110', '6', '474', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('111', '7', '25', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('112', '7', '25', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('113', '7', '25', '1', '0', '0');
-INSERT INTO `player_items` VALUES ('114', '7', '26', '1', '0', '0');
-INSERT INTO `player_items` VALUES ('115', '7', '726', '1', '0', '0');
-INSERT INTO `player_items` VALUES ('116', '7', '726', '1', '0', '0');
-INSERT INTO `player_items` VALUES ('117', '7', '627', '1', '0', '0');
-INSERT INTO `player_items` VALUES ('118', '7', '33', '1', '0', '0');
-INSERT INTO `player_items` VALUES ('119', '7', '726', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('120', '6', '675', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('121', '6', '600', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('122', '6', '567', '1', '0', '0');
@@ -1486,14 +1547,13 @@ INSERT INTO `player_items` VALUES ('133', '6', '372', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('134', '6', '103', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('135', '6', '103', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('136', '6', '103', '1', '0', '0');
-INSERT INTO `player_items` VALUES ('137', '7', '30', '1', '0', '0');
-INSERT INTO `player_items` VALUES ('138', '7', '676', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('139', '7', '10', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('140', '7', '27', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('141', '7', '31', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('142', '7', '3', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('143', '7', '11', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('144', '7', '121', '1', '1', '0');
+INSERT INTO `player_items` VALUES ('145', '7', '121', '1', '0', '0');
 
 -- ----------------------------
 -- Table structure for `player_quests`

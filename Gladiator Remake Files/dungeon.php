@@ -144,6 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 $battle_log = $_SESSION['dungeon_log'] ?? [];
 ?>
 
+<li><a href='arena_boss.php'>🕸️ Boss Fight 🕸️</a></li>
 <h2>🕸️ Dungeon Battle: You vs <?= htmlspecialchars($enemy['name']) ?></h2>
 <img src="images/enemies/<?= htmlspecialchars($enemy['image']) ?>" alt="<?= htmlspecialchars($enemy['name']) ?>" width="120"><br>
 <p><strong>Your HP:</strong> <?= $player_hp ?> | <strong><?= htmlspecialchars($enemy['name']) ?> HP:</strong> <?= $enemy_hp ?></p>
