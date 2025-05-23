@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50718
 File Encoding         : 65001
 
-Date: 2025-05-23 16:47:51
+Date: 2025-05-24 02:09:10
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -28,7 +28,7 @@ CREATE TABLE `battle_logs` (
   PRIMARY KEY (`id`),
   KEY `player_id` (`player_id`),
   CONSTRAINT `battle_logs_ibfk_1` FOREIGN KEY (`player_id`) REFERENCES `gracze` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of battle_logs
@@ -124,6 +124,35 @@ INSERT INTO `battle_logs` VALUES ('88', '6', '2025-05-23 15:50:43', 'normal', 'a
 INSERT INTO `battle_logs` VALUES ('89', '6', '2025-05-23 15:50:56', 'normal', 'arena_boss');
 INSERT INTO `battle_logs` VALUES ('90', '7', '2025-05-23 15:59:09', 'normal', 'arena_boss');
 INSERT INTO `battle_logs` VALUES ('91', '7', '2025-05-23 16:11:59', 'normal', 'arena_boss');
+INSERT INTO `battle_logs` VALUES ('92', '7', '2025-05-23 21:51:52', 'normal', 'arena');
+INSERT INTO `battle_logs` VALUES ('93', '7', '2025-05-23 22:10:59', 'normal', 'arena');
+INSERT INTO `battle_logs` VALUES ('94', '7', '2025-05-23 22:11:28', 'normal', 'arena_boss');
+INSERT INTO `battle_logs` VALUES ('95', '7', '2025-05-23 22:42:57', 'normal', 'event_halloween');
+INSERT INTO `battle_logs` VALUES ('96', '7', '2025-05-23 22:43:24', 'normal', 'event_halloween');
+INSERT INTO `battle_logs` VALUES ('97', '7', '2025-05-23 22:43:30', 'normal', 'event_halloween');
+INSERT INTO `battle_logs` VALUES ('98', '7', '2025-05-23 22:43:36', 'normal', 'event_halloween');
+INSERT INTO `battle_logs` VALUES ('99', '7', '2025-05-23 22:43:42', 'normal', 'event_halloween');
+INSERT INTO `battle_logs` VALUES ('100', '7', '2025-05-23 22:44:10', 'normal', 'event_christmas');
+INSERT INTO `battle_logs` VALUES ('101', '7', '2025-05-23 22:44:15', 'normal', 'event_christmas');
+INSERT INTO `battle_logs` VALUES ('102', '7', '2025-05-23 23:15:50', 'normal', 'event_christmas');
+INSERT INTO `battle_logs` VALUES ('103', '7', '2025-05-23 23:15:58', 'normal', 'event_christmas');
+INSERT INTO `battle_logs` VALUES ('104', '7', '2025-05-23 23:16:04', 'normal', 'event_christmas');
+INSERT INTO `battle_logs` VALUES ('105', '7', '2025-05-23 23:16:10', 'normal', 'event_christmas');
+INSERT INTO `battle_logs` VALUES ('106', '7', '2025-05-23 23:16:20', 'normal', 'event_christmas');
+INSERT INTO `battle_logs` VALUES ('107', '7', '2025-05-23 23:16:27', 'normal', 'event_christmas');
+INSERT INTO `battle_logs` VALUES ('108', '7', '2025-05-23 23:16:47', 'normal', 'event_halloween');
+INSERT INTO `battle_logs` VALUES ('109', '7', '2025-05-23 23:16:51', 'normal', 'event_halloween');
+INSERT INTO `battle_logs` VALUES ('110', '7', '2025-05-24 00:11:28', 'normal', 'event_halloween');
+INSERT INTO `battle_logs` VALUES ('111', '7', '2025-05-24 00:11:39', 'normal', 'event_halloween');
+INSERT INTO `battle_logs` VALUES ('112', '7', '2025-05-24 00:11:45', 'normal', 'event_halloween');
+INSERT INTO `battle_logs` VALUES ('113', '7', '2025-05-24 00:35:20', 'normal', 'event_halloween');
+INSERT INTO `battle_logs` VALUES ('114', '6', '2025-05-24 02:00:47', 'normal', 'event_christmas');
+INSERT INTO `battle_logs` VALUES ('115', '6', '2025-05-24 02:01:02', 'normal', 'event_christmas');
+INSERT INTO `battle_logs` VALUES ('116', '6', '2025-05-24 02:01:08', 'normal', 'event_christmas');
+INSERT INTO `battle_logs` VALUES ('117', '6', '2025-05-24 02:01:12', 'normal', 'event_christmas');
+INSERT INTO `battle_logs` VALUES ('118', '6', '2025-05-24 02:01:36', 'normal', 'event_halloween');
+INSERT INTO `battle_logs` VALUES ('119', '6', '2025-05-24 02:01:44', 'normal', 'event_halloween');
+INSERT INTO `battle_logs` VALUES ('120', '6', '2025-05-24 02:01:49', 'normal', 'event_halloween');
 
 -- ----------------------------
 -- Table structure for `br`
@@ -160,118 +189,123 @@ CREATE TABLE `enemies` (
   `gold_reward` int(11) DEFAULT NULL,
   `image` varchar(100) DEFAULT NULL,
   `is_boss` tinyint(1) NOT NULL DEFAULT '0',
+  `event_type` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of enemies
 -- ----------------------------
-INSERT INTO `enemies` VALUES ('1', 'Enemy Lv1', '1', '35', '59', '2', '7', '12', '6', '1_1.jpg', '0');
-INSERT INTO `enemies` VALUES ('2', 'Enemy Lv2', '2', '40', '64', '2', '7', '14', '7', '1_1.jpg', '0');
-INSERT INTO `enemies` VALUES ('3', 'Enemy Lv3', '3', '45', '69', '2', '7', '16', '8', '1_1.jpg', '0');
-INSERT INTO `enemies` VALUES ('4', 'Enemy Lv4', '4', '50', '74', '2', '7', '18', '9', '1_1.jpg', '0');
-INSERT INTO `enemies` VALUES ('5', 'Enemy Lv5', '5', '55', '79', '3', '8', '20', '10', '1_2.jpg', '0');
-INSERT INTO `enemies` VALUES ('6', 'Enemy Lv6', '6', '60', '84', '3', '8', '22', '11', '1_3.jpg', '0');
-INSERT INTO `enemies` VALUES ('7', 'Enemy Lv7', '7', '65', '89', '3', '8', '24', '12', '1_3.jpg', '0');
-INSERT INTO `enemies` VALUES ('8', 'Enemy Lv8', '8', '70', '94', '3', '8', '26', '13', '1_3.jpg', '0');
-INSERT INTO `enemies` VALUES ('9', 'Enemy Lv9', '9', '75', '99', '3', '8', '28', '14', '1_3.jpg', '0');
-INSERT INTO `enemies` VALUES ('10', 'Enemy Lv10', '10', '80', '104', '4', '9', '30', '15', '1_4.jpg', '0');
-INSERT INTO `enemies` VALUES ('11', 'Enemy Lv11', '11', '85', '109', '4', '9', '32', '16', '1_4.jpg', '0');
-INSERT INTO `enemies` VALUES ('12', 'Enemy Lv12', '12', '90', '114', '4', '9', '34', '17', '1_4.jpg', '0');
-INSERT INTO `enemies` VALUES ('13', 'Enemy Lv13', '13', '95', '119', '4', '9', '36', '18', '1_4.jpg', '0');
-INSERT INTO `enemies` VALUES ('14', 'Enemy Lv14', '14', '100', '124', '4', '9', '38', '19', '1_5.jpg', '0');
-INSERT INTO `enemies` VALUES ('15', 'Enemy Lv15', '15', '105', '129', '5', '10', '40', '20', '1_5.jpg', '0');
-INSERT INTO `enemies` VALUES ('16', 'Enemy Lv16', '16', '110', '134', '5', '10', '42', '21', '1_5.jpg', '0');
-INSERT INTO `enemies` VALUES ('17', 'Enemy Lv17', '17', '115', '139', '5', '10', '44', '22', '1_5.jpg', '0');
-INSERT INTO `enemies` VALUES ('18', 'Enemy Lv18', '18', '120', '144', '5', '10', '46', '23', '1_6.jpg', '0');
-INSERT INTO `enemies` VALUES ('19', 'Enemy Lv19', '19', '125', '149', '5', '10', '48', '24', '1_6.jpg', '0');
-INSERT INTO `enemies` VALUES ('20', 'Enemy Lv20', '20', '130', '154', '6', '11', '50', '25', '1_6.jpg', '0');
-INSERT INTO `enemies` VALUES ('21', 'Enemy Lv21', '21', '135', '159', '6', '11', '52', '26', '1_6.jpg', '0');
-INSERT INTO `enemies` VALUES ('22', 'Enemy Lv22', '22', '140', '164', '6', '11', '54', '27', '1_7.jpg', '0');
-INSERT INTO `enemies` VALUES ('23', 'Enemy Lv23', '23', '145', '169', '6', '11', '56', '28', '1_7.jpg', '0');
-INSERT INTO `enemies` VALUES ('24', 'Enemy Lv24', '24', '150', '174', '6', '11', '58', '29', '1_7.jpg', '0');
-INSERT INTO `enemies` VALUES ('25', 'Enemy Lv25', '25', '155', '179', '7', '12', '60', '30', '1_7.jpg', '0');
-INSERT INTO `enemies` VALUES ('26', 'Enemy Lv26', '26', '160', '184', '7', '12', '62', '31', '1_8.jpg', '0');
-INSERT INTO `enemies` VALUES ('27', 'Enemy Lv27', '27', '165', '189', '7', '12', '64', '32', '1_8.jpg', '0');
-INSERT INTO `enemies` VALUES ('28', 'Enemy Lv28', '28', '170', '194', '7', '12', '66', '33', '1_8.jpg', '0');
-INSERT INTO `enemies` VALUES ('29', 'Enemy Lv29', '29', '175', '199', '7', '12', '68', '34', '1_8.jpg', '0');
-INSERT INTO `enemies` VALUES ('30', 'Enemy Lv30', '30', '180', '204', '8', '13', '70', '35', '1_9.jpg', '0');
-INSERT INTO `enemies` VALUES ('31', 'Enemy Lv31', '31', '185', '209', '8', '13', '72', '36', '1_9.jpg', '0');
-INSERT INTO `enemies` VALUES ('32', 'Enemy Lv32', '32', '190', '214', '8', '13', '74', '37', '1_9.jpg', '0');
-INSERT INTO `enemies` VALUES ('33', 'Enemy Lv33', '33', '195', '219', '8', '13', '76', '38', '1_9.jpg', '0');
-INSERT INTO `enemies` VALUES ('34', 'Enemy Lv34', '34', '200', '224', '8', '13', '78', '39', '1_10.jpg', '0');
-INSERT INTO `enemies` VALUES ('35', 'Enemy Lv35', '35', '205', '229', '9', '14', '80', '40', '1_10.jpg', '0');
-INSERT INTO `enemies` VALUES ('36', 'Enemy Lv36', '36', '210', '234', '9', '14', '82', '41', '1_10.jpg', '0');
-INSERT INTO `enemies` VALUES ('37', 'Enemy Lv37', '37', '215', '239', '9', '14', '84', '42', '1_10.jpg', '0');
-INSERT INTO `enemies` VALUES ('38', 'Enemy Lv38', '38', '220', '244', '9', '14', '86', '43', '1_11.jpg', '0');
-INSERT INTO `enemies` VALUES ('39', 'Enemy Lv39', '39', '225', '249', '9', '14', '88', '44', '1_11.jpg', '0');
-INSERT INTO `enemies` VALUES ('40', 'Enemy Lv40', '40', '230', '254', '10', '15', '90', '45', '1_11.jpg', '0');
-INSERT INTO `enemies` VALUES ('41', 'Enemy Lv41', '41', '235', '259', '10', '15', '92', '46', '1_11.jpg', '0');
-INSERT INTO `enemies` VALUES ('42', 'Enemy Lv42', '42', '240', '264', '10', '15', '94', '47', '1_12.jpg', '0');
-INSERT INTO `enemies` VALUES ('43', 'Enemy Lv43', '43', '245', '269', '10', '15', '96', '48', '1_12.jpg', '0');
-INSERT INTO `enemies` VALUES ('44', 'Enemy Lv44', '44', '250', '274', '10', '15', '98', '49', '1_12.jpg', '0');
-INSERT INTO `enemies` VALUES ('45', 'Enemy Lv45', '45', '255', '279', '11', '16', '100', '50', '1_12.jpg', '0');
-INSERT INTO `enemies` VALUES ('46', 'Enemy Lv46', '46', '260', '284', '11', '16', '102', '51', '1_13.jpg', '0');
-INSERT INTO `enemies` VALUES ('47', 'Enemy Lv47', '47', '265', '289', '11', '16', '104', '52', '1_13.jpg', '0');
-INSERT INTO `enemies` VALUES ('48', 'Enemy Lv48', '48', '270', '294', '11', '16', '106', '53', '1_13.jpg', '0');
-INSERT INTO `enemies` VALUES ('49', 'Enemy Lv49', '49', '275', '299', '11', '16', '108', '54', '1_13.jpg', '0');
-INSERT INTO `enemies` VALUES ('50', 'Enemy Lv50', '50', '280', '304', '12', '17', '110', '55', '1_14.jpg', '0');
-INSERT INTO `enemies` VALUES ('51', 'Enemy Lv51', '51', '285', '309', '12', '17', '112', '56', '1_14.jpg', '0');
-INSERT INTO `enemies` VALUES ('52', 'Enemy Lv52', '52', '290', '314', '12', '17', '114', '57', '1_14.jpg', '0');
-INSERT INTO `enemies` VALUES ('53', 'Enemy Lv53', '53', '295', '319', '12', '17', '116', '58', '1_14.jpg', '0');
-INSERT INTO `enemies` VALUES ('54', 'Enemy Lv54', '54', '300', '324', '12', '17', '118', '59', '1_15.jpg', '0');
-INSERT INTO `enemies` VALUES ('55', 'Enemy Lv55', '55', '305', '329', '13', '18', '120', '60', '1_15.jpg', '0');
-INSERT INTO `enemies` VALUES ('56', 'Enemy Lv56', '56', '310', '334', '13', '18', '122', '61', '1_15.jpg', '0');
-INSERT INTO `enemies` VALUES ('57', 'Enemy Lv57', '57', '315', '339', '13', '18', '124', '62', '1_15.jpg', '0');
-INSERT INTO `enemies` VALUES ('58', 'Enemy Lv58', '58', '320', '344', '13', '18', '126', '63', '2_1.jpg', '0');
-INSERT INTO `enemies` VALUES ('59', 'Enemy Lv59', '59', '325', '349', '13', '18', '128', '64', '2_1.jpg', '0');
-INSERT INTO `enemies` VALUES ('60', 'Enemy Lv60', '60', '330', '354', '14', '19', '130', '65', '2_1.jpg', '0');
-INSERT INTO `enemies` VALUES ('61', 'Enemy Lv61', '61', '335', '359', '14', '19', '132', '66', '2_1.jpg', '0');
-INSERT INTO `enemies` VALUES ('62', 'Enemy Lv62', '62', '340', '364', '14', '19', '134', '67', '2_2.jpg', '0');
-INSERT INTO `enemies` VALUES ('63', 'Enemy Lv63', '63', '345', '369', '14', '19', '136', '68', '2_2.jpg', '0');
-INSERT INTO `enemies` VALUES ('64', 'Enemy Lv64', '64', '350', '374', '14', '19', '138', '69', '2_2.jpg', '0');
-INSERT INTO `enemies` VALUES ('65', 'Enemy Lv65', '65', '355', '379', '15', '20', '140', '70', '2_2.jpg', '0');
-INSERT INTO `enemies` VALUES ('66', 'Enemy Lv66', '66', '360', '384', '15', '20', '142', '71', '2_3.jpg', '0');
-INSERT INTO `enemies` VALUES ('67', 'Enemy Lv67', '67', '365', '389', '15', '20', '144', '72', '2_3.jpg', '0');
-INSERT INTO `enemies` VALUES ('68', 'Enemy Lv68', '68', '370', '394', '15', '20', '146', '73', '2_3.jpg', '0');
-INSERT INTO `enemies` VALUES ('69', 'Enemy Lv69', '69', '375', '399', '15', '20', '148', '74', '2_3.jpg', '0');
-INSERT INTO `enemies` VALUES ('70', 'Enemy Lv70', '70', '380', '404', '16', '21', '150', '75', '2_4.jpg', '0');
-INSERT INTO `enemies` VALUES ('71', 'Enemy Lv71', '71', '385', '409', '16', '21', '152', '76', '2_4.jpg', '0');
-INSERT INTO `enemies` VALUES ('72', 'Enemy Lv72', '72', '390', '414', '16', '21', '154', '77', '2_4.jpg', '0');
-INSERT INTO `enemies` VALUES ('73', 'Enemy Lv73', '73', '395', '419', '16', '21', '156', '78', '2_4.jpg', '0');
-INSERT INTO `enemies` VALUES ('74', 'Enemy Lv74', '74', '400', '424', '16', '21', '158', '79', '2_5.jpg', '0');
-INSERT INTO `enemies` VALUES ('75', 'Enemy Lv75', '75', '405', '429', '17', '22', '160', '80', '2_5.jpg', '0');
-INSERT INTO `enemies` VALUES ('76', 'Enemy Lv76', '76', '410', '434', '17', '22', '162', '81', '2_5.jpg', '0');
-INSERT INTO `enemies` VALUES ('77', 'Enemy Lv77', '77', '415', '439', '17', '22', '164', '82', '2_5.jpg', '0');
-INSERT INTO `enemies` VALUES ('78', 'Enemy Lv78', '78', '420', '444', '17', '22', '166', '83', '2_6.jpg', '0');
-INSERT INTO `enemies` VALUES ('79', 'Enemy Lv79', '79', '425', '449', '17', '22', '168', '84', '2_6.jpg', '0');
-INSERT INTO `enemies` VALUES ('80', 'Enemy Lv80', '80', '430', '454', '18', '23', '170', '85', '2_6.jpg', '0');
-INSERT INTO `enemies` VALUES ('81', 'Enemy Lv81', '81', '435', '459', '18', '23', '172', '86', '2_6.jpg', '0');
-INSERT INTO `enemies` VALUES ('82', 'Enemy Lv82', '82', '440', '464', '18', '23', '174', '87', '3_1.jpg', '0');
-INSERT INTO `enemies` VALUES ('83', 'Enemy Lv83', '83', '445', '469', '18', '23', '176', '88', '3_1.jpg', '0');
-INSERT INTO `enemies` VALUES ('84', 'Enemy Lv84', '84', '450', '474', '18', '23', '178', '89', '3_1.jpg', '0');
-INSERT INTO `enemies` VALUES ('85', 'Enemy Lv85', '85', '455', '479', '19', '24', '180', '90', '3_1.jpg', '0');
-INSERT INTO `enemies` VALUES ('86', 'Enemy Lv86', '86', '460', '484', '19', '24', '182', '91', '3_2.jpg', '0');
-INSERT INTO `enemies` VALUES ('87', 'Enemy Lv87', '87', '465', '489', '19', '24', '184', '92', '3_2.jpg', '0');
-INSERT INTO `enemies` VALUES ('88', 'Enemy Lv88', '88', '470', '494', '19', '24', '186', '93', '3_2.jpg', '0');
-INSERT INTO `enemies` VALUES ('89', 'Enemy Lv89', '89', '475', '499', '19', '24', '188', '94', '3_2.jpg', '0');
-INSERT INTO `enemies` VALUES ('90', 'Enemy Lv90', '90', '480', '504', '20', '25', '190', '95', '3_3.jpg', '0');
-INSERT INTO `enemies` VALUES ('91', 'Enemy Lv91', '91', '485', '509', '20', '25', '192', '96', '3_3.jpg', '0');
-INSERT INTO `enemies` VALUES ('92', 'Enemy Lv92', '92', '490', '514', '20', '25', '194', '97', '3_3.jpg', '0');
-INSERT INTO `enemies` VALUES ('93', 'Enemy Lv93', '93', '495', '519', '20', '25', '196', '98', '3_3.jpg', '0');
-INSERT INTO `enemies` VALUES ('94', 'Enemy Lv94', '94', '500', '524', '20', '25', '198', '99', '3_3.jpg', '0');
-INSERT INTO `enemies` VALUES ('95', 'Enemy Lv95', '95', '505', '529', '21', '26', '200', '100', '3_3.jpg', '0');
-INSERT INTO `enemies` VALUES ('96', 'Enemy Lv96', '96', '510', '534', '21', '26', '202', '101', '3_3.jpg', '0');
-INSERT INTO `enemies` VALUES ('97', 'Enemy Lv97', '97', '515', '539', '21', '26', '204', '102', '3_3.jpg', '0');
-INSERT INTO `enemies` VALUES ('98', 'Enemy Lv98', '98', '520', '544', '21', '26', '206', '103', '3_3.jpg', '0');
-INSERT INTO `enemies` VALUES ('99', 'Enemy Lv99', '99', '525', '549', '21', '26', '208', '104', '3_3.jpg', '0');
-INSERT INTO `enemies` VALUES ('100', 'Enemy Lv100', '100', '530', '554', '22', '27', '210', '105', '3_16.jpg', '0');
-INSERT INTO `enemies` VALUES ('101', 'Cave Rat', '20', '150', '180', '5', '7', '80', '20', '1_1.jpg', '1');
-INSERT INTO `enemies` VALUES ('102', 'Zombie Miner', '40', '180', '220', '8', '10', '100', '40', '2_2.jpg', '1');
-INSERT INTO `enemies` VALUES ('103', 'Underground Lurker', '60', '70', '80', '11', '13', '120', '60', '1_14.jpg', '1');
-INSERT INTO `enemies` VALUES ('104', 'Wailing Specter', '80', '60', '75', '15', '18', '150', '80', '3_6.jpg', '1');
-INSERT INTO `enemies` VALUES ('105', 'Buried Champion', '95', '80', '95', '20', '22', '200', '100', '3_10.jpg', '1');
-INSERT INTO `enemies` VALUES ('106', 'Titanus the Arena Champion', '100', '120', '150', '25', '30', '250', '150', '12.gif', '1');
+INSERT INTO `enemies` VALUES ('1', 'Enemy Lv1', '1', '35', '59', '2', '7', '12', '6', '1_1.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('2', 'Enemy Lv2', '2', '40', '64', '2', '7', '14', '7', '1_1.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('3', 'Enemy Lv3', '3', '45', '69', '2', '7', '16', '8', '1_1.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('4', 'Enemy Lv4', '4', '50', '74', '2', '7', '18', '9', '1_1.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('5', 'Enemy Lv5', '5', '55', '79', '3', '8', '20', '10', '1_2.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('6', 'Enemy Lv6', '6', '60', '84', '3', '8', '22', '11', '1_3.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('7', 'Enemy Lv7', '7', '65', '89', '3', '8', '24', '12', '1_3.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('8', 'Enemy Lv8', '8', '70', '94', '3', '8', '26', '13', '1_3.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('9', 'Enemy Lv9', '9', '75', '99', '3', '8', '28', '14', '1_3.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('10', 'Enemy Lv10', '10', '80', '104', '4', '9', '30', '15', '1_4.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('11', 'Enemy Lv11', '11', '85', '109', '4', '9', '32', '16', '1_4.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('12', 'Enemy Lv12', '12', '90', '114', '4', '9', '34', '17', '1_4.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('13', 'Enemy Lv13', '13', '95', '119', '4', '9', '36', '18', '1_4.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('14', 'Enemy Lv14', '14', '100', '124', '4', '9', '38', '19', '1_5.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('15', 'Enemy Lv15', '15', '105', '129', '5', '10', '40', '20', '1_5.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('16', 'Enemy Lv16', '16', '110', '134', '5', '10', '42', '21', '1_5.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('17', 'Enemy Lv17', '17', '115', '139', '5', '10', '44', '22', '1_5.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('18', 'Enemy Lv18', '18', '120', '144', '5', '10', '46', '23', '1_6.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('19', 'Enemy Lv19', '19', '125', '149', '5', '10', '48', '24', '1_6.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('20', 'Enemy Lv20', '20', '130', '154', '6', '11', '50', '25', '1_6.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('21', 'Enemy Lv21', '21', '135', '159', '6', '11', '52', '26', '1_6.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('22', 'Enemy Lv22', '22', '140', '164', '6', '11', '54', '27', '1_7.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('23', 'Enemy Lv23', '23', '145', '169', '6', '11', '56', '28', '1_7.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('24', 'Enemy Lv24', '24', '150', '174', '6', '11', '58', '29', '1_7.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('25', 'Enemy Lv25', '25', '155', '179', '7', '12', '60', '30', '1_7.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('26', 'Enemy Lv26', '26', '160', '184', '7', '12', '62', '31', '1_8.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('27', 'Enemy Lv27', '27', '165', '189', '7', '12', '64', '32', '1_8.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('28', 'Enemy Lv28', '28', '170', '194', '7', '12', '66', '33', '1_8.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('29', 'Enemy Lv29', '29', '175', '199', '7', '12', '68', '34', '1_8.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('30', 'Enemy Lv30', '30', '180', '204', '8', '13', '70', '35', '1_9.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('31', 'Enemy Lv31', '31', '185', '209', '8', '13', '72', '36', '1_9.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('32', 'Enemy Lv32', '32', '190', '214', '8', '13', '74', '37', '1_9.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('33', 'Enemy Lv33', '33', '195', '219', '8', '13', '76', '38', '1_9.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('34', 'Enemy Lv34', '34', '200', '224', '8', '13', '78', '39', '1_10.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('35', 'Enemy Lv35', '35', '205', '229', '9', '14', '80', '40', '1_10.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('36', 'Enemy Lv36', '36', '210', '234', '9', '14', '82', '41', '1_10.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('37', 'Enemy Lv37', '37', '215', '239', '9', '14', '84', '42', '1_10.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('38', 'Enemy Lv38', '38', '220', '244', '9', '14', '86', '43', '1_11.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('39', 'Enemy Lv39', '39', '225', '249', '9', '14', '88', '44', '1_11.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('40', 'Enemy Lv40', '40', '230', '254', '10', '15', '90', '45', '1_11.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('41', 'Enemy Lv41', '41', '235', '259', '10', '15', '92', '46', '1_11.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('42', 'Enemy Lv42', '42', '240', '264', '10', '15', '94', '47', '1_12.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('43', 'Enemy Lv43', '43', '245', '269', '10', '15', '96', '48', '1_12.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('44', 'Enemy Lv44', '44', '250', '274', '10', '15', '98', '49', '1_12.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('45', 'Enemy Lv45', '45', '255', '279', '11', '16', '100', '50', '1_12.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('46', 'Enemy Lv46', '46', '260', '284', '11', '16', '102', '51', '1_13.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('47', 'Enemy Lv47', '47', '265', '289', '11', '16', '104', '52', '1_13.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('48', 'Enemy Lv48', '48', '270', '294', '11', '16', '106', '53', '1_13.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('49', 'Enemy Lv49', '49', '275', '299', '11', '16', '108', '54', '1_13.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('50', 'Enemy Lv50', '50', '280', '304', '12', '17', '110', '55', '1_14.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('51', 'Enemy Lv51', '51', '285', '309', '12', '17', '112', '56', '1_14.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('52', 'Enemy Lv52', '52', '290', '314', '12', '17', '114', '57', '1_14.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('53', 'Enemy Lv53', '53', '295', '319', '12', '17', '116', '58', '1_14.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('54', 'Enemy Lv54', '54', '300', '324', '12', '17', '118', '59', '1_15.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('55', 'Enemy Lv55', '55', '305', '329', '13', '18', '120', '60', '1_15.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('56', 'Enemy Lv56', '56', '310', '334', '13', '18', '122', '61', '1_15.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('57', 'Enemy Lv57', '57', '315', '339', '13', '18', '124', '62', '1_15.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('58', 'Enemy Lv58', '58', '320', '344', '13', '18', '126', '63', '2_1.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('59', 'Enemy Lv59', '59', '325', '349', '13', '18', '128', '64', '2_1.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('60', 'Enemy Lv60', '60', '330', '354', '14', '19', '130', '65', '2_1.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('61', 'Enemy Lv61', '61', '335', '359', '14', '19', '132', '66', '2_1.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('62', 'Enemy Lv62', '62', '340', '364', '14', '19', '134', '67', '2_2.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('63', 'Enemy Lv63', '63', '345', '369', '14', '19', '136', '68', '2_2.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('64', 'Enemy Lv64', '64', '350', '374', '14', '19', '138', '69', '2_2.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('65', 'Enemy Lv65', '65', '355', '379', '15', '20', '140', '70', '2_2.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('66', 'Enemy Lv66', '66', '360', '384', '15', '20', '142', '71', '2_3.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('67', 'Enemy Lv67', '67', '365', '389', '15', '20', '144', '72', '2_3.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('68', 'Enemy Lv68', '68', '370', '394', '15', '20', '146', '73', '2_3.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('69', 'Enemy Lv69', '69', '375', '399', '15', '20', '148', '74', '2_3.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('70', 'Enemy Lv70', '70', '380', '404', '16', '21', '150', '75', '2_4.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('71', 'Enemy Lv71', '71', '385', '409', '16', '21', '152', '76', '2_4.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('72', 'Enemy Lv72', '72', '390', '414', '16', '21', '154', '77', '2_4.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('73', 'Enemy Lv73', '73', '395', '419', '16', '21', '156', '78', '2_4.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('74', 'Enemy Lv74', '74', '400', '424', '16', '21', '158', '79', '2_5.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('75', 'Enemy Lv75', '75', '405', '429', '17', '22', '160', '80', '2_5.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('76', 'Enemy Lv76', '76', '410', '434', '17', '22', '162', '81', '2_5.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('77', 'Enemy Lv77', '77', '415', '439', '17', '22', '164', '82', '2_5.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('78', 'Enemy Lv78', '78', '420', '444', '17', '22', '166', '83', '2_6.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('79', 'Enemy Lv79', '79', '425', '449', '17', '22', '168', '84', '2_6.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('80', 'Enemy Lv80', '80', '430', '454', '18', '23', '170', '85', '2_6.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('81', 'Enemy Lv81', '81', '435', '459', '18', '23', '172', '86', '2_6.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('82', 'Enemy Lv82', '82', '440', '464', '18', '23', '174', '87', '3_1.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('83', 'Enemy Lv83', '83', '445', '469', '18', '23', '176', '88', '3_1.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('84', 'Enemy Lv84', '84', '450', '474', '18', '23', '178', '89', '3_1.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('85', 'Enemy Lv85', '85', '455', '479', '19', '24', '180', '90', '3_1.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('86', 'Enemy Lv86', '86', '460', '484', '19', '24', '182', '91', '3_2.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('87', 'Enemy Lv87', '87', '465', '489', '19', '24', '184', '92', '3_2.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('88', 'Enemy Lv88', '88', '470', '494', '19', '24', '186', '93', '3_2.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('89', 'Enemy Lv89', '89', '475', '499', '19', '24', '188', '94', '3_2.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('90', 'Enemy Lv90', '90', '480', '504', '20', '25', '190', '95', '3_3.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('91', 'Enemy Lv91', '91', '485', '509', '20', '25', '192', '96', '3_3.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('92', 'Enemy Lv92', '92', '490', '514', '20', '25', '194', '97', '3_3.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('93', 'Enemy Lv93', '93', '495', '519', '20', '25', '196', '98', '3_3.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('94', 'Enemy Lv94', '94', '500', '524', '20', '25', '198', '99', '3_3.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('95', 'Enemy Lv95', '95', '505', '529', '21', '26', '200', '100', '3_3.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('96', 'Enemy Lv96', '96', '510', '534', '21', '26', '202', '101', '3_3.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('97', 'Enemy Lv97', '97', '515', '539', '21', '26', '204', '102', '3_3.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('98', 'Enemy Lv98', '98', '520', '544', '21', '26', '206', '103', '3_3.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('99', 'Enemy Lv99', '99', '525', '549', '21', '26', '208', '104', '3_3.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('100', 'Enemy Lv100', '100', '530', '554', '22', '27', '210', '105', '3_16.jpg', '0', null);
+INSERT INTO `enemies` VALUES ('101', 'Cave Rat', '20', '150', '180', '8', '10', '80', '20', '1_1.jpg', '1', null);
+INSERT INTO `enemies` VALUES ('102', 'Zombie Miner', '40', '180', '220', '10', '14', '100', '40', '2_2.jpg', '1', null);
+INSERT INTO `enemies` VALUES ('103', 'Underground Lurker', '60', '70', '80', '11', '17', '120', '60', '1_14.jpg', '1', null);
+INSERT INTO `enemies` VALUES ('104', 'Wailing Specter', '80', '60', '75', '15', '20', '150', '80', '3_6.jpg', '1', null);
+INSERT INTO `enemies` VALUES ('105', 'Buried Champion', '95', '80', '95', '20', '22', '200', '100', '3_10.jpg', '1', null);
+INSERT INTO `enemies` VALUES ('106', 'Titanus the Arena Champion', '100', '120', '150', '25', '30', '250', '150', '12.gif', '1', null);
+INSERT INTO `enemies` VALUES ('107', 'Pumpkin Fiend', '20', '60', '80', '10', '15', '100', '50', 'pumpkin.png', '0', 'halloween');
+INSERT INTO `enemies` VALUES ('108', 'Haunted Armor', '30', '90', '110', '15', '22', '150', '75', 'haunted.png', '0', 'halloween');
+INSERT INTO `enemies` VALUES ('109', 'Evil Snowman', '25', '70', '100', '12', '18', '120', '60', 'Snowman.png', '0', 'christmas');
+INSERT INTO `enemies` VALUES ('110', 'Grinchling', '35', '100', '130', '18', '25', '180', '100', 'grinchling.png', '0', 'christmas');
 
 -- ----------------------------
 -- Table structure for `enemy_item_drops`
@@ -373,6 +407,30 @@ CREATE TABLE `equipped_items` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for `event_item_drops`
+-- ----------------------------
+DROP TABLE IF EXISTS `event_item_drops`;
+CREATE TABLE `event_item_drops` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `event_type` varchar(50) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `drop_chance` float NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `item_id` (`item_id`),
+  CONSTRAINT `event_item_drops_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of event_item_drops
+-- ----------------------------
+INSERT INTO `event_item_drops` VALUES ('1', 'christmas', '926', '0.25');
+INSERT INTO `event_item_drops` VALUES ('2', 'christmas', '927', '0.15');
+INSERT INTO `event_item_drops` VALUES ('3', 'christmas', '928', '0.1');
+INSERT INTO `event_item_drops` VALUES ('4', 'halloween', '929', '0.3');
+INSERT INTO `event_item_drops` VALUES ('5', 'halloween', '930', '0.2');
+INSERT INTO `event_item_drops` VALUES ('6', 'halloween', '931', '0.1');
+
+-- ----------------------------
 -- Table structure for `gracze`
 -- ----------------------------
 DROP TABLE IF EXISTS `gracze`;
@@ -458,8 +516,8 @@ CREATE TABLE `gracze` (
 INSERT INTO `gracze` VALUES ('3', '1', 'tolis', 'e10adc3949ba59abbe56e057f20f883e', 'tolis@test1.com', '0', '3', 'dgfdg', 'gfdgfd', '1', '80', '65', '300', '0', '0', '9', '0', '0', '0', '0', '18', '55', '0', '10', '24', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '220', '100', '0', '2', '1664', '0', '0', '0', '1747529809', '0', '1747876328', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1747876328', '0', '0');
 INSERT INTO `gracze` VALUES ('4', '2', 'Kadaz', 'e10adc3949ba59abbe56e057f20f883e', 'solidus8422@gmail.com', '0', '1', 'tolis', 'tolis', '1', '1', '0', '10', '0', '0', '0', '3', '0', '0', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '100', '100', '0', '2', '120', '0', '0', '0', '0', '0', '1747529610', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1747529610', '0', '0');
 INSERT INTO `gracze` VALUES ('5', '0', 'test', '25f9e794323b453885f5181f1b624d0b', 'test@gmail.com', '0', '1', 'test', 'test', '1', '1', '0', '10', '0', '0', '0', '2', '0', '0', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '100', '100', '0', '2', '130', '0', '0', '0', '0', '0', '0', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `gracze` VALUES ('6', '0', 'test2', 'ad0234829205b9033196ba818f7a872b', 'test2@gmail.com', '0', '1', 'test', 'test', '1', '99', '2948', '10000', '0', '0', '0', '1', '0', '0', '0', '0', '7', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '110', '100', '0', '2', '988372', '0', '0', '0', '0', '0', '1748004963', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1748004963', '0', '0');
-INSERT INTO `gracze` VALUES ('7', '0', 'test3', '8ad8757baa8564dc136c1e07507f4a98', 'test3@gmail.com', '0', '1', 'test3', 'test3', '1', '20', '700', '100', '0', '0', '0', '0', '0', '0', '0', '0', '9', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '120', '100', '0', '2', '1212', '0', '0', '0', '0', '0', '1748005949', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1748005949', '0', '0');
+INSERT INTO `gracze` VALUES ('6', '0', 'test2', 'ad0234829205b9033196ba818f7a872b', 'test2@gmail.com', '0', '1', 'test', 'test', '1', '99', '3778', '10000', '0', '0', '0', '1', '0', '0', '0', '0', '7', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '110', '100', '0', '2', '988787', '0', '0', '0', '0', '0', '1748041215', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1748041215', '0', '0');
+INSERT INTO `gracze` VALUES ('7', '0', 'test3', '8ad8757baa8564dc136c1e07507f4a98', 'test3@gmail.com', '0', '1', 'test3', 'test3', '1', '21', '1463', '100', '0', '0', '0', '0', '0', '0', '0', '0', '11', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '130', '100', '0', '2', '2642', '0', '0', '0', '0', '0', '1748038604', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1748038604', '0', '0');
 INSERT INTO `gracze` VALUES ('8', '0', 'test4', '86985e105f79b95d6bc918fb45ec7727', 'test4@gmail.com', '0', '3', 'test4', 'test4', '1', '1', '96', '300', '0', '0', '1', '4', '0', '0', '0', '0', '11', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '130', '100', '0', '2', '327', '0', '0', '0', '1747576645', '0', '1747873626', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1747873626', '0', '0');
 
 -- ----------------------------
@@ -481,7 +539,7 @@ CREATE TABLE `items` (
   `dex_bonus` int(11) DEFAULT '0',
   `level_required` int(11) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=926 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=932 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of items
@@ -1407,6 +1465,12 @@ INSERT INTO `items` VALUES ('922', 'Leather Gloves Lv97', 'Basic hand protection
 INSERT INTO `items` VALUES ('923', 'Leather Gloves Lv98', 'Basic hand protection', 'gloves', '0', '33', '160', '980', '153', '5_9.gif', 'gloves', '1', '98');
 INSERT INTO `items` VALUES ('924', 'Leather Gloves Lv99', 'Basic hand protection', 'gloves', '0', '34', '170', '990', '163', '5_9.gif', 'gloves', '1', '99');
 INSERT INTO `items` VALUES ('925', 'Leather Gloves Lv100', 'Basic hand protection', 'gloves', '0', '34', '170', '100', '163', '5_9.gif', 'gloves', '1', '100');
+INSERT INTO `items` VALUES ('926', 'Santa\'s Hat', 'Christmas Hat', 'helm', '10', '10', '100', '10000', '10000', 'Santa\'s_Hat.png', 'helm', '1', '1');
+INSERT INTO `items` VALUES ('927', 'Frost Blade', 'Christmas Weapon', 'weapon', '20', '0', '100', '10000', '10000', 'Frost_Blade.png', 'weapon', '0', '1');
+INSERT INTO `items` VALUES ('928', 'Reindeer Amulet', 'Christmas Amulet', 'necklace', '10', '10', '10', '10000', '10000', 'Reindeer_Amulet.png', 'necklace', '10', '1');
+INSERT INTO `items` VALUES ('929', 'Witch\'s Broom', 'Halloween', 'weapon', '5', '20', '100', '10000', '10000', 'Witch\'s_Broom.png', 'weapon', '0', '1');
+INSERT INTO `items` VALUES ('930', 'Pumpkin Helm', 'Halloween', 'helm', '0', '20', '100', '10000', '10000', 'Pumpkin_Helm.png', 'helm', '0', '1');
+INSERT INTO `items` VALUES ('931', 'Ghost Cloak', 'Halloween', 'armor', '0', '20', '100', '10000', '10000', 'Ghost_Cloak.png', 'armor', '3', '1');
 
 -- ----------------------------
 -- Table structure for `mensajes`
@@ -1492,7 +1556,7 @@ CREATE TABLE `player_items` (
   KEY `item_id` (`item_id`),
   CONSTRAINT `player_items_ibfk_1` FOREIGN KEY (`player_id`) REFERENCES `gracze` (`id`),
   CONSTRAINT `player_items_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=146 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=149 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of player_items
@@ -1554,6 +1618,9 @@ INSERT INTO `player_items` VALUES ('142', '7', '3', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('143', '7', '11', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('144', '7', '121', '1', '1', '0');
 INSERT INTO `player_items` VALUES ('145', '7', '121', '1', '0', '0');
+INSERT INTO `player_items` VALUES ('146', '6', '929', '1', '0', '0');
+INSERT INTO `player_items` VALUES ('147', '6', '929', '1', '0', '0');
+INSERT INTO `player_items` VALUES ('148', '6', '931', '1', '0', '0');
 
 -- ----------------------------
 -- Table structure for `player_quests`
