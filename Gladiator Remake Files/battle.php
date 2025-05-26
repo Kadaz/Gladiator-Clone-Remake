@@ -5,12 +5,31 @@ require_once('var/ustawienia.php');
 require_once('gora_strony.php');
 require_once('menu_l.php');
 
+// Load Player early
 if (!isset($_SESSION['id'])) {
     header("Location: index.php");
     exit;
 }
 
 $player_id = $_SESSION['id'];
+
+// ✅ Notification System (auto-delete after showing)
+$player_id = $_SESSION['id'];
+$notifications = [];
+
+$noti_stmt = $conn->prepare("SELECT id, message FROM notifications WHERE player_id = ? ORDER BY created_at DESC LIMIT 5");
+$noti_stmt->bind_param("i", $player_id);
+$noti_stmt->execute();
+$res = $noti_stmt->get_result();
+while ($row = $res->fetch_assoc()) {
+    $notifications[] = $row;
+}
+$noti_stmt->close();
+if (!empty($notifications)) {
+    $ids = implode(",", array_column($notifications, 'id'));
+    $conn->query("DELETE FROM notifications WHERE id IN ($ids)");
+}
+
 
 // 🔒 Battle Limit (10 per hour)
 $limit_check = $conn->prepare("SELECT COUNT(*) FROM battle_logs WHERE player_id = ? AND timestamp > NOW() - INTERVAL 1 HOUR");
@@ -136,18 +155,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $new_hp = $player['zycie'];
         $new_str = $player['sila'];
         $leveled_up = false;
-
+        $msg = "You defeated {$enemy['name']} and earned $xp XP and $gold gold.";
+        $notify = $conn->prepare("INSERT INTO notifications (player_id, message) VALUES (?, ?)");
+        $notify->bind_param("is", $player_id, $msg);
+        $notify->execute();
+		
         while ($new_exp >= $new_lvl * 100) {
-            $new_exp -= $new_lvl * 100;
-            $new_lvl++;
-            $new_hp += 10;
-            $new_str += 2;
-            $leveled_up = true;
-            $log[] = "<span class='log-reward level-up' data-sound='levelup'>🎉 Level up! Now level $new_lvl. +10 HP, +2 Strength!</span>";
+        $new_exp -= $new_lvl * 100;
+        $new_lvl++;
+        $new_hp += 10;
+        $new_str += 2;
+        $leveled_up = true;
+        $log[] = "<span class='log-reward level-up' data-sound='levelup'>🎉 Level up! Now level $new_lvl. +10 HP, +2 Strength!</span>";
         }
+        $new_exp_max = $new_lvl * 100;
 
-        $stmt = $conn->prepare("UPDATE gracze SET exp = ?, nivel = ?, zloto = zloto + ?, zycie = ?, sila = ? WHERE id = ?");
-        $stmt->bind_param("iiiiii", $new_exp, $new_lvl, $gold, $new_hp, $new_str, $player_id);
+        $stmt = $conn->prepare("UPDATE gracze SET exp = ?, nivel = ?, exp_max = ?, zloto = zloto + ?, zycie = ?, sila = ? WHERE id = ?");
+        $stmt->bind_param("iiiiiii", $new_exp, $new_lvl, $new_exp_max, $gold, $new_hp, $new_str, $player_id);
         $stmt->execute();
         $_SESSION['reward_given'] = true;
 
@@ -197,6 +221,16 @@ $now = time();
     }
 </style>>
 
+<?php if (!empty($notifications)): ?>
+    <div style="background: #fffbcc; border: 1px solid #d6c900; padding: 10px; margin: 10px; border-radius: 5px;">
+        <?php foreach ($notifications as $n): ?>
+            <div><?= htmlspecialchars($n['message']) ?></div>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>
+
+
+<!-- Combat View -->
 <h2>⚔️ Battle: You vs <?= $enemy['name'] ?></h2>
 <p><strong>Your HP:</strong> <?= $player_hp ?> | <strong><?= $enemy['name'] ?> HP:</strong> <?= $enemy_hp ?></p>
 <p><strong>Level:</strong> <?= $player['nivel'] ?> | <strong>XP:</strong> <?= $player['exp'] ?>/<?= $player['nivel'] * 100 ?></p>
