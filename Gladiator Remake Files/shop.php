@@ -21,17 +21,17 @@ $gold = $player['zloto'];
 $inv_count = $conn->query("SELECT COUNT(*) AS total FROM player_items WHERE player_id = $player_id")->fetch_assoc()['total'];
 $inventory_limit = 20;
 
-// Item types for filtering
-$item_types = ['weapon', 'armor', 'shield', 'helm', 'boots', 'gloves', 'ring', 'ring2', 'necklace'];
+// Filter system
+$item_types = ['weapon', 'armor', 'shield', 'helm', 'boots', 'gloves', 'ring', 'ring2', 'necklace', 'potion',];
 $selected_type = $_GET['type'] ?? 'all';
 
-// Handle buying
+// Buy item
 if (isset($_GET['buy'])) {
     $item_id = (int)$_GET['buy'];
     $item = $conn->query("SELECT * FROM items WHERE id = $item_id")->fetch_assoc();
 
     if ($inv_count >= $inventory_limit) {
-        echo "<p style='color:red;'>❌ Inventory full (20/20). Sell items first.</p>";
+        echo "<p style='color:red;'>❌ Inventory full (20/20). Sell or use items first.</p>";
     } elseif ($item && $item['level_required'] <= $level && $item['value'] <= $gold) {
         $conn->query("UPDATE gracze SET zloto = zloto - {$item['value']} WHERE id = $player_id");
         $conn->query("INSERT INTO player_items (player_id, item_id, equipped) VALUES ($player_id, $item_id, 0)");
@@ -39,14 +39,14 @@ if (isset($_GET['buy'])) {
         $gold -= $item['value'];
         $inv_count++;
     } else {
-        echo "<p style='color:red;'>❌ Not enough gold or item not available.</p>";
+        echo "<p style='color:red;'>❌ Not enough gold or invalid item.</p>";
     }
 }
 
-// Load shop items with filter
+// Load items
 $where = "level_required <= $level";
 if ($selected_type !== 'all' && in_array($selected_type, $item_types)) {
-    $where .= " AND slot = '$selected_type'";
+    $where .= " AND (slot = '$selected_type' OR type = '$selected_type')";
 }
 $shop_items = $conn->query("SELECT * FROM items WHERE $where ORDER BY RAND() LIMIT 20");
 ?>
@@ -55,7 +55,7 @@ $shop_items = $conn->query("SELECT * FROM items WHERE $where ORDER BY RAND() LIM
 <p>Gold: <strong><?= $gold ?></strong> | Inventory: <?= $inv_count ?>/20</p>
 
 <div>
-    <strong>Filter by Type:</strong>
+    <strong>Filter:</strong>
     <a href="shop.php?type=all">All</a>
     <?php foreach ($item_types as $type): ?>
         <a href="shop.php?type=<?= $type ?>"><?= ucfirst($type) ?></a>
@@ -96,7 +96,7 @@ $shop_items = $conn->query("SELECT * FROM items WHERE $where ORDER BY RAND() LIM
     <div class="item-box">
         <img src="items/<?= htmlspecialchars($item['image']) ?>" alt="<?= htmlspecialchars($item['name']) ?>"><br>
         <strong><?= htmlspecialchars($item['name']) ?></strong><br>
-        Type: <?= $item['slot'] ?><br>
+        <small><?= htmlspecialchars($item['description']) ?></small><br>
         Lvl: <?= $item['level_required'] ?><br>
         💰 <?= $item['value'] ?><br>
         <a class="buy-btn" href="shop.php?buy=<?= $item['id'] ?>&type=<?= urlencode($selected_type) ?>">Buy</a>

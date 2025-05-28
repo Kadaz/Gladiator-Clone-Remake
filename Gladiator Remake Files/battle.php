@@ -56,6 +56,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reset'])) {
     exit;
 }
 
+$stmt = $conn->prepare("SELECT * FROM gracze WHERE id = ?");
+$stmt->bind_param("i", $player_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$player = $result->fetch_assoc();
+if (!$player) die("Player not found.");
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $action = $_POST['action'] ?? 'basic';
+
+    if ($action === 'use_item' && isset($_POST['item_id'])) {
+        $item_id = (int)$_POST['item_id'];
+        $stmt = $conn->prepare("SELECT pi.id, i.name, i.effect_type, i.target_attr, i.effect_value, i.duration FROM player_items pi JOIN items i ON pi.item_id = i.id WHERE pi.player_id = ? AND pi.id = ? AND i.type = 'potion' LIMIT 1");
+        $stmt->bind_param("ii", $player_id, $item_id);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $potion = $res->fetch_assoc();
+        $stmt->close();
+
+        if ($potion) {
+            if ($potion['effect_type'] === 'instant' && $potion['target_attr'] === 'hp') {
+                $heal = max(0, (int)$potion['effect_value']);
+                $max_hp = (int)$player['zycie'];
+                $current_hp = (int)$_SESSION['battle_player_hp'];
+                $restored = min($heal, $max_hp - $current_hp);
+                $_SESSION['battle_player_hp'] = min($max_hp, $current_hp + $heal);
+                $_SESSION['battle_log'][] = "<span class='log-heal'>🧪 You used {$potion['name']} and restored {$restored} HP!</span>";
+            } else {
+                if (!isset($_SESSION['active_effects'])) {
+                    $_SESSION['active_effects'] = [];
+                }
+                $_SESSION['active_effects'][] = [
+                    'name' => $potion['name'],
+                    'type' => $potion['effect_type'],
+                    'attr' => $potion['target_attr'],
+                    'value' => (int)$potion['effect_value'],
+                    'turns' => (int)$potion['duration'],
+                ];
+                $_SESSION['battle_log'][] = "<span class='log-heal'>🧪 You used {$potion['name']}! Effect: +{$potion['effect_value']} {$potion['target_attr']} ({$potion['duration']} turns)</span>";
+            }
+            $conn->query("DELETE FROM player_items WHERE id = $item_id");
+            header("Location: battle.php");
+            exit;
+        }
+    }
+}
+
 // Load player
 $stmt = $conn->prepare("SELECT * FROM gracze WHERE id = ?");
 $stmt->bind_param("i", $player_id);
@@ -86,6 +133,23 @@ if (!isset($_SESSION['enemy']) || !isset($_SESSION['battle_enemy_hp'])) {
 
 $player_hp = $_SESSION['battle_player_hp'];
 $enemy_hp = $_SESSION['battle_enemy_hp'];
+// 📦 APPLY BUFFS BEFORE ATTACK
+    $bonus_sila = 0;
+    $enemy_stunned = false;
+
+    if (isset($_SESSION['active_effects'])) {
+        foreach ($_SESSION['active_effects'] as $index => &$effect) {
+            if ($effect['type'] === 'buff' && $effect['attr'] === 'sila') {
+                $bonus_sila += $effect['value'];
+            }
+            if ($effect['type'] === 'debuff' && $effect['attr'] === 'stun') {
+                $enemy_stunned = true;
+            }
+
+            $effect['turns']--;
+            if ($effect['turns'] <= 0) unset($_SESSION['active_effects'][$index]);
+        }
+    }
 $log = [];
 $cooldowns = $_SESSION['skill_cooldowns'] ?? [];
 $now = time();
@@ -109,7 +173,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? 'basic';
     $time = date("H:i:s");
 
-    $player_damage = rand(10, 20) + floor($player['sila'] * 0.5);
+    $player_damage = rand(10, 20) + floor(($player['sila'] + $bonus_sila) * 0.5);
     $enemy_damage = rand($enemy['min_dmg'], $enemy['max_dmg']);
     $sound = 'attack';
 
@@ -133,10 +197,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Enemy hits back
-    if ($enemy_hp - $player_damage > 0) {
-        $player_hp -= $enemy_damage;
-        $log[] = "<span class='log-enemy-attack' data-sound='attack'>[$time] {$enemy['name']} hits you for $enemy_damage!</span>";
+    if ($enemy_hp - $player_damage > 0 && !$enemy_stunned) {
+		// Use $bonus_sila in damage calculation:
+    $player_damage = rand(10, 20) + floor(($player['sila'] + $bonus_sila) * 0.5);
+
+    // Apply enemy damage only if not stunned
+    if (!$enemy_stunned && $enemy_hp - $player_damage > 0) {
+        $player_hp -= $enemy_dmg;
+    } elseif ($enemy_stunned) {
+        $_SESSION['battle_log'][] = "<span class='log-heal'>💫 Enemy stunned and skips turn!</span>";
     }
+    $player_hp -= $enemy_damage;
+} elseif ($enemy_stunned) {
+    $_SESSION['battle_log'][] = "<span class='log-heal'>💫 Enemy stunned and skips turn!</span>";
+}
+
+// Apply enemy damage only if not stunned
+if (!$enemy_stunned && $enemy_hp - $player_damage > 0) {
+    $player_hp -= $enemy_damage;
+} elseif ($enemy_stunned) {
+    $_SESSION['battle_log'][] = "<span class='log-heal'>💫 Enemy stunned and skips turn!</span>";
+}
 
     $enemy_hp -= $player_damage;
 
@@ -271,6 +352,23 @@ $now = time();
     <form method="post"><button name="reset">Try Again</button></form>
     <a href="index.php">← Back</a>
 <?php endif; ?>
+<?php
+$potion_query = $conn->query("SELECT pi.id, i.name, i.image FROM player_items pi JOIN items i ON pi.item_id = i.id WHERE pi.player_id = $player_id AND i.type = 'potion'");
+?>
+
+<?php if ($potion_query->num_rows > 0): ?>
+    <h4>🧪 Potions</h4>
+    <form method="post">
+        <?php while ($row = $potion_query->fetch_assoc()): ?>
+    <form method="post" style="display: inline-block; margin: 4px;">
+        <input type="hidden" name="item_id" value="<?= $row['id'] ?>">
+        <button type="submit" name="action" value="use_item">
+            <img src="items/<?= htmlspecialchars($row['image']) ?>" width="24"> <?= htmlspecialchars($row['name']) ?>
+        </button>
+    </form>
+    <?php endwhile; ?>
+    </form>
+<?php endif; ?>
 
 <h3>📜 Battle Log</h3>
 <ul id="battle-log">
@@ -278,6 +376,16 @@ $now = time();
         <li><?= $entry ?></li>
     <?php endforeach; ?>
 </ul>
+
+// ✅ Add to bottom of combat display (HTML):
+<?php if (!empty($_SESSION['active_effects'])): ?>
+    <h4>🧪 Active Effects:</h4>
+    <ul>
+        <?php foreach ($_SESSION['active_effects'] as $effect): ?>
+            <li><?= htmlspecialchars($effect['name']) ?> - <?= $effect['value'] ?> <?= $effect['attr'] ?> (<?= $effect['turns'] ?> turns left)</li>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?>
 
 <script>
 function showTab(tab) {

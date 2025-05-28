@@ -11,7 +11,10 @@ if (!isset($_SESSION['id'])) {
 }
 
 $player_id = $_SESSION['id'];
-$max_inventory_slots = 20;
+
+// Inventory limit
+$inv_count = $conn->query("SELECT COUNT(*) AS total FROM player_items WHERE player_id = $player_id")->fetch_assoc()['total'];
+$inventory_limit = 20;
 
 // Count current inventory items (unequipped only)
 $count_query = $conn->prepare("SELECT COUNT(*) FROM player_items WHERE player_id = ? AND equipped = 0");
@@ -20,8 +23,6 @@ $count_query->execute();
 $count_query->bind_result($inventory_count);
 $count_query->fetch();
 $count_query->close();
-
-$inventory_full = $inventory_count >= $max_inventory_slots;
 
 // Handle item equip
 if (isset($_GET['equip']) && !$inventory_full) {
@@ -63,11 +64,8 @@ if (isset($_GET['equip']) && !$inventory_full) {
 ?>
 
 <h2>Inventory</h2>
+<p>Inventory: <?= $inv_count ?>/20</p>
 
-<p><strong>Inventory Slots Used:</strong> <?= $inventory_count ?> / <?= $max_inventory_slots ?></p>
-<?php if ($inventory_full): ?>
-    <p style="color: red;"><strong>Inventory full! Sell or equip items to free up space.</strong></p>
-<?php endif; ?>
 <li><a href='character_equipment.php'>Character Equipment</a></li>
 <?php
 // Equipped Items

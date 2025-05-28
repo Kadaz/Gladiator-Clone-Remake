@@ -89,6 +89,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     $action = $_POST['action'];
     $time = date("H:i:s");
 
+// ✅ Use Potion
+    if ($action === 'use_item' && isset($_POST['item_id'])) {
+        $item_id = (int)$_POST['item_id'];
+        $stmt = $conn->prepare("SELECT pi.id, i.name FROM player_items pi JOIN items i ON pi.item_id = i.id WHERE pi.player_id = ? AND pi.id = ? AND i.type = 'potion' LIMIT 1");
+        $stmt->bind_param("ii", $player_id, $item_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $item = $result->fetch_assoc();
+        $stmt->close();
+
+        if ($item) {
+            $_SESSION['boss_player_hp'] = min($player['zycie'], $_SESSION['boss_player_hp'] + 20);
+            $_SESSION['boss_log'][] = "<span class='log-heal'>🧪 You used {$item['name']} and restored 20 HP!</span>";
+            $conn->query("DELETE FROM player_items WHERE id = $item_id");
+        }
+
+        header("Location: arena_boss.php");
+        exit;
+    }
+	
     $player_dmg = rand(10, 20) + floor($player['sila'] * 0.5);
     $enemy_dmg = rand($enemy['min_dmg'], $enemy['max_dmg']);
 
@@ -121,6 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     $_SESSION['boss_log'] = array_merge($_SESSION['boss_log'], $log);
     $_SESSION['boss_cooldowns'] = $cooldowns;
 
+    // ✅ Reward
     if ($enemy_hp <= 0 && $player_hp > 0 && empty($_SESSION['boss_reward'])) {
         $xp = $enemy['xp_reward'];
         $gold = $enemy['gold_reward'];
@@ -211,6 +232,21 @@ $battle_log = $_SESSION['boss_log'] ?? [];
         </form>
     </div>
 
+    <?php
+    $potion_query = $conn->query("SELECT pi.id, i.name, i.image FROM player_items pi JOIN items i ON pi.item_id = i.id WHERE pi.player_id = $player_id AND i.type = 'potion'");
+    ?>
+    <?php if ($potion_query->num_rows > 0): ?>
+        <h4>🧪 Potions</h4>
+        <form method="post">
+        <?php while ($row = $potion_query->fetch_assoc()): ?>
+            <input type="hidden" name="item_id" value="<?= $row['id'] ?>">
+            <button type="submit" name="action" value="use_item">
+                <img src="items/<?= $row['image'] ?>" width="24"> <?= $row['name'] ?>
+            </button>
+        <?php endwhile; ?>
+        </form>
+    <?php endif; ?>
+	
 <?php elseif ($enemy_hp <= 0): ?>
     <h3>🎉 You defeated <?= $enemy['name'] ?>!</h3>
     <form method="post"><button name="reset">Start New Boss</button></form>

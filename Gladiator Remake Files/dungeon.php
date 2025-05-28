@@ -93,6 +93,34 @@ if (isset($_POST['reset'])) {
 // Handle skill/combat
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     $action = $_POST['action'];
+	// Potions
+if ($_POST['action'] === 'use_item' && isset($_POST['item_id'])) {
+    $item_id = (int)$_POST['item_id'];
+
+    // Check if player owns this item
+    $stmt = $conn->prepare("SELECT pi.id, i.name, i.type, i.description, i.value 
+                            FROM player_items pi
+                            JOIN items i ON pi.item_id = i.id
+                            WHERE pi.player_id = ? AND pi.id = ? AND i.type IN ('potion', 'consumable') LIMIT 1");
+    $stmt->bind_param("ii", $player_id, $item_id);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    $item = $res->fetch_assoc();
+    $stmt->close();
+
+    if ($item) {
+        if (strpos(strtolower($item['name']), 'healing') !== false) {
+            $_SESSION['dungeon_player_hp'] = min($_SESSION['dungeon_player_hp'] + 20, $player['zycie']);
+            $_SESSION['dungeon_log'][] = "<span class='log-heal'>🧪 You used {$item['name']} and restored 20 HP!</span>";
+        }
+
+        // Remove used item from inventory
+        $conn->query("DELETE FROM player_items WHERE id = $item_id LIMIT 1");
+    }
+
+    header("Location: dungeon.php");
+    exit;
+}
     $time = date("H:i:s");
     $player_dmg = rand(10, 20) + floor($player['sila'] * 0.5);
     $enemy_dmg = rand($enemy['min_dmg'], $enemy['max_dmg']);
@@ -215,6 +243,22 @@ $battle_log = $_SESSION['dungeon_log'] ?? [];
 <?php else: ?>
     <h3>💀 You were defeated.</h3>
     <form method="post"><button name="reset">Try Again</button></form>
+<?php endif; ?>
+
+<?php
+$potion_result = $conn->query("SELECT pi.id, i.name, i.image FROM player_items pi JOIN items i ON pi.item_id = i.id WHERE pi.player_id = $player_id AND i.type IN ('potion', 'consumable')");
+?>
+
+<?php if ($potion_result->num_rows > 0): ?>
+    <h4>🧪 Potions</h4>
+    <form method="post">
+        <?php while ($row = $potion_result->fetch_assoc()): ?>
+            <button type="submit" name="action" value="use_item">
+                <img src="items/<?= $row['image'] ?>" width="24"> <?= $row['name'] ?>
+                <input type="hidden" name="item_id" value="<?= $row['id'] ?>">
+            </button>
+        <?php endwhile; ?>
+    </form>
 <?php endif; ?>
 
 <h3>📜 Battle Log</h3>
