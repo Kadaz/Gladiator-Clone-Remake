@@ -11,25 +11,18 @@ if (!isset($_SESSION['id'])) {
 }
 
 $player_id = $_SESSION['id'];
-
-// ✅ Notification System (auto-delete after showing)
-$player_id = $_SESSION['id'];
 $notifications = [];
-
 $noti_stmt = $conn->prepare("SELECT id, message FROM notifications WHERE player_id = ? ORDER BY created_at DESC LIMIT 5");
 $noti_stmt->bind_param("i", $player_id);
 $noti_stmt->execute();
 $res = $noti_stmt->get_result();
-while ($row = $res->fetch_assoc()) {
-    $notifications[] = $row;
-}
+while ($row = $res->fetch_assoc()) $notifications[] = $row;
 $noti_stmt->close();
 if (!empty($notifications)) {
     $ids = implode(",", array_column($notifications, 'id'));
     $conn->query("DELETE FROM notifications WHERE id IN ($ids)");
 }
 
-// Battle limit check
 $check = $conn->prepare("SELECT COUNT(*) FROM battle_logs WHERE player_id = ? AND zone = 'arena_boss' AND timestamp > NOW() - INTERVAL 1 HOUR");
 $check->bind_param("i", $player_id);
 $check->execute();
@@ -37,25 +30,19 @@ $check->bind_result($count);
 $check->fetch();
 $check->close();
 
-if ($count >= 10) {
-    echo "<h3 style='color:red'>⛔ Arena Boss limit (10/hour) reached.</h3><a href='index.php'>← Back</a>";
-    exit;
-}
+if ($count >= 10) die("<h3 style='color:red'>⛔ Arena Boss limit (10/hour) reached.</h3><a href='index.php'>← Back</a>");
 
-// Load player
 $stmt = $conn->prepare("SELECT * FROM gracze WHERE id = ?");
 $stmt->bind_param("i", $player_id);
 $stmt->execute();
 $player = $stmt->get_result()->fetch_assoc();
 
-// Reset battle
 if (isset($_POST['reset'])) {
-    unset($_SESSION['boss_enemy'], $_SESSION['boss_enemy_hp'], $_SESSION['boss_player_hp'], $_SESSION['boss_log'], $_SESSION['boss_cooldowns'], $_SESSION['boss_reward']);
+    unset($_SESSION['boss_enemy'], $_SESSION['boss_enemy_hp'], $_SESSION['boss_player_hp'], $_SESSION['boss_log'], $_SESSION['boss_cooldowns'], $_SESSION['boss_reward'], $_SESSION['boss_effects']);
     header("Location: arena_boss.php");
     exit;
 }
 
-// Load or pick boss
 if (!isset($_SESSION['boss_enemy'])) {
     $enemy = $conn->query("SELECT * FROM enemies WHERE is_boss = 1 ORDER BY RAND() LIMIT 1")->fetch_assoc();
     $_SESSION['boss_enemy'] = $enemy;
@@ -64,6 +51,7 @@ if (!isset($_SESSION['boss_enemy'])) {
     $_SESSION['boss_log'] = [];
     $_SESSION['boss_cooldowns'] = [];
     $_SESSION['boss_reward'] = false;
+    $_SESSION['boss_effects'] = [];
 }
 
 $enemy = $_SESSION['boss_enemy'];
@@ -73,7 +61,6 @@ $log = [];
 $now = time();
 $cooldowns = $_SESSION['boss_cooldowns'] ?? [];
 
-// Skills
 $skills = [];
 $basic_skills = [];
 $advanced_skills = [];
@@ -84,15 +71,14 @@ while ($row = $res->fetch_assoc()) {
     else $advanced_skills[] = $row;
 }
 
-// Process action
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     $action = $_POST['action'];
     $time = date("H:i:s");
 
-// ✅ Use Potion
+    // ✅ Potions
     if ($action === 'use_item' && isset($_POST['item_id'])) {
         $item_id = (int)$_POST['item_id'];
-        $stmt = $conn->prepare("SELECT pi.id, i.name FROM player_items pi JOIN items i ON pi.item_id = i.id WHERE pi.player_id = ? AND pi.id = ? AND i.type = 'potion' LIMIT 1");
+        $stmt = $conn->prepare("SELECT pi.id, i.name, i.effect_type, i.target_attr, i.effect_value, i.duration FROM player_items pi JOIN items i ON pi.item_id = i.id WHERE pi.player_id = ? AND pi.id = ? LIMIT 1");
         $stmt->bind_param("ii", $player_id, $item_id);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -100,22 +86,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         $stmt->close();
 
         if ($item) {
-            $_SESSION['boss_player_hp'] = min($player['zycie'], $_SESSION['boss_player_hp'] + 20);
-            $_SESSION['boss_log'][] = "<span class='log-heal'>🧪 You used {$item['name']} and restored 20 HP!</span>";
+            if ($item['effect_type'] === 'instant' && $item['target_attr'] === 'hp') {
+                $heal = max(0, (int)$item['effect_value']);
+                $max_hp = $player['zycie'];
+                $current_hp = $_SESSION['boss_player_hp'];
+                $restored = min($heal, $max_hp - $current_hp);
+                $_SESSION['boss_player_hp'] = min($max_hp, $current_hp + $heal);
+                $_SESSION['boss_log'][] = "<span class='log-heal'>🧪 You used {$item['name']} and restored {$restored} HP!</span>";
+            } else {
+                if (!isset($_SESSION['boss_effects'])) $_SESSION['boss_effects'] = [];
+                $_SESSION['boss_effects'][] = [
+                    'name' => $item['name'],
+                    'type' => $item['effect_type'],
+                    'attr' => $item['target_attr'],
+                    'value' => (int)$item['effect_value'],
+                    'turns' => (int)$item['duration'],
+                ];
+                $_SESSION['boss_log'][] = "<span class='log-heal'>🧪 You used {$item['name']}! Effect: +{$item['effect_value']} {$item['target_attr']} ({$item['duration']} turns)</span>";
+            }
             $conn->query("DELETE FROM player_items WHERE id = $item_id");
         }
-
         header("Location: arena_boss.php");
         exit;
     }
-	
-    $player_dmg = rand(10, 20) + floor($player['sila'] * 0.5);
+
+    $bonus_sila = 0;
+    $enemy_stunned = false;
+    if (!empty($_SESSION['boss_effects'])) {
+        foreach ($_SESSION['boss_effects'] as $index => &$effect) {
+            if ($effect['type'] === 'buff' && $effect['attr'] === 'sila') $bonus_sila += $effect['value'];
+            if ($effect['type'] === 'debuff' && $effect['attr'] === 'stun') $enemy_stunned = true;
+            $effect['turns']--;
+            if ($effect['turns'] <= 0) unset($_SESSION['boss_effects'][$index]);
+        }
+    }
+
+    $player_dmg = rand(10, 20) + floor(($player['sila'] + $bonus_sila) * 0.5);
     $enemy_dmg = rand($enemy['min_dmg'], $enemy['max_dmg']);
 
     if (ctype_digit($action) && isset($skills[$action])) {
         $skill = $skills[$action];
-        $cd_key = "skill_" . $skill['id'];
-
+        $cd_key = 'skill_' . $skill['id'];
         if (!isset($cooldowns[$cd_key]) || $now >= $cooldowns[$cd_key]) {
             $player_dmg = $skill['damage'] + floor($player['sila'] * 0.5);
             $player_hp += $skill['healing'];
@@ -129,9 +140,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         $log[] = "<span class='log-player-attack'>[$time] You hit {$enemy['name']} for $player_dmg</span>";
     }
 
-    if ($enemy_hp - $player_dmg > 0) {
+    if ($enemy_hp - $player_dmg > 0 && !$enemy_stunned) {
         $player_hp -= $enemy_dmg;
         $log[] = "<span class='log-enemy-attack'>[$time] {$enemy['name']} hits for $enemy_dmg</span>";
+    } elseif ($enemy_stunned) {
+        $log[] = "<span class='log-heal'>💫 Enemy stunned and skips turn!</span>";
     }
 
     $enemy_hp -= $player_dmg;
@@ -233,19 +246,18 @@ $battle_log = $_SESSION['boss_log'] ?? [];
     </div>
 
     <?php
-    $potion_query = $conn->query("SELECT pi.id, i.name, i.image FROM player_items pi JOIN items i ON pi.item_id = i.id WHERE pi.player_id = $player_id AND i.type = 'potion'");
-    ?>
-    <?php if ($potion_query->num_rows > 0): ?>
-        <h4>🧪 Potions</h4>
-        <form method="post">
-        <?php while ($row = $potion_query->fetch_assoc()): ?>
+$potion_query = $conn->query("SELECT pi.id, i.name, i.image FROM player_items pi JOIN items i ON pi.item_id = i.id WHERE pi.player_id = $player_id AND i.type = 'potion'");
+if ($potion_query->num_rows > 0): ?>
+    <h4>🧪 Potions</h4>
+    <?php while ($row = $potion_query->fetch_assoc()): ?>
+        <form method="post" style="display: inline-block; margin: 4px;">
             <input type="hidden" name="item_id" value="<?= $row['id'] ?>">
             <button type="submit" name="action" value="use_item">
-                <img src="items/<?= $row['image'] ?>" width="24"> <?= $row['name'] ?>
+                <img src="items/<?= htmlspecialchars($row['image']) ?>" width="24"> <?= htmlspecialchars($row['name']) ?>
             </button>
-        <?php endwhile; ?>
         </form>
-    <?php endif; ?>
+    <?php endwhile; ?>
+<?php endif; ?>
 	
 <?php elseif ($enemy_hp <= 0): ?>
     <h3>🎉 You defeated <?= $enemy['name'] ?>!</h3>

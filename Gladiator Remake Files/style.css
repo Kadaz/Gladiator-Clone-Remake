@@ -1,0 +1,51 @@
+.quest-box {
+    display: flex;
+    align-items: flex-start;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 12px;
+    margin: 12px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.quest-box img {
+    width: 64px;
+    height: auto;
+    margin-right: 15px;
+    border-radius: 4px;
+    border: 1px solid #aaa;
+}
+
+.quest-details {
+    flex: 1;
+}
+
+.quest-details h3 {
+    margin: 0 0 5px;
+}
+
+.quest-details p {
+    margin: 5px 0;
+    line-height: 1.4;
+}
+
+.quest-details .reward {
+    font-weight: bold;
+    color: #006400;
+}
+
+.quest-details a {
+    display: inline-block;
+    margin-top: 8px;
+    background-color: #007BFF;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.quest-details a:hover {
+    background-color: #0056b3;
+}

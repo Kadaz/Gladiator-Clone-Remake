@@ -12,10 +12,7 @@ if (!isset($_SESSION['id'])) {
 
 $player_id = $_SESSION['id'];
 
-// ✅ Notification System (auto-delete after showing)
-$player_id = $_SESSION['id'];
 $notifications = [];
-
 $noti_stmt = $conn->prepare("SELECT id, message FROM notifications WHERE player_id = ? ORDER BY created_at DESC LIMIT 5");
 $noti_stmt->bind_param("i", $player_id);
 $noti_stmt->execute();
@@ -29,8 +26,6 @@ if (!empty($notifications)) {
     $conn->query("DELETE FROM notifications WHERE id IN ($ids)");
 }
 
-
-// Check battle limit
 $check = $conn->prepare("SELECT COUNT(*) FROM battle_logs WHERE player_id = ? AND zone = 'dungeon' AND timestamp > NOW() - INTERVAL 1 HOUR");
 $check->bind_param("i", $player_id);
 $check->execute();
@@ -43,14 +38,12 @@ if ($dungeon_count >= 10) {
     exit;
 }
 
-// Load player
 $stmt = $conn->prepare("SELECT * FROM gracze WHERE id = ?");
 $stmt->bind_param("i", $player_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $player = $result->fetch_assoc();
 
-// Load a random enemy from enemies table with is_boss = 0
 if (!isset($_SESSION['dungeon_enemy'])) {
     $enemy_result = $conn->query("SELECT * FROM enemies WHERE is_boss = 0 ORDER BY RAND() LIMIT 1");
     $enemy = $enemy_result->fetch_assoc();
@@ -60,6 +53,7 @@ if (!isset($_SESSION['dungeon_enemy'])) {
     $_SESSION['dungeon_log'] = [];
     $_SESSION['dungeon_skill_cooldowns'] = [];
     $_SESSION['dungeon_reward'] = false;
+    $_SESSION['dungeon_effects'] = [];
 }
 
 $enemy = $_SESSION['dungeon_enemy'];
@@ -69,7 +63,6 @@ $log = [];
 $now = time();
 $cooldowns = $_SESSION['dungeon_skill_cooldowns'] ?? [];
 
-// Load unlocked skills
 $skills = [];
 $basic_skills = [];
 $advanced_skills = [];
@@ -83,46 +76,70 @@ while ($row = $res->fetch_assoc()) {
     }
 }
 
-// Reset battle
 if (isset($_POST['reset'])) {
     unset($_SESSION['dungeon_enemy']);
     header("Location: dungeon.php");
     exit;
 }
 
-// Handle skill/combat
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     $action = $_POST['action'];
-	// Potions
-if ($_POST['action'] === 'use_item' && isset($_POST['item_id'])) {
-    $item_id = (int)$_POST['item_id'];
 
-    // Check if player owns this item
-    $stmt = $conn->prepare("SELECT pi.id, i.name, i.type, i.description, i.value 
-                            FROM player_items pi
-                            JOIN items i ON pi.item_id = i.id
-                            WHERE pi.player_id = ? AND pi.id = ? AND i.type IN ('potion', 'consumable') LIMIT 1");
-    $stmt->bind_param("ii", $player_id, $item_id);
-    $stmt->execute();
-    $res = $stmt->get_result();
-    $item = $res->fetch_assoc();
-    $stmt->close();
+    // ✅ Potion Logic with Buffs/Debuffs
+    if ($action === 'use_item' && isset($_POST['item_id'])) {
+        $item_id = (int)$_POST['item_id'];
 
-    if ($item) {
-        if (strpos(strtolower($item['name']), 'healing') !== false) {
-            $_SESSION['dungeon_player_hp'] = min($_SESSION['dungeon_player_hp'] + 20, $player['zycie']);
-            $_SESSION['dungeon_log'][] = "<span class='log-heal'>🧪 You used {$item['name']} and restored 20 HP!</span>";
+        $stmt = $conn->prepare("SELECT pi.id, i.name, i.effect_type, i.target_attr, i.effect_value, i.duration FROM player_items pi JOIN items i ON pi.item_id = i.id WHERE pi.player_id = ? AND pi.id = ? AND i.type IN ('potion', 'consumable') LIMIT 1");
+        $stmt->bind_param("ii", $player_id, $item_id);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $potion = $res->fetch_assoc();
+        $stmt->close();
+
+        if ($potion) {
+            if ($potion['effect_type'] === 'instant' && $potion['target_attr'] === 'hp') {
+                $heal = max(0, (int)$potion['effect_value']);
+                $max_hp = (int)$player['zycie'];
+                $current_hp = (int)$_SESSION['dungeon_player_hp'];
+                $restored = min($heal, $max_hp - $current_hp);
+                $_SESSION['dungeon_player_hp'] = min($max_hp, $current_hp + $heal);
+                $_SESSION['dungeon_log'][] = "<span class='log-heal'>🧪 You used {$potion['name']} and restored {$restored} HP!</span>";
+            } else {
+                if (!isset($_SESSION['dungeon_effects'])) {
+                    $_SESSION['dungeon_effects'] = [];
+                }
+                $_SESSION['dungeon_effects'][] = [
+                    'name' => $potion['name'],
+                    'type' => $potion['effect_type'],
+                    'attr' => $potion['target_attr'],
+                    'value' => (int)$potion['effect_value'],
+                    'turns' => (int)$potion['duration'],
+                ];
+                $_SESSION['dungeon_log'][] = "<span class='log-heal'>🧪 You used {$potion['name']}! Effect: +{$potion['effect_value']} {$potion['target_attr']} ({$potion['duration']} turns)</span>";
+            }
+            $conn->query("DELETE FROM player_items WHERE id = $item_id LIMIT 1");
+            header("Location: dungeon.php");
+            exit;
         }
-
-        // Remove used item from inventory
-        $conn->query("DELETE FROM player_items WHERE id = $item_id LIMIT 1");
     }
 
-    header("Location: dungeon.php");
-    exit;
-}
+    $bonus_sila = 0;
+    $enemy_stunned = false;
+    if (isset($_SESSION['dungeon_effects'])) {
+        foreach ($_SESSION['dungeon_effects'] as $index => &$effect) {
+            if ($effect['type'] === 'buff' && $effect['attr'] === 'sila') {
+                $bonus_sila += $effect['value'];
+            }
+            if ($effect['type'] === 'debuff' && $effect['attr'] === 'stun') {
+                $enemy_stunned = true;
+            }
+            $effect['turns']--;
+            if ($effect['turns'] <= 0) unset($_SESSION['dungeon_effects'][$index]);
+        }
+    }
+
     $time = date("H:i:s");
-    $player_dmg = rand(10, 20) + floor($player['sila'] * 0.5);
+    $player_dmg = rand(10, 20) + floor(($player['sila'] + $bonus_sila) * 0.5);
     $enemy_dmg = rand($enemy['min_dmg'], $enemy['max_dmg']);
 
     if (ctype_digit($action) && isset($skills[$action])) {
@@ -142,9 +159,11 @@ if ($_POST['action'] === 'use_item' && isset($_POST['item_id'])) {
         $log[] = "<span class='log-player-attack'>[$time] You deal $player_dmg to {$enemy['name']}.</span>";
     }
 
-    if ($enemy_hp - $player_dmg > 0) {
+    if ($enemy_hp - $player_dmg > 0 && !$enemy_stunned) {
         $player_hp -= $enemy_dmg;
         $log[] = "<span class='log-enemy-attack'>[$time] {$enemy['name']} hits you for $enemy_dmg.</span>";
+    } elseif ($enemy_stunned) {
+        $log[] = "<span class='log-heal'>💫 Enemy stunned and skips turn!</span>";
     }
 
     $enemy_hp -= $player_dmg;
@@ -154,7 +173,6 @@ if ($_POST['action'] === 'use_item' && isset($_POST['item_id'])) {
     $_SESSION['dungeon_log'] = array_merge($_SESSION['dungeon_log'] ?? [], $log);
     $_SESSION['dungeon_skill_cooldowns'] = $cooldowns;
 
-    // Rewards
     if ($enemy_hp <= 0 && $player_hp > 0 && empty($_SESSION['dungeon_reward'])) {
         $xp = $enemy['xp_reward'];
         $gold = $enemy['gold_reward'];
@@ -162,19 +180,19 @@ if ($_POST['action'] === 'use_item' && isset($_POST['item_id'])) {
         $new_lvl = $player['nivel'];
         $new_hp = $player['zycie'];
         $new_str = $player['sila'];
-        $leveled = false;
+        $leveled_up = false;
         $msg = "You defeated {$enemy['name']} and earned $xp XP and $gold gold.";
         $notify = $conn->prepare("INSERT INTO notifications (player_id, message) VALUES (?, ?)");
         $notify->bind_param("is", $player_id, $msg);
         $notify->execute();
 
         while ($new_exp >= $new_lvl * 100) {
-        $new_exp -= $new_lvl * 100;
-        $new_lvl++;
-        $new_hp += 10;
-        $new_str += 2;
-        $leveled_up = true;
-        $log[] = "<span class='log-reward level-up' data-sound='levelup'>🎉 Level up! Now level $new_lvl. +10 HP, +2 Strength!</span>";
+            $new_exp -= $new_lvl * 100;
+            $new_lvl++;
+            $new_hp += 10;
+            $new_str += 2;
+            $leveled_up = true;
+            $log[] = "<span class='log-reward level-up'>🎉 Level up! Now level $new_lvl. +10 HP, +2 Strength!</span>";
         }
         $new_exp_max = $new_lvl * 100;
 
@@ -192,6 +210,7 @@ if ($_POST['action'] === 'use_item' && isset($_POST['item_id'])) {
     header("Location: dungeon.php");
     exit;
 }
+
 
 $battle_log = $_SESSION['dungeon_log'] ?? [];
 ?>
@@ -253,11 +272,14 @@ $potion_result = $conn->query("SELECT pi.id, i.name, i.image FROM player_items p
     <h4>🧪 Potions</h4>
     <form method="post">
         <?php while ($row = $potion_result->fetch_assoc()): ?>
-            <button type="submit" name="action" value="use_item">
-                <img src="items/<?= $row['image'] ?>" width="24"> <?= $row['name'] ?>
-                <input type="hidden" name="item_id" value="<?= $row['id'] ?>">
-            </button>
-        <?php endwhile; ?>
+    <form method="post" style="display:inline-block; margin: 4px;">
+        <input type="hidden" name="item_id" value="<?= $row['id'] ?>">
+        <button type="submit" name="action" value="use_item">
+            <img src="items/<?= htmlspecialchars($row['image']) ?>" width="24">
+            <?= htmlspecialchars($row['name']) ?>
+        </button>
+    </form>
+<?php endwhile; ?>
     </form>
 <?php endif; ?>
 
