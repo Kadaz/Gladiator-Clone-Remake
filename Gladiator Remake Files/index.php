@@ -54,18 +54,18 @@ $avatarPath = "avatars/avatar" . ($avatar ?? 1) . ".gif";
 
     <h3>Main Menu</h3>
     <ul>
-        <li><a href='character_profile.php'>Character Profile</a></li>
-		<li><a href='online_players.php'>Online Players</a></li>
-		<li><a href='dungeon.php'>Dungeons</a></li>
-		<a href="battle.php">⚔️ Fight a Training Dummy</a>
-        <li><a href="pvp_arena.php">Arena</a></li>
-        <li><a href="quest.php">Quests</a></li>
-        <li><a href="inventory.php">Inventory</a></li>
-        <li><a href="training.php">Training</a></li>
-        <li><a href="shop.php">Shop</a></li>
+        <li><a href='character_profile.php'>🧍 Character Profile</a></li>
+		<li><a href='online_players.php'>🌐 Online Players</a></li>
+		<li><a href='dungeon.php'>🏰  Dungeons</a></li>
+		<li><a href="battle.php">⚔️ Fight a Training Dummy</a></li>
+        <li><a href="pvp_arena.php">🥊  Arena</a></li>
+        <li><a href="quest.php">🗺️  Quests</a></li>
+        <li><a href="inventory.php">🎒 Inventory</a></li>
+        <li><a href="training.php">📈 Training</a></li>
+        <li><a href="shop.php">🛒 Shop</a></li>
 		 <li><a href="inbox.php">📥 Inbox</a></li>
-        <li><a href="account_settings.php">Account Settings</a></li>
-        <li><a href="logout.php">Logout</a></li>
+        <li><a href="account_settings.php">⚙️ Account Settings</a></li>
+        <li><a href="logout.php">🚪 Logout</a></li>
     </ul>
 </div>
 </body>

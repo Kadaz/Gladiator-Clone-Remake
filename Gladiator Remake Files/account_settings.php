@@ -1,6 +1,9 @@
 <?php
 session_start();
 require 'db.php';
+require_once('var/ustawienia.php');
+require_once('gora_strony.php');
+require_once('menu_l.php');
 
 if (!isset($_SESSION['id'])) {
     header("Location: index.php");

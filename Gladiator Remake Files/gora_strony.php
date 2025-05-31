@@ -3,6 +3,8 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 				<title>GladClone Version</title>
 				<link href="game_05.css" rel="stylesheet" type="text/css" media="screen" />				<style type=text/css></style>
+				<link rel="icon" type="image/x-icon" href="favicon.ico">
+
 	</head>
 <body ><div id="container">
 	<div id="header"></div>

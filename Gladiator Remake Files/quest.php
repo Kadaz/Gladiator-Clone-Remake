@@ -59,17 +59,50 @@ $level = $player_data['nivel'];
 $result = $conn->query("SELECT * FROM quests WHERE required_level <= $level");
 
 while ($row = $result->fetch_assoc()) {
-    // Skip non-repeatable quests already completed
     $q_id = $row['id'];
-    $already_done = $conn->query("SELECT * FROM player_quests WHERE player_id = $player_id AND quest_id = $q_id AND completed_at IS NOT NULL");
-    if ($already_done->num_rows > 0 && !$row['is_repeatable']) continue;
 
+    // Skip non-repeating quests that have already been completed
+    $done = $conn->prepare("SELECT 1 FROM player_quests WHERE player_id = ? AND quest_id = ? AND completed_at IS NOT NULL");
+    $done->bind_param("ii", $player_id, $q_id);
+    $done->execute();
+    $done_result = $done->get_result();
+    if ($done_result->num_rows > 0 && !$row['is_repeatable']) continue;
+
+    // If it has a previous_quest_id, check if it has been completed.
+    if (!empty($row['previous_quest_id'])) {
+        $prev_id = (int)$row['previous_quest_id'];
+        $prev_check = $conn->prepare("SELECT status FROM player_quests WHERE player_id = ? AND quest_id = ?");
+        $prev_check->bind_param("ii", $player_id, $prev_id);
+        $prev_check->execute();
+        $prev_result = $prev_check->get_result();
+        $prev_data = $prev_result->fetch_assoc();
+
+        // If the previous one has not been completed, skip
+        if (!$prev_data || $prev_data['status'] !== 'completed') {
+            continue;
+        }
+    }
+
+    // Show mission
     echo "<div style='border:1px solid #ccc;padding:10px;margin:10px;border-radius:5px;background:#f9f9f9'>";
     echo "<img src='images/npc/{$row['npc_image']}' width='64' style='float:left;margin-right:10px'>";
+    echo "<strong>{$row['npc_name']}</strong><br>";
+    echo "<em>{$row['npc_description']}</em><br><br>";
     echo "<strong>{$row['title']}</strong><br>";
     echo "{$row['description']}<br><br>";
     echo "<strong>Rewards:</strong> {$row['gold_reward']} gold, {$row['exp_reward']} XP";
-    if ($row['reward_item_id']) echo ", Item #{$row['reward_item_id']}";
+
+    if ($row['reward_item_id']) {
+        $item_id = $row['reward_item_id'];
+        $item_query = $conn->prepare("SELECT name FROM items WHERE id = ?");
+        $item_query->bind_param("i", $item_id);
+        $item_query->execute();
+        $item_result = $item_query->get_result();
+        $item_data = $item_result->fetch_assoc();
+        $item_name = $item_data ? $item_data['name'] : "Unknown Item";
+        echo ", Item: <strong>{$item_name}</strong>";
+    }
+
     echo "<br><a href='quest.php?accept={$row['id']}'>✅ Accept Quest</a>";
     echo "<div style='clear:both'></div></div>";
 }
