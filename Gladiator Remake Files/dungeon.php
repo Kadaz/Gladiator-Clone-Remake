@@ -295,6 +295,26 @@ function showTab(tab) {
     document.getElementById('skills-basic').style.display = (tab === 'basic') ? 'block' : 'none';
     document.getElementById('skills-advanced').style.display = (tab === 'advanced') ? 'block' : 'none';
 }
+
+const sounds = {
+    attack: new Audio("sounds/attack.mp3"),
+    power_strike: new Audio("sounds/power_strike.mp3"),
+    heal: new Audio("sounds/heal.mp3"),
+    victory: new Audio("sounds/victory.mp3"),
+    defeat: new Audio("sounds/defeat.mp3"),
+    levelup: new Audio("sounds/levelup.mp3")
+};
+
+window.addEventListener("load", () => {
+    document.querySelectorAll("#battle-log span[data-sound]").forEach(el => {
+        const sound = el.dataset.sound;
+        if (sounds[sound]) {
+            sounds[sound].play().catch(() => {
+                // Autoplay blocked — user interaction required.
+            });
+        }
+    });
+});
 </script>
 
 <style>

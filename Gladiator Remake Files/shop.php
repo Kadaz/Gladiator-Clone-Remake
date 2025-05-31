@@ -62,6 +62,28 @@ $shop_items = $conn->query("SELECT * FROM items WHERE $where ORDER BY RAND() LIM
     <?php endforeach; ?>
 </div>
 
+<?php
+// Εδώ ελέγχουμε αν είμαστε στο φίλτρο weapon, και βγάζουμε την ειδική εικόνα με το label
+$shop_images = [
+    'weapon'    => '0_1.png',
+    'armor'     => '0_2.png',
+    'shield'    => '0_3.png',
+    'helm'      => '0_4.png',
+    'boots'     => '0_5.png',
+    'gloves'    => '0_6.png',
+    'ring'      => '1_1.png',
+    'ring2'     => '1_2.png',
+    'necklace'  => '1_3.png',
+    'potion'    => '1_4.png'
+];
+
+if (array_key_exists($selected_type, $shop_images)): ?>
+    <div class="item-box special-weapon">
+        <div class="item-label"><?= ucfirst($selected_type) ?></div>
+        <img src="images/shop/<?= $shop_images[$selected_type] ?>" alt="<?= $selected_type ?> image" />
+    </div>
+<?php endif; ?>
+
 <style>
 .item-box {
     display: inline-block;
@@ -89,6 +111,30 @@ $shop_items = $conn->query("SELECT * FROM items WHERE $where ORDER BY RAND() LIM
 }
 .item-box a.buy-btn:hover {
     background: #218838;
+}
+
+.special-weapon {
+    display: inline-block;
+    text-align: center;
+    border: 2px solid #444;
+    padding: 10px;
+    margin: 8px;
+    width: 140px;
+    border-radius: 8px;
+    background: #f9f9f9;
+    box-shadow: 0 0 8px rgba(0,0,0,0.2);
+}
+.special-weapon img {
+    width: 64px;
+    height: 64px;
+    margin-top: 5px;
+}
+.item-label {
+    font-weight: bold;
+    font-size: 14px;
+    color: #b22222;
+    text-transform: uppercase;
+    margin-bottom: 5px;
 }
 </style>
 

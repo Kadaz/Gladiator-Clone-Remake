@@ -413,3 +413,4 @@ window.addEventListener("load", () => {
     });
 });
 </script>
+<br><a href="index.php">← Back to Dashboard</a>

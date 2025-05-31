@@ -85,49 +85,67 @@ $total_zrecznosc = $player['zrecznosc'] + $bonus_zrecznosc;
 
 <h5>Equipped Items</h5>
 <style>
-.equip-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 120px);
-    gap: 10px;
-    margin-bottom: 10px;
+.character-wrapper {
+    width: 262px;
+    height: 281px;
+    background: url('images/canta.jpg') no-repeat center center;
+    background-size: cover;
+    position: relative;
+    margin: auto;
+    margin-bottom: 20px;
 }
-.equip-slot {
-    text-align: center;
-    padding: 6px;
-    border: 1px solid #aaa;
-    border-radius: 8px;
-    background-color: #f3f3f3;
-}
-.equip-slot img {
+
+.slot-box {
+    position: absolute;
     width: 64px;
-    height: 64px;
+    height: 30px;
+    
+    
+    text-align: center;
+    font-size: 10px;
+    padding-top: 2px;
+}
+
+.slot-box img {
+    width: 48px;
+    height: 48px;
 }
 </style>
 
-<div class="equip-grid">
-    <?php
-    $slots = ['weapon', 'shield', 'armor', 'helm', 'boots', 'gloves', 'ring', 'ring2', 'necklace'];
-    foreach ($slots as $slot_name):
-        $item = $equipped_items[$slot_name] ?? null;
-    ?>
-    <div class="equip-slot">
-        <strong><?= ucfirst($slot_name) ?></strong><br>
+<div class="character-wrapper">
+<?php
+$slot_positions = [
+    'helm' => ['top' => 12, 'left' => 100],
+    'necklace' => ['top' => 20, 'left' => 166],
+    'weapon' => ['top' => 100, 'left' => 20],
+    'armor' => ['top' => 100, 'left' => 100],
+    'shield' => ['top' => 100, 'left' => 180],
+    'gloves' => ['top' => 190, 'left' => 22],
+    'boots' => ['top' => 195, 'left' => 100],
+    'ring' => ['top' => 175, 'left' => 165],
+    'ring2' => ['top' => 180, 'left' => 200],
+];
+
+foreach ($slot_positions as $slot => $pos):
+    $item = $equipped_items[$slot] ?? null;
+?>
+    <div class="slot-box" style="top: <?= $pos['top'] ?>px; left: <?= $pos['left'] ?>px;">
+        <strong><?= ucfirst($slot) ?></strong><br>
         <?php if ($item): ?>
-            <img src="items/MORE/<?= htmlspecialchars($item['image']) ?>" alt="<?= htmlspecialchars($item['name']) ?>"><br>
+            <img src="items/MORE/<?= htmlspecialchars($item['image']) ?>" alt="<?= htmlspecialchars($item['name']) ?>" ondblclick="submitUnequip(<?= $item['player_item_id'] ?>)"><br>
             <?= htmlspecialchars($item['name']) ?>
-            <form method="GET" action="unequip_item.php" style="margin-top: 4px;">
+            <form id="unequipForm<?= $item['player_item_id'] ?>" method="GET" action="unequip_item.php" style="display:none;">
                 <input type="hidden" name="id" value="<?= htmlspecialchars($item['player_item_id']) ?>">
-                <button type="submit">Unequip</button>
             </form>
         <?php else: ?>
             <em>Empty</em>
         <?php endif; ?>
     </div>
-    <?php endforeach; ?>
+<?php endforeach; ?>
 </div>
 
 <h4>Inventory</h4>
-<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+<div style="background: url('images/menu_bg.jpg') no-repeat center center; background-size: cover; padding: 15px; border-radius: 10px; display: flex; flex-wrap: wrap; gap: 10px;">
 <?php
 $sql_inventory = "SELECT pi.id AS player_item_id, i.name, i.image, i.slot 
                   FROM player_items pi 
@@ -140,16 +158,49 @@ $result_inv = $stmt_inv->get_result();
 
 while ($item = $result_inv->fetch_assoc()):
 ?>
-    <div style="text-align: center; border: 1px solid #ccc; padding: 5px;">
-        <img src="items/<?= htmlspecialchars($item['image']) ?>" width="64"><br>
-        <strong><?= htmlspecialchars($item['name']) ?></strong><br>
-        <small>Slot: <?= htmlspecialchars($item['slot']) ?></small><br>
-        <form method="POST" action="equip_item.php">
-            <input type="hidden" name="player_item_id" value="<?= $item['player_item_id'] ?>">
-            <button type="submit">Equip</button>
-        </form>
-    </div>
+    <div style="text-align: center; border: 1px solid #ccc; padding: 5px;" ondblclick="submitEquip(<?= $item['player_item_id'] ?>)">
+    <img src="items/<?= htmlspecialchars($item['image']) ?>" width="64"><br>
+    <span style="font-weight: bold; color: #FFD700; text-shadow: 1px 1px 2px black;"><?= htmlspecialchars($item['name']) ?></span><br>
+    <small>Slot: <?= htmlspecialchars($item['slot']) ?></small><br>
+    <form id="equipForm<?= $item['player_item_id'] ?>" method="POST" action="equip_item.php">
+        <input type="hidden" name="player_item_id" value="<?= $item['player_item_id'] ?>">
+    </form>
+</div>
 <?php endwhile; ?>
 </div>
+<script>
+const equipSound = new Audio('sounds/equip.mp3');
+const unequipSound = new Audio('sounds/unequip.mp3');
 
+function submitEquip(id) {
+    equipSound.currentTime = 0; // για να παίζει από την αρχή αν πατήσεις πολλά
+    equipSound.play().then(() => {
+        const form = document.getElementById('equipForm' + id);
+        if (form) {
+            form.submit();
+        }
+    }).catch(() => {
+        // fallback αν δεν παίζει ο ήχος (πχ auto play blocked)
+        const form = document.getElementById('equipForm' + id);
+        if (form) {
+            form.submit();
+        }
+    });
+}
+
+function submitUnequip(id) {
+    unequipSound.currentTime = 0;
+    unequipSound.play().then(() => {
+        const form = document.getElementById('unequipForm' + id);
+        if (form) {
+            form.submit();
+        }
+    }).catch(() => {
+        const form = document.getElementById('unequipForm' + id);
+        if (form) {
+            form.submit();
+        }
+    });
+}
+</script>
 <br><a href="index.php">← Back to Dashboard</a>
