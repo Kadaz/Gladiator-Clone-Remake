@@ -1,3 +1,8 @@
+<style>
+body {
+  background-image: url('images/background.jpg');
+}
+</style>
 <?php
 session_start();
 require 'db.php';

@@ -1,3 +1,8 @@
+ <style>
+body {
+  background-image: url('images/dungeon.jpg');
+}
+</style>  
 <?php
 session_start();
 require 'db.php';
