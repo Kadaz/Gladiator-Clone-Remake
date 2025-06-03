@@ -31,3 +31,6 @@ if ($result->num_rows > 0) {
 
 echo "<br><a href='index.php'>← Back to Dashboard</a>";
 ?>
+
+<li><a href='create_trade.php'>Trade With Players</a></li>
+<li><a href='trade_history.php'>Trade History</a></li>
