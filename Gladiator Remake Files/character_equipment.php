@@ -3,6 +3,7 @@ session_start();
 require_once('var/ustawienia.php');
 require_once('gora_strony.php');
 require_once('menu_l.php');
+
 if (!isset($_SESSION['id'])) {
     die("⛔ Please log in to view your equipment.");
 }
@@ -35,31 +36,31 @@ if ($result->num_rows == 0) {
     echo "<tr>
             <th>Image</th>
             <th>Name</th>
+            <th>Item ID</th>
             <th>Type</th>
             <th>Attack Bonus</th>
             <th>Defense Bonus</th>
-			<th>Dexterity Bonus</tr>";
+            <th>Dexterity Bonus</th>
+          </tr>";
 
     while ($row = $result->fetch_assoc()) {
-        $imageFile = $row['image']; // e.g., m1_1
-        $imgPath = "/Gladiatus/items/MORE/" . $imageFile . ".png";
+        $imageFile = $row['image'];
 
         // Determine image path based on filename prefix
         if (strpos($imageFile, 'm') === 0) {
-            // PNG images inside MORE folder
             $imgPath = "items/MORE/" . $imageFile;
         } else {
-            // GIF images inside items folder
             $imgPath = "items/" . $imageFile;
         }
 
         echo "<tr>";
         echo "<td><img src='" . htmlspecialchars($imgPath) . "' alt='" . htmlspecialchars($row['name']) . "' style='width:64px; height:64px;'></td>";
         echo "<td>" . htmlspecialchars($row['name']) . "</td>";
+        echo "<td>" . (int)$row['item_id'] . "</td>";
         echo "<td>" . htmlspecialchars($row['type']) . "</td>";
-        echo "<td>" . htmlspecialchars($row['attack_bonus']) . "</td>";
-        echo "<td>" . htmlspecialchars($row['defense_bonus']) . "</td>";
-		echo "<td>" . htmlspecialchars($row['dex_bonus']) . "</td>";
+        echo "<td>" . (int)$row['attack_bonus'] . "</td>";
+        echo "<td>" . (int)$row['defense_bonus'] . "</td>";
+        echo "<td>" . (int)$row['dex_bonus'] . "</td>";
         echo "</tr>";
     }
 

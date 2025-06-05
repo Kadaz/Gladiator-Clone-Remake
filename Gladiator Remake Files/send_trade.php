@@ -6,46 +6,51 @@ require_once('gora_strony.php');
 require_once('menu_l.php');
 
 $sender_id = $_SESSION['id'] ?? 0;
-
 if (!$sender_id) {
-    die("Not logged in.");
+    die("❌ Not logged in.");
 }
 
 $recipient_username = $_POST['recipient'] ?? '';
-$gold = $_POST['gold'] ?? 0;
-$item_id = $_POST['item_id'] ?? null;
-$item_request = $_POST['item_request'] ?? null;
+$gold = (int)($_POST['gold'] ?? 0);
+$item_id = $_POST['item_id'] !== '' ? (int)$_POST['item_id'] : null;
+$item_request = $_POST['item_request'] !== '' ? (int)$_POST['item_request'] : null;
 
-// 🔍 Πάρε το ID του παραλήπτη από το όνομα χρήστη
+// 🔍 Get recipient ID
 $stmt = $conn->prepare("SELECT id FROM gracze WHERE login = ?");
 $stmt->bind_param("s", $recipient_username);
 $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows === 0) {
-    die("Recipient not found.");
+    die("❌ Recipient not found.");
 }
 
-$row = $result->fetch_assoc();
-$receiver_id = $row['id'];
+$receiver_id = $result->fetch_assoc()['id'];
 
-// Απλή ασφάλεια: Δεν μπορείς να στείλεις στον εαυτό σου
+// ❌ Prevent sending to self
 if ($sender_id == $receiver_id) {
-    die("You cannot trade with yourself.");
+    die("❌ You cannot trade with yourself.");
 }
 
-if ($item_id === null) {
-    $stmt = $conn->prepare("INSERT INTO trades (sender_id, receiver_id, item_id, gold, status) VALUES (?, ?, NULL, ?, 'pending')");
-    $stmt->bind_param("iii", $sender_id, $receiver_id, $gold);
-} else {
-    $stmt = $conn->prepare("INSERT INTO trades (sender_id, receiver_id, item_id, gold, status) VALUES (?, ?, ?, ?, 'pending')");
-    $stmt->bind_param("iiii", $sender_id, $receiver_id, $item_id, $gold);
+// ✅ Validate item_id belongs to sender (if given)
+if ($item_id !== null) {
+    $stmt = $conn->prepare("SELECT id FROM player_items WHERE id = ? AND player_id = ?");
+    $stmt->bind_param("ii", $item_id, $sender_id);
+    $stmt->execute();
+    $check = $stmt->get_result();
+    if ($check->num_rows === 0) {
+        die("❌ Item to offer does not belong to you.");
+    }
 }
+
+// ✅ Insert trade
+$stmt = $conn->prepare("INSERT INTO trades (sender_id, receiver_id, item_id, item_request, gold, status) VALUES (?, ?, ?, ?, ?, 'pending')");
+$stmt->bind_param("iiiii", $sender_id, $receiver_id, $item_id, $item_request, $gold);
 
 if ($stmt->execute()) {
-    echo "Trade request sent!";
+    echo "✅ Trade request sent!";
 } else {
-    echo "Error: " . $stmt->error;
+    echo "❌ Error: " . $stmt->error;
 }
 
 $stmt->close();
