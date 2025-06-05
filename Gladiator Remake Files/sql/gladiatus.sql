@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50718
 File Encoding         : 65001
 
-Date: 2025-06-04 00:40:34
+Date: 2025-06-05 23:40:02
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -605,6 +605,93 @@ INSERT INTO `event_item_drops` VALUES ('5', 'halloween', '930', '0.2');
 INSERT INTO `event_item_drops` VALUES ('6', 'halloween', '931', '0.1');
 
 -- ----------------------------
+-- Table structure for `forum_categories`
+-- ----------------------------
+DROP TABLE IF EXISTS `forum_categories`;
+CREATE TABLE `forum_categories` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of forum_categories
+-- ----------------------------
+INSERT INTO `forum_categories` VALUES ('1', 'General Discussion', 'Talk about anything here!');
+INSERT INTO `forum_categories` VALUES ('2', 'Help & Support', 'Ask for help or give support.');
+INSERT INTO `forum_categories` VALUES ('3', 'Bug Reports', 'Report bugs or issues in the game.');
+INSERT INTO `forum_categories` VALUES ('4', 'Guilds', 'Recruit or discuss guilds.');
+
+-- ----------------------------
+-- Table structure for `forum_moderators`
+-- ----------------------------
+DROP TABLE IF EXISTS `forum_moderators`;
+CREATE TABLE `forum_moderators` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `category_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `category_id` (`category_id`),
+  CONSTRAINT `forum_moderators_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `gracze` (`id`),
+  CONSTRAINT `forum_moderators_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `forum_categories` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of forum_moderators
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `forum_posts`
+-- ----------------------------
+DROP TABLE IF EXISTS `forum_posts`;
+CREATE TABLE `forum_posts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `category_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `content` text NOT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_pinned` tinyint(1) DEFAULT '0',
+  `is_locked` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `category_id` (`category_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `forum_posts_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `forum_categories` (`id`),
+  CONSTRAINT `forum_posts_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `gracze` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of forum_posts
+-- ----------------------------
+INSERT INTO `forum_posts` VALUES ('1', '1', '6', 'Test', 'Test', '2025-06-05 21:59:34', '2025-06-05 21:59:34', '0', '0');
+INSERT INTO `forum_posts` VALUES ('2', '1', '6', 'test3', 'test', '2025-06-05 22:38:04', '2025-06-05 22:38:04', '0', '0');
+
+-- ----------------------------
+-- Table structure for `forum_replies`
+-- ----------------------------
+DROP TABLE IF EXISTS `forum_replies`;
+CREATE TABLE `forum_replies` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `post_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `content` text NOT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `post_id` (`post_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `forum_replies_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `forum_posts` (`id`),
+  CONSTRAINT `forum_replies_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `gracze` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of forum_replies
+-- ----------------------------
+INSERT INTO `forum_replies` VALUES ('1', '2', '6', 'ok', '2025-06-05 23:09:14');
+
+-- ----------------------------
 -- Table structure for `gracze`
 -- ----------------------------
 DROP TABLE IF EXISTS `gracze`;
@@ -690,9 +777,9 @@ CREATE TABLE `gracze` (
 INSERT INTO `gracze` VALUES ('3', '1', 'tolis', 'e10adc3949ba59abbe56e057f20f883e', 'tolis@test1.com', '0', '3', 'dgfdg', 'gfdgfd', '1', '2', '148', '200', '0', '0', '9', '0', '0', '0', '0', '121', '15', '5', '10', '10', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '280', '100', '0', '2', '52', '0', '0', '0', '1747529809', '0', '1748220654', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1748220654', '0', '0');
 INSERT INTO `gracze` VALUES ('4', '2', 'Kadaz', 'e10adc3949ba59abbe56e057f20f883e', 'solidus8422@gmail.com', '0', '1', 'tolis', 'tolis', '1', '1', '0', '10', '0', '0', '0', '3', '0', '0', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '100', '100', '0', '2', '120', '0', '0', '0', '0', '0', '1747529610', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1747529610', '0', '0');
 INSERT INTO `gracze` VALUES ('5', '0', 'test', '25f9e794323b453885f5181f1b624d0b', 'test@gmail.com', '0', '1', 'test', 'test', '1', '1', '0', '10', '0', '0', '0', '2', '0', '0', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '100', '100', '0', '2', '130', '0', '0', '0', '0', '0', '0', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `gracze` VALUES ('6', '0', 'test2', 'ad0234829205b9033196ba818f7a872b', 'test2@gmail.com', '0', '1', 'test', 'test', '1', '5', '461', '500', '0', '0', '0', '1', '0', '0', '0', '19', '130', '0', '0', '2', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '130', '100', '0', '2', '1021954', '0', '0', '0', '0', '0', '1748986701', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1748986701', '0', '0');
+INSERT INTO `gracze` VALUES ('6', '0', 'test2', 'ad0234829205b9033196ba818f7a872b', 'test2@gmail.com', '0', '1', 'test', 'test', '1', '5', '461', '500', '0', '0', '0', '1', '0', '0', '0', '19', '130', '0', '0', '2', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '130', '100', '0', '2', '1021889', '0', '0', '0', '0', '0', '1749149956', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1749149956', '0', '0');
 INSERT INTO `gracze` VALUES ('7', '0', 'test3', '8ad8757baa8564dc136c1e07507f4a98', 'test3@gmail.com', '0', '1', 'test3', 'test3', '1', '86', '2198', '8600', '0', '0', '0', '0', '0', '0', '0', '0', '13', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '140', '100', '0', '2', '560', '0', '0', '0', '0', '0', '1748722219', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1748722219', '0', '0');
-INSERT INTO `gracze` VALUES ('8', '0', 'test4', '86985e105f79b95d6bc918fb45ec7727', 'test4@gmail.com', '0', '3', 'test4', 'test4', '1', '7', '55', '700', '0', '0', '1', '4', '0', '0', '0', '2', '27', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '210', '100', '0', '2', '345', '0', '0', '0', '1747576645', '0', '1748986430', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1748986430', '0', '0');
+INSERT INTO `gracze` VALUES ('8', '0', 'test4', '86985e105f79b95d6bc918fb45ec7727', 'test4@gmail.com', '0', '3', 'test4', 'test4', '1', '7', '55', '700', '0', '0', '1', '4', '0', '0', '0', '2', '27', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '210', '100', '0', '2', '400', '0', '0', '0', '1747576645', '0', '1749139431', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1749139431', '0', '0');
 INSERT INTO `gracze` VALUES ('9', '0', 'test5', 'e3d704f3542b44a621ebed70dc0efe13', 'test5@gmail.com', '0', '1', 'test5', 'test5', '1', '2', '6', '10', '0', '0', '0', '0', '0', '0', '0', '0', '19', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '170', '100', '0', '2', '457', '0', '0', '0', '0', '0', '1748180632', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1748180632', '0', '0');
 
 -- ----------------------------
@@ -1855,7 +1942,7 @@ CREATE TABLE `player_items` (
   KEY `item_id` (`item_id`),
   CONSTRAINT `player_items_ibfk_1` FOREIGN KEY (`player_id`) REFERENCES `gracze` (`id`),
   CONSTRAINT `player_items_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=373 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=374 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of player_items
@@ -1898,11 +1985,11 @@ INSERT INTO `player_items` VALUES ('227', '8', '1', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('228', '8', '676', '1', '1', '0');
 INSERT INTO `player_items` VALUES ('229', '8', '28', '1', '1', '0');
 INSERT INTO `player_items` VALUES ('230', '8', '52', '1', '1', '0');
-INSERT INTO `player_items` VALUES ('253', '6', '933', '1', '0', '0');
+INSERT INTO `player_items` VALUES ('253', '8', '933', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('282', '7', '3', '1', '1', '0');
 INSERT INTO `player_items` VALUES ('283', '7', '3', '1', '0', '0');
-INSERT INTO `player_items` VALUES ('307', '6', '932', '1', '0', '0');
-INSERT INTO `player_items` VALUES ('308', '6', '932', '1', '0', '0');
+INSERT INTO `player_items` VALUES ('307', '8', '932', '1', '0', '0');
+INSERT INTO `player_items` VALUES ('308', '8', '932', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('351', '8', '936', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('355', '8', '934', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('356', '8', '3', '1', '0', '0');
@@ -1917,6 +2004,7 @@ INSERT INTO `player_items` VALUES ('369', '7', '108', '1', '1', '0');
 INSERT INTO `player_items` VALUES ('370', '7', '893', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('371', '7', '683', '1', '1', '0');
 INSERT INTO `player_items` VALUES ('372', '7', '629', '1', '1', '0');
+INSERT INTO `player_items` VALUES ('373', '8', '26', '1', '0', '0');
 
 -- ----------------------------
 -- Table structure for `player_quests`
@@ -2364,7 +2452,7 @@ CREATE TABLE `trades` (
   `gold` int(11) NOT NULL DEFAULT '0',
   `item_request` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of trades
@@ -2374,6 +2462,22 @@ INSERT INTO `trades` VALUES ('2', '6', '8', 'accepted', '2025-06-03 22:58:06', '
 INSERT INTO `trades` VALUES ('3', '6', '8', 'declined', '2025-06-03 23:35:06', '2025-06-04 00:21:58', '7', '16', null);
 INSERT INTO `trades` VALUES ('4', '6', '8', 'declined', '2025-06-03 23:46:29', '2025-06-04 00:21:55', '3', '10', null);
 INSERT INTO `trades` VALUES ('5', '6', '8', 'declined', '2025-06-04 00:11:30', '2025-06-04 00:21:46', '0', '10', null);
+INSERT INTO `trades` VALUES ('6', '6', '8', 'declined', '2025-06-04 23:46:55', '2025-06-05 00:09:07', '1', '5', null);
+INSERT INTO `trades` VALUES ('7', '6', '8', 'declined', '2025-06-05 00:12:11', '2025-06-05 01:05:25', '1', '1', null);
+INSERT INTO `trades` VALUES ('8', '6', '8', 'declined', '2025-06-05 00:51:16', '2025-06-05 01:05:17', '1', '5', null);
+INSERT INTO `trades` VALUES ('9', '6', '8', 'accepted', '2025-06-05 01:05:06', '2025-06-05 01:05:42', '362', '10', null);
+INSERT INTO `trades` VALUES ('10', '6', '8', 'accepted', '2025-06-05 01:06:51', '2025-06-05 01:07:15', '364', '10', null);
+INSERT INTO `trades` VALUES ('11', '6', '8', 'accepted', '2025-06-05 01:08:33', '2025-06-05 01:09:09', null, '10', null);
+INSERT INTO `trades` VALUES ('12', '6', '8', 'accepted', '2025-06-05 01:36:15', '2025-06-05 01:36:48', '307', '10', null);
+INSERT INTO `trades` VALUES ('13', '6', '8', 'accepted', '2025-06-05 02:11:38', '2025-06-05 02:12:15', '308', '10', null);
+INSERT INTO `trades` VALUES ('14', '8', '6', 'accepted', '2025-06-05 02:13:23', '2025-06-05 02:13:57', '364', '10', null);
+INSERT INTO `trades` VALUES ('15', '6', '8', 'accepted', '2025-06-05 02:14:32', '2025-06-05 02:15:00', null, '5', null);
+INSERT INTO `trades` VALUES ('16', '6', '8', 'declined', '2025-06-05 02:31:38', '2025-06-05 02:46:48', '62', '5', null);
+INSERT INTO `trades` VALUES ('17', '6', '8', 'accepted', '2025-06-05 02:46:32', '2025-06-05 02:47:47', '364', '5', '362');
+INSERT INTO `trades` VALUES ('18', '6', '8', 'accepted', '2025-06-05 02:49:55', '2025-06-05 02:50:15', null, '5', '364');
+INSERT INTO `trades` VALUES ('19', '6', '8', 'declined', '2025-06-05 02:51:08', '2025-06-05 03:16:04', null, '0', '364');
+INSERT INTO `trades` VALUES ('20', '6', '8', 'accepted', '2025-06-05 03:13:01', '2025-06-05 03:13:45', '253', '10', '364');
+INSERT INTO `trades` VALUES ('21', '6', '8', 'accepted', '2025-06-05 03:16:34', '2025-06-05 03:16:49', null, '0', '362');
 
 -- ----------------------------
 -- Table structure for `trade_gold`
