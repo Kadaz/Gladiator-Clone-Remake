@@ -6,79 +6,51 @@ require_once('gora_strony.php');
 require_once('menu_l.php');
 
 if (!isset($_SESSION['zalogowany']) || $_SESSION['zalogowany'] !== true) {
-    die("Unauthorized access.");
+    die("You must be logged in.");
 }
 
 $postId = $_GET['id'] ?? null;
-if (!$postId) {
+if (!$postId || !is_numeric($postId)) {
     die("Invalid post ID.");
 }
 
-// Fetch post info
+// Fetch post
 $stmt = $conn->prepare("
-    SELECT p.title, p.content, p.created_at, p.updated_at, p.is_pinned, p.is_locked,
-           g.login AS author, c.title AS category_title, p.category_id
+    SELECT p.*, g.login AS author 
     FROM forum_posts p
     JOIN gracze g ON p.user_id = g.id
-    JOIN forum_categories c ON p.category_id = c.id
     WHERE p.id = ?
 ");
-if (!$stmt) {
-    die("Prepare failed: " . $conn->error);
-}
 $stmt->bind_param("i", $postId);
 $stmt->execute();
 $result = $stmt->get_result();
+$post = $result->fetch_assoc();
+$stmt->close();
 
-if ($result->num_rows === 0) {
+if (!$post) {
     die("Post not found.");
 }
 
-$post = $result->fetch_assoc();
-$stmt->close();
-?>
+echo "<h2>📝 " . htmlspecialchars($post['title']) . "</h2>";
+echo "<p><strong>Author:</strong> " . htmlspecialchars($post['author']) . "</p>";
+echo "<p><strong>Posted:</strong> " . $post['created_at'] . "</p>";
+echo "<p>" . nl2br(htmlspecialchars($post['content'])) . "</p>";
 
-<h2><?= htmlspecialchars($post['title']) ?> <?= $post['is_pinned'] ? "📌" : "" ?> <?= $post['is_locked'] ? "🔒" : "" ?></h2>
-<p><strong>By:</strong> <?= htmlspecialchars($post['author']) ?> |
-   <strong>Created:</strong> <?= $post['created_at'] ?> |
-   <strong>Updated:</strong> <?= $post['updated_at'] ?></p>
+$is_admin = $_SESSION['is_admin'] ?? 0;
 
-<div style="border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
-    <?= nl2br(htmlspecialchars($post['content'])) ?>
-</div>
+if ($is_admin == 1): ?>
+    <hr>
+    <h3>⚙️ Admin Actions:</h3>
+    <a href="admin_post_action.php?post_id=<?= $post['id'] ?>&action=<?= $post['is_pinned'] ? 'unpin' : 'pin' ?>">
+        <?= $post['is_pinned'] ? '📍 Unpin' : '📌 Pin' ?>
+    </a> |
+    <a href="admin_post_action.php?post_id=<?= $post['id'] ?>&action=<?= $post['is_locked'] ? 'unlock' : 'lock' ?>">
+        <?= $post['is_locked'] ? '🔓 Unlock' : '🔒 Lock' ?>
+    </a> |
+    <a href="admin_post_action.php?post_id=<?= $post['id'] ?>&action=delete" onclick="return confirm('Delete this post?');">
+        🗑️ Delete
+    </a>
+<?php endif;
 
-<h3>Write a Reply</h3>
-<form method="post" action="post_reply.php">
-    <textarea name="content" rows="4" cols="60" required></textarea><br>
-    <input type="hidden" name="post_id" value="<?= $postId ?>">
-    <input type="submit" value="Reply">
-</form>
-<p><a href="forum_category_view.php?id=<?= (int)$post['category_id'] ?>">← Back to <?= htmlspecialchars($post['category_title']) ?></a></p>
-
-<?php
-// Fetch replies
-$replyStmt = $conn->prepare("
-    SELECT r.content, r.created_at, g.login
-    FROM forum_replies r
-    JOIN gracze g ON r.user_id = g.id
-    WHERE r.post_id = ?
-    ORDER BY r.created_at ASC
-");
-$replyStmt->bind_param("i", $postId);
-$replyStmt->execute();
-$replies = $replyStmt->get_result();
-
-echo "<h3>Replies</h3>";
-if ($replies->num_rows > 0) {
-    while ($reply = $replies->fetch_assoc()) {
-        echo "<div style='border:1px solid #ccc; margin:5px; padding:5px;'>
-                <b>" . htmlspecialchars($reply['login']) . "</b> replied:<br>
-                " . nl2br(htmlspecialchars($reply['content'])) . "<br>
-                <small><i>" . $reply['created_at'] . "</i></small>
-              </div>";
-    }
-} else {
-    echo "<p>No replies yet.</p>";
-}
-$replyStmt->close();
+$conn->close();
 ?>

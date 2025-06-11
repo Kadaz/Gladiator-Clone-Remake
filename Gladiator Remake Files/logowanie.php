@@ -16,7 +16,7 @@ if (!empty($_POST['login']) && !empty($_POST['haslo'])) {
     $login = mysqli_real_escape_string($conn, $_POST['login']);
     $haslo = md5($_POST['haslo']);
 
-    $query = "SELECT id, login FROM gracze WHERE login = '$login' AND haslo = '$haslo' LIMIT 1";
+    $query = "SELECT id, login, is_admin FROM gracze WHERE login = '$login' AND haslo = '$haslo' LIMIT 1";
     $result = mysqli_query($conn, $query);
 
     if ($result && mysqli_num_rows($result) == 1) {
@@ -24,7 +24,8 @@ if (!empty($_POST['login']) && !empty($_POST['haslo'])) {
         $_SESSION['zalogowany'] = true;
         $_SESSION['id'] = $user['id'];
         $_SESSION['login'] = $user['login'];
-
+        $_SESSION['is_admin'] = $user['is_admin'];
+		
         // Redirect to index.php (must be before any output)
         header("Location: index.php");
         exit;
