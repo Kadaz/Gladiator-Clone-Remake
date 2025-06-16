@@ -14,7 +14,7 @@ echo "<h2>🟢 Online Players (last 5 minutes)</h2>";
 
 $five_minutes_ago = time() - 300;
 
-$stmt = $conn->prepare("SELECT login, nivel FROM gracze WHERE ostatnio_zregenerowano >= ?");
+$stmt = $conn->prepare("SELECT id, login, nivel FROM gracze WHERE ostatnio_zregenerowano >= ?");
 $stmt->bind_param("i", $five_minutes_ago);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -22,15 +22,18 @@ $result = $stmt->get_result();
 if ($result->num_rows > 0) {
     echo "<ul>";
     while ($row = $result->fetch_assoc()) {
-        echo "<li><strong>" . htmlspecialchars($row['login']) . "</strong> (Level: {$row['nivel']})</li>";
+        echo "<li><a href='player_profile.php?id={$row['id']}'>" . htmlspecialchars($row['login']) . "</a> (Level: {$row['nivel']})</li>";
     }
     echo "</ul>";
 } else {
     echo "<p>No players are online.</p>";
 }
-
-echo "<br><a href='index.php'>← Back to Dashboard</a>";
 ?>
 
-<li><a href='create_trade.php'>Trade With Players</a></li>
-<li><a href='trade_history.php'>Trade History</a></li>
+<br>
+<a href="index.php">← Back to Dashboard</a>
+
+<ul>
+    <li><a href='create_trade.php'>Trade With Players</a></li>
+    <li><a href='trade_history.php'>Trade History</a></li>
+</ul>

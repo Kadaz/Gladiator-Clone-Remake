@@ -1,131 +1,98 @@
 <?php
 session_start();
+require 'db.php';
 require_once('var/ustawienia.php');
 require_once('gora_strony.php');
 require_once('menu_l.php');
+
 if (!isset($_SESSION['id'])) {
-    echo "<p style='color:red;'>⚠️ Not Connect. Plz login to chat.</p>";
+    header("Location: logowanie.php");
     exit;
 }
+
+$player_id = $_SESSION['id'];
+
+// Βρες guild_id και alliance_id
+$guild_id = null;
+$alliance_id = null;
+
+$stmt = $conn->prepare("SELECT guild_id FROM guild_members WHERE player_id = ?");
+$stmt->bind_param("i", $player_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($row = $result->fetch_assoc()) {
+    $guild_id = $row['guild_id'];
+
+    $stmt2 = $conn->prepare("SELECT alliance_id FROM alliance_members WHERE guild_id = ?");
+    $stmt2->bind_param("i", $guild_id);
+    $stmt2->execute();
+    $res2 = $stmt2->get_result();
+    if ($row2 = $res2->fetch_assoc()) {
+        $alliance_id = $row2['alliance_id'];
+    }
+}
+
+$available_channels = ['global'];
+if ($guild_id) $available_channels[] = 'guild';
+if ($alliance_id) $available_channels[] = 'alliance';
 ?>
 
-<!DOCTYPE html>
-<html lang="el">
-<head>
-  <meta charset="UTF-8">
-  <title>Public Chat</title>
-  <style>
-    body {
-      background: #f4f4f4;
-      font-family: Arial, sans-serif;
-    }
+<h2>💬 Chat</h2>
+<label>Κανάλι:</label>
+<select id="chat-channel">
+<?php foreach ($available_channels as $ch): ?>
+    <option value="<?= $ch ?>"><?= ucfirst($ch) ?></option>
+<?php endforeach; ?>
+</select>
 
-    #chatbox {
-      border: 2px solid #333;
-      width: 400px;
-      margin: 20px auto;
-      padding: 10px;
-      background: #fff;
-      color: #000;
-      box-shadow: 0 0 10px #aaa;
-      border-radius: 8px;
-    }
+<div id="chat-messages" style="height:300px; overflow-y:auto; border:1px solid #ccc; margin-top:10px; padding:5px;">Φόρτωση...</div>
 
-    #messages {
-      height: 200px;
-      overflow-y: auto;
-      background: #f0f0f0;
-      padding: 10px;
-      margin-bottom: 10px;
-      font-size: 14px;
-      border: 1px solid #ccc;
-    }
-
-    #chat_input {
-      width: calc(100% - 70px);
-      padding: 5px;
-      font-size: 14px;
-    }
-
-    #send_btn {
-      width: 60px;
-      padding: 5px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    #send_btn:hover {
-      background-color: #0056b3;
-    }
-
-    .message {
-      margin-bottom: 5px;
-    }
-
-    .message b {
-      color: #007bff;
-    }
-  </style>
-</head>
-<body>
-
-<div id="chatbox">
-  <div id="messages">Loading messages...</div>
-  <input type="text" id="chat_input" placeholder="Write..." maxlength="200">
-  <button id="send_btn">Send</button>
-</div>
+<input type="text" id="chat-input" placeholder="Γράψε μήνυμα..." maxlength="200" style="width:75%;">
+<button onclick="sendMessage()">Send</button>
 
 <script>
+let currentChannel = document.getElementById("chat-channel").value;
+
+document.getElementById("chat-channel").addEventListener("change", function() {
+    currentChannel = this.value;
+    fetchMessages();
+});
+
 function fetchMessages() {
-  fetch('chat_backend.php', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-    body: 'action=fetch&channel=global'
-  })
-  .then(res => res.json())
-  .then(data => {
-    const box = document.getElementById('messages');
-    box.innerHTML = '';
-    data.forEach(msg => {
-      const div = document.createElement('div');
-      div.className = 'message';
-      div.innerHTML = `<b>${msg.login}:</b> ${msg.message}`;
-      box.appendChild(div);
+    fetch("chat_backend.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "action=fetch&channel=" + encodeURIComponent(currentChannel)
+    })
+    .then(res => res.json())
+    .then(data => {
+        const box = document.getElementById("chat-messages");
+        box.innerHTML = "";
+        data.forEach(msg => {
+            const line = document.createElement("div");
+            line.innerHTML = "<b>" + msg.login + ":</b> " + msg.message;
+            box.appendChild(line);
+        });
+        box.scrollTop = box.scrollHeight;
     });
-    box.scrollTop = box.scrollHeight;
-  })
-  .catch(err => {
-    document.getElementById('messages').innerText = '⚠️ Error Loading chat.';
-    console.error(err);
-  });
 }
 
 function sendMessage() {
-  const input = document.getElementById('chat_input');
-  const message = input.value.trim();
-  if (message.length === 0) return;
+    const input = document.getElementById("chat-input");
+    const msg = input.value.trim();
+    if (msg === "") return;
 
-  fetch('chat_backend.php', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-    body: 'action=send&message=' + encodeURIComponent(message)
-  })
-  .then(() => {
-    input.value = '';
-    fetchMessages();
-  })
-  .catch(err => {
-    alert("⚠️ Error Send message.");
-    console.error(err);
-  });
+    fetch("chat_backend.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "action=send&message=" + encodeURIComponent(msg) + "&channel=" + encodeURIComponent(currentChannel)
+    }).then(() => {
+        input.value = "";
+        fetchMessages();
+    });
 }
 
-document.getElementById('send_btn').addEventListener('click', sendMessage);
 setInterval(fetchMessages, 3000);
 fetchMessages();
 </script>
-
-</body>
-</html>

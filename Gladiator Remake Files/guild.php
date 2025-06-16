@@ -157,6 +157,23 @@ if (isset($_POST['send_guild_chat']) && $player_guild) {
         </form>
     <?php endif; ?>
 
+<?php
+    // Check if the guild is already in an alliance
+    $stmt = $conn->prepare("SELECT * FROM alliance_members WHERE guild_id = ?");
+    $stmt->bind_param("i", $player_guild['id']);
+    $stmt->execute();
+    $is_in_alliance = $stmt->get_result()->num_rows > 0;
+
+    if (!$is_in_alliance):
+    ?>
+        <p>
+            <a href="alliance_create.php" style="display:inline-block; background:#007bff; color:white; padding:8px 12px; border-radius:6px; text-decoration:none;">
+                🛡️ Create Alliance
+            </a>
+        </p>
+    <?php else: ?>
+        <p><em>This guild is already part of an alliance.</em></p>
+    <?php endif; ?>
     <form method="post">
         <button name="leave" onclick="return confirm('Are you sure you want to leave the guild?')">Leave Guild</button>
     </form>
