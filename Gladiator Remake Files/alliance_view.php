@@ -6,17 +6,17 @@ require_once('gora_strony.php');
 require_once('menu_l.php');
 
 // ----------------------
-// Βρες alliance_id
+// Find alliance_id
 // ----------------------
 $alliance_id = null;
 
-// Αν υπάρχει GET id, το χρησιμοποιούμε
+// If GET id use it.
 if (isset($_GET['id'])) {
     $alliance_id = (int)$_GET['id'];
 } else {
-    // Αν δεν υπάρχει, βρίσκουμε από τον logged-in χρήστη
+    // If not, find it from logged-in
     if (!isset($_SESSION['id'])) {
-        echo "<p>Δεν είστε συνδεδεμένος.</p>";
+        echo "<p>Not connect.</p>";
         exit;
     }
 
@@ -35,13 +35,13 @@ if (isset($_GET['id'])) {
     if ($row = $res->fetch_assoc()) {
         $alliance_id = $row['alliance_id'];
     } else {
-        echo "<p>Δεν ανήκετε σε κάποιο alliance.</p>";
+        echo "<p>You are not in an alliance.</p>";
         exit;
     }
 }
 
 // ----------------------
-// Φέρε δεδομένα Alliance
+// Alliance Data
 // ----------------------
 $stmt = $conn->prepare("SELECT * FROM alliances WHERE id = ?");
 $stmt->bind_param("i", $alliance_id);
@@ -49,12 +49,12 @@ $stmt->execute();
 $alliance = $stmt->get_result()->fetch_assoc();
 
 if (!$alliance) {
-    echo "<p>Το alliance δεν βρέθηκε.</p>";
+    echo "<p>Alliance not found.</p>";
     exit;
 }
 
 // ----------------------
-// Guilds του Alliance
+// Guilds From Alliance
 // ----------------------
 $stmt = $conn->prepare("
     SELECT g.name 
@@ -67,18 +67,18 @@ $stmt->execute();
 $guilds_result = $stmt->get_result();
 ?>
 
-<h2>🏛 Συμμαχία: <?php echo htmlspecialchars($alliance['name']); ?> [<?php echo htmlspecialchars($alliance['tag']); ?>]</h2>
+<h2>🏛 Alliance: <?php echo htmlspecialchars($alliance['name']); ?> [<?php echo htmlspecialchars($alliance['tag']); ?>]</h2>
 
 <?php if (!empty($alliance['flag'])): ?>
     <img src="images/alliances/<?php echo htmlspecialchars($alliance['flag']); ?>" alt="Flag" width="100"><br><br>
 <?php else: ?>
-    <p>(Δεν έχει οριστεί σημαία.)</p>
+    <p>(No Flag.)</p>
 <?php endif; ?>
 
-<p><strong>Περιγραφή:</strong><br>
+<p><strong>Description:</strong><br>
 <?php echo nl2br(htmlspecialchars($alliance['description'])); ?></p>
 
-<h3>🏰 Συμμετέχοντα Guilds:</h3>
+<h3>🏰 Joined Guilds:</h3>
 <ul>
 <?php
 if ($guilds_result->num_rows > 0) {
@@ -86,9 +86,9 @@ if ($guilds_result->num_rows > 0) {
         echo "<li>" . htmlspecialchars($g['name']) . "</li>";
     }
 } else {
-    echo "<li>Καμία guild δεν είναι συνδεδεμένη.</li>";
+    echo "<li>No Guild is connected.</li>";
 }
 ?>
 </ul>
 
-<a href="index.php">← Επιστροφή</a>
+<a href="index.php">← Return</a>
