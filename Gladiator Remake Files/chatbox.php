@@ -33,7 +33,7 @@ if ($row = $result->fetch_assoc()) {
     }
 }
 
-$available_channels = ['global'];
+$available_channels = ['global', 'trade', 'whisper'];
 if ($guild_id) $available_channels[] = 'guild';
 if ($alliance_id) $available_channels[] = 'alliance';
 ?>
@@ -41,8 +41,17 @@ if ($alliance_id) $available_channels[] = 'alliance';
 <h2>💬 Chat</h2>
 <label>Κανάλι:</label>
 <select id="chat-channel">
-<?php foreach ($available_channels as $ch): ?>
-    <option value="<?= $ch ?>"><?= ucfirst($ch) ?></option>
+<?php
+$channel_labels = [
+    'global' => '🌍 Global',
+    'guild' => '🏰 Guild',
+    'alliance' => '⚔️ Alliance',
+    'trade' => '📦 Trade',
+    'whisper' => '👤 Whisper'
+];
+
+foreach ($available_channels as $ch): ?>
+    <option value="<?= $ch ?>"><?= $channel_labels[$ch] ?? ucfirst($ch) ?></option>
 <?php endforeach; ?>
 </select>
 

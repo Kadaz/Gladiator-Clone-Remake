@@ -61,16 +61,6 @@ if (isset($_POST['update_flag']) && $player_guild && $player_guild['role'] === '
     echo "<p style='color:green;'>✅ Guild flag updated.</p>";
 }
 
-// Join Guild
-if (isset($_POST['join_guild']) && !$player_guild) {
-    $join_id = (int)$_POST['join_guild'];
-    $stmt = $conn->prepare("INSERT INTO guild_members (guild_id, player_id, role) VALUES (?, ?, 'member')");
-    $stmt->bind_param("ii", $join_id, $player_id);
-    $stmt->execute();
-    header("Location: guild.php");
-    exit;
-}
-
 // Leave Guild
 if (isset($_POST['leave']) && $player_guild) {
     $conn->query("DELETE FROM guild_members WHERE player_id = $player_id");
@@ -114,6 +104,45 @@ if (isset($_POST['withdraw_id']) && $player_guild) {
     exit;
 }
 
+// Handle join request
+if (isset($_POST['submit_join_request']) && !$player_guild) {
+    if (isset($_POST['submit_join_request']) && !$player_guild) {
+    $target_guild_id = (int)$_POST['request_guild_id'];
+    $message = trim($_POST['join_message']);
+
+    // Έλεγχος αν έχει ήδη στείλει αίτημα
+    $check = $conn->prepare("SELECT id FROM guild_join_requests WHERE player_id = ? AND guild_id = ? AND status = 'pending'");
+    $check->bind_param("ii", $player_id, $target_guild_id);
+    $check->execute();
+    $result = $check->get_result();
+    if ($result->num_rows > 0) {
+        echo "<p style='color:gray;'>You already have a pending request for this guild.</p>";
+    } else {
+        $stmt = $conn->prepare("INSERT INTO guild_join_requests (player_id, guild_id, message) VALUES (?, ?, ?)");
+        $stmt->bind_param("iis", $player_id, $target_guild_id, $message);
+        if ($stmt->execute()) {
+            echo "<p style='color:green;'>✅ Join request sent!</p>";
+        } else {
+            echo "<p style='color:red;'>❌ Failed to send request.</p>";
+        }
+    }
+}
+    $message = trim($_POST['join_message']);
+
+    // Prevent duplicates
+    $check = $conn->prepare("SELECT id FROM guild_join_requests WHERE player_id = ? AND guild_id = ? AND status = 'pending'");
+    $check->bind_param("ii", $player_id, $target_guild_id);
+    $check->execute();
+    $exists = $check->get_result()->num_rows > 0;
+
+    if (!$exists) {
+        $stmt = $conn->prepare("INSERT INTO guild_join_requests (player_id, guild_id, message) VALUES (?, ?, ?)");
+        $stmt->bind_param("iis", $player_id, $target_guild_id, $message);
+        $stmt->execute();
+        echo "<p style='color:green;'>✅ Request sent successfully!</p>";
+    }
+}
+
 // Guild Chat
 if (isset($_POST['send_guild_chat']) && $player_guild) {
     $message = trim($_POST['guild_message']);
@@ -131,12 +160,40 @@ if (isset($_POST['send_guild_chat']) && $player_guild) {
 
 <a href="guild_rankings.php">📈 View Guild Rankings</a>
 
+<?php if (!$player_guild && isset($_GET['id'])): ?>
+    <?php
+    $guild_id = (int)$_GET['id'];
+
+    // Check if player already has pending request
+    $stmt = $conn->prepare("SELECT * FROM guild_join_requests WHERE player_id = ? AND guild_id = ? AND status = 'pending'");
+    $stmt->bind_param("ii", $player_id, $guild_id);
+    $stmt->execute();
+    $has_request = $stmt->get_result()->num_rows > 0;
+
+    if (!$has_request):
+    ?>
+        <h3>📝 Request to Join This Guild</h3>
+        <form method="post">
+            <textarea name="join_message" rows="3" cols="40" placeholder="Write a message..."></textarea><br>
+            <input type="hidden" name="request_guild_id" value="<?= $guild_id ?>">
+            <button type="submit" name="submit_join_request">Send Request</button>
+        </form>
+    <?php else: ?>
+        <p style="color:gray;">You already have a pending request to join this guild.</p>
+    <?php endif; ?>
+<?php endif; ?>
+
 <?php if ($player_guild): ?>
     <p><strong>Guild:</strong> <?= htmlspecialchars($player_guild['name']) ?> [<?= htmlspecialchars($player_guild['tag']) ?>]</p>
     <?php if (!empty($player_guild['flag'])): ?>
         <p><img src="images/guild/flags/<?= htmlspecialchars($player_guild['flag']) ?>" width="64" alt="Flag"></p>
     <?php endif; ?>
     <p><strong>Your Role:</strong> <?= $player_guild['role'] ?></p>
+	
+	<?php if ($player_guild['role'] === 'leader'): ?>
+    <p><a href="guild_manage.php" style="color: #007bff;">⚙️ Manage Join Requests</a></p>
+<?php endif; ?>
+
     <p><strong>Description:</strong><br><?= nl2br(htmlspecialchars($player_guild['description'])) ?></p>
 
     <?php if ($player_guild['role'] === 'leader'): ?>
@@ -177,7 +234,9 @@ if (isset($_POST['send_guild_chat']) && $player_guild) {
     <form method="post">
         <button name="leave" onclick="return confirm('Are you sure you want to leave the guild?')">Leave Guild</button>
     </form>
-
+    <a href="alliance_list.php">📈 View Alliances List</a>
+    <a href="alliance_manage.php">📈 View Alliance</a>
+	
     <h3>👥 Members:</h3>
     <ul>
         <?php
@@ -197,18 +256,19 @@ if (isset($_POST['send_guild_chat']) && $player_guild) {
 
 <?php else: ?>
     <h3>Join a Guild</h3>
-    <form method="post">
-        <select name="join_guild" required>
-            <option value="">-- Select a Guild --</option>
-            <?php
-            $result = $conn->query("SELECT id, name, tag FROM guilds ORDER BY name ASC");
-            while ($row = $result->fetch_assoc()):
-            ?>
-                <option value="<?= $row['id'] ?>"><?= htmlspecialchars($row['name']) ?> [<?= htmlspecialchars($row['tag']) ?>]</option>
-            <?php endwhile; ?>
-        </select>
-        <button type="submit">Join Guild</button>
-    </form>
+<p>To join a guild, click on its name and send a request.</p>
+<ul>
+<?php
+$result = $conn->query("SELECT id, name, tag FROM guilds ORDER BY name ASC");
+while ($row = $result->fetch_assoc()):
+?>
+    <li>
+        <a href="guild.php?id=<?= $row['id'] ?>" style="color:#007bff;">
+            <?= htmlspecialchars($row['name']) ?> [<?= htmlspecialchars($row['tag']) ?>]
+        </a>
+    </li>
+<?php endwhile; ?>
+</ul>
 
     <h3>Create a Guild</h3>
     <form method="post">

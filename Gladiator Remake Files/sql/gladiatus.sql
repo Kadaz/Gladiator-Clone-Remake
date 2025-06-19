@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50718
 File Encoding         : 65001
 
-Date: 2025-06-17 01:36:54
+Date: 2025-06-20 00:36:24
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -35,6 +35,24 @@ CREATE TABLE `alliances` (
 -- ----------------------------
 INSERT INTO `alliances` VALUES ('4', 'test2', 'TEST2', 'test2', '2025-06-17 00:06:33', '1.png');
 INSERT INTO `alliances` VALUES ('5', 'test3', 'TEST3', 'test3', '2025-06-17 01:14:29', '5.png');
+
+-- ----------------------------
+-- Table structure for `alliance_join_requests`
+-- ----------------------------
+DROP TABLE IF EXISTS `alliance_join_requests`;
+CREATE TABLE `alliance_join_requests` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `guild_id` int(11) NOT NULL,
+  `alliance_id` int(11) NOT NULL,
+  `message` text,
+  `status` enum('pending','accepted','rejected') DEFAULT 'pending',
+  `requested_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of alliance_join_requests
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `alliance_members`
@@ -398,30 +416,31 @@ CREATE TABLE `chat_messages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `player_id` int(11) NOT NULL,
   `message` text NOT NULL,
-  `channel` enum('global','guild','alliance') DEFAULT 'global',
+  `channel` enum('global','guild','alliance','trade','whisper') DEFAULT 'global',
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `alliance_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `player_id` (`player_id`),
   CONSTRAINT `chat_messages_ibfk_1` FOREIGN KEY (`player_id`) REFERENCES `gracze` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of chat_messages
 -- ----------------------------
-INSERT INTO `chat_messages` VALUES ('1', '6', 'ηι', 'global', '2025-06-15 22:26:29', null);
-INSERT INTO `chat_messages` VALUES ('2', '6', 'γειαα', 'global', '2025-06-15 22:26:41', null);
-INSERT INTO `chat_messages` VALUES ('3', '6', 'hi', 'global', '2025-06-15 23:29:45', null);
-INSERT INTO `chat_messages` VALUES ('4', '6', 'hi all', 'global', '2025-06-15 23:34:00', null);
-INSERT INTO `chat_messages` VALUES ('5', '8', 'hi', 'global', '2025-06-15 23:43:58', null);
-INSERT INTO `chat_messages` VALUES ('10', '8', 'hg', 'global', '2025-06-16 15:30:47', null);
-INSERT INTO `chat_messages` VALUES ('11', '8', 'hgfd', 'global', '2025-06-16 15:31:18', null);
-INSERT INTO `chat_messages` VALUES ('12', '8', 'δφ', 'global', '2025-06-16 15:39:34', null);
-INSERT INTO `chat_messages` VALUES ('13', '8', 'εεεεεεε', 'global', '2025-06-16 15:42:11', null);
-INSERT INTO `chat_messages` VALUES ('14', '8', 'hg', 'global', '2025-06-16 15:44:38', null);
 INSERT INTO `chat_messages` VALUES ('15', '7', 'γγ', 'global', '2025-06-17 00:32:40', null);
 INSERT INTO `chat_messages` VALUES ('16', '7', 'κλ', 'guild', '2025-06-17 00:32:49', null);
 INSERT INTO `chat_messages` VALUES ('17', '6', 'nv', 'alliance', '2025-06-17 00:34:11', null);
+INSERT INTO `chat_messages` VALUES ('18', '6', 'hi', 'global', '2025-06-17 01:37:23', null);
+INSERT INTO `chat_messages` VALUES ('19', '9', 'ιθκ', 'global', '2025-06-20 00:25:37', null);
+INSERT INTO `chat_messages` VALUES ('20', '9', '/w test3 hi', 'global', '2025-06-20 00:27:13', null);
+INSERT INTO `chat_messages` VALUES ('21', '9', 'gfd', 'trade', '2025-06-20 00:30:53', null);
+INSERT INTO `chat_messages` VALUES ('22', '9', 'gfdg', 'global', '2025-06-20 00:31:00', null);
+INSERT INTO `chat_messages` VALUES ('23', '9', 'ggf', 'guild', '2025-06-20 00:31:07', null);
+INSERT INTO `chat_messages` VALUES ('24', '9', 'fgfg', 'alliance', '2025-06-20 00:31:12', null);
+INSERT INTO `chat_messages` VALUES ('25', '9', 'w/ test3 hi', 'global', '2025-06-20 00:31:50', null);
+INSERT INTO `chat_messages` VALUES ('26', '9', 'To [test3]: Γεια σου φιλαράκι!', 'whisper', '2025-06-20 00:34:06', '7');
+INSERT INTO `chat_messages` VALUES ('27', '7', 'γεφ', 'whisper', '2025-06-20 00:34:27', null);
+INSERT INTO `chat_messages` VALUES ('28', '7', 'To [test5]: Γεια σου φιλαράκι!', 'whisper', '2025-06-20 00:34:54', '9');
 
 -- ----------------------------
 -- Table structure for `enemies`
@@ -852,10 +871,10 @@ CREATE TABLE `gracze` (
 INSERT INTO `gracze` VALUES ('3', '1', 'tolis', 'e10adc3949ba59abbe56e057f20f883e', 'tolis@test1.com', '0', '3', 'dgfdg', 'gfdgfd', '1', '2', '148', '200', '0', '0', '9', '0', '0', '0', '0', '121', '15', '5', '10', '10', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '280', '100', '0', '2', '52', '0', '0', '0', '1747529809', '0', '1748220654', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1748220654', '0', '0', '0');
 INSERT INTO `gracze` VALUES ('4', '2', 'Kadaz', 'e10adc3949ba59abbe56e057f20f883e', 'solidus8422@gmail.com', '0', '1', 'tolis', 'tolis', '1', '1', '0', '10', '0', '0', '0', '3', '0', '0', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '100', '100', '0', '2', '120', '0', '0', '0', '0', '0', '1747529610', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1747529610', '0', '0', '0');
 INSERT INTO `gracze` VALUES ('5', '0', 'test', '25f9e794323b453885f5181f1b624d0b', 'test@gmail.com', '0', '1', 'test', 'test', '1', '1', '0', '10', '0', '0', '0', '2', '0', '0', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '100', '100', '0', '2', '130', '0', '0', '0', '0', '0', '0', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `gracze` VALUES ('6', '0', 'test2', 'ad0234829205b9033196ba818f7a872b', 'test2@gmail.com', '0', '1', 'test', 'test', '1', '5', '461', '500', '0', '0', '0', '1', '0', '0', '0', '19', '130', '0', '0', '2', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '130', '100', '0', '2', '1021889', '0', '0', '0', '0', '0', '1750112842', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1750112842', '0', '0', '1');
-INSERT INTO `gracze` VALUES ('7', '0', 'test3', '8ad8757baa8564dc136c1e07507f4a98', 'test3@gmail.com', '0', '1', 'test3', 'test3', '1', '86', '2198', '8600', '0', '0', '0', '0', '0', '0', '0', '0', '13', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '140', '100', '0', '2', '560', '0', '0', '0', '0', '0', '1750112853', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1750112853', '0', '0', '0');
+INSERT INTO `gracze` VALUES ('6', '0', 'test2', 'ad0234829205b9033196ba818f7a872b', 'test2@gmail.com', '0', '1', 'test', 'test', '1', '5', '471', '500', '0', '0', '1', '1', '0', '0', '0', '19', '130', '0', '0', '2', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '130', '100', '0', '2', '1021894', '0', '0', '0', '0', '0', '1750318174', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1750318174', '0', '0', '1');
+INSERT INTO `gracze` VALUES ('7', '0', 'test3', '8ad8757baa8564dc136c1e07507f4a98', 'test3@gmail.com', '0', '1', 'test3', 'test3', '1', '86', '2198', '8600', '0', '0', '0', '1', '0', '0', '0', '0', '13', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '140', '100', '0', '2', '560', '0', '0', '0', '1750181162', '0', '1750368824', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1750368824', '0', '0', '0');
 INSERT INTO `gracze` VALUES ('8', '0', 'test4', '86985e105f79b95d6bc918fb45ec7727', 'test4@gmail.com', '0', '3', 'test4', 'test4', '1', '7', '55', '700', '0', '0', '1', '4', '0', '0', '0', '2', '27', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '210', '100', '0', '2', '400', '0', '0', '0', '1747576645', '0', '1750106920', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1750106920', '0', '0', '0');
-INSERT INTO `gracze` VALUES ('9', '0', 'test5', 'e3d704f3542b44a621ebed70dc0efe13', 'test5@gmail.com', '0', '1', 'test5', 'test5', '1', '2', '6', '10', '0', '0', '0', '0', '0', '0', '0', '0', '19', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '170', '100', '0', '2', '457', '0', '0', '0', '0', '0', '1748180632', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1748180632', '0', '0', '0');
+INSERT INTO `gracze` VALUES ('9', '0', 'test5', 'e3d704f3542b44a621ebed70dc0efe13', 'test5@gmail.com', '0', '1', 'test5', 'test5', '1', '2', '6', '10', '0', '0', '0', '0', '0', '0', '0', '0', '19', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '170', '100', '0', '2', '457', '0', '0', '0', '0', '0', '1750368902', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1750368902', '0', '0', '0');
 
 -- ----------------------------
 -- Table structure for `guilds`
@@ -877,7 +896,7 @@ CREATE TABLE `guilds` (
 -- ----------------------------
 INSERT INTO `guilds` VALUES ('1', 'test', 'test', 'test the guild', '2025-05-24 20:56:28', null);
 INSERT INTO `guilds` VALUES ('2', 'test2', 'test2', 'test2', '2025-05-24 21:42:15', null);
-INSERT INTO `guilds` VALUES ('3', 'test3', 'test3', 'test3', '2025-05-24 23:43:42', '');
+INSERT INTO `guilds` VALUES ('3', 'test3', 'test3', 'test3', '2025-05-24 23:43:42', '1-14.png');
 INSERT INTO `guilds` VALUES ('4', 'test4', 'test4', 'test4', '2025-05-25 00:41:42', '1-6.png');
 
 -- ----------------------------
@@ -895,7 +914,7 @@ CREATE TABLE `guild_chat` (
   KEY `player_id` (`player_id`),
   CONSTRAINT `guild_chat_ibfk_1` FOREIGN KEY (`guild_id`) REFERENCES `guilds` (`id`) ON DELETE CASCADE,
   CONSTRAINT `guild_chat_ibfk_2` FOREIGN KEY (`player_id`) REFERENCES `gracze` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of guild_chat
@@ -907,6 +926,30 @@ INSERT INTO `guild_chat` VALUES ('4', '3', '7', 'gh', '2025-05-24 23:45:17');
 INSERT INTO `guild_chat` VALUES ('5', '4', '6', 'hg', '2025-05-25 01:15:33');
 INSERT INTO `guild_chat` VALUES ('6', '4', '8', 'hi ragezone', '2025-05-25 01:33:56');
 INSERT INTO `guild_chat` VALUES ('7', '4', '6', 'hi', '2025-06-02 20:13:36');
+INSERT INTO `guild_chat` VALUES ('8', '3', '6', 'jh', '2025-06-17 21:07:10');
+
+-- ----------------------------
+-- Table structure for `guild_join_requests`
+-- ----------------------------
+DROP TABLE IF EXISTS `guild_join_requests`;
+CREATE TABLE `guild_join_requests` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `player_id` int(11) NOT NULL,
+  `guild_id` int(11) NOT NULL,
+  `message` text,
+  `status` enum('pending','accepted','rejected') DEFAULT 'pending',
+  `requested_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of guild_join_requests
+-- ----------------------------
+INSERT INTO `guild_join_requests` VALUES ('1', '9', '3', 'plz can  i join', 'accepted', '2025-06-19 10:42:57');
+INSERT INTO `guild_join_requests` VALUES ('2', '9', '3', 'hi', 'rejected', '2025-06-19 10:45:20');
+INSERT INTO `guild_join_requests` VALUES ('3', '9', '3', 'hi', 'accepted', '2025-06-19 10:45:37');
+INSERT INTO `guild_join_requests` VALUES ('4', '9', '3', 'hi', 'rejected', '2025-06-19 10:46:16');
+INSERT INTO `guild_join_requests` VALUES ('5', '9', '3', 'hi', 'accepted', '2025-06-19 10:46:51');
 
 -- ----------------------------
 -- Table structure for `guild_members`
@@ -923,14 +966,15 @@ CREATE TABLE `guild_members` (
   KEY `player_id` (`player_id`),
   CONSTRAINT `guild_members_ibfk_1` FOREIGN KEY (`guild_id`) REFERENCES `guilds` (`id`) ON DELETE CASCADE,
   CONSTRAINT `guild_members_ibfk_2` FOREIGN KEY (`player_id`) REFERENCES `gracze` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of guild_members
 -- ----------------------------
 INSERT INTO `guild_members` VALUES ('7', '3', '7', 'leader', '2025-05-24 23:43:42');
-INSERT INTO `guild_members` VALUES ('8', '4', '6', 'leader', '2025-05-25 00:41:42');
 INSERT INTO `guild_members` VALUES ('10', '4', '8', 'member', '2025-05-25 01:17:38');
+INSERT INTO `guild_members` VALUES ('17', '3', '6', 'member', '2025-06-17 21:06:33');
+INSERT INTO `guild_members` VALUES ('23', '3', '9', 'member', '2025-06-19 10:47:00');
 
 -- ----------------------------
 -- Table structure for `guild_storage`
