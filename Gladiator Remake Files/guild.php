@@ -12,6 +12,33 @@ if (!isset($_SESSION['id'])) {
 
 $player_id = $_SESSION['id'];
 
+$stmt = $conn->prepare("SELECT g.*, gm.role FROM guild_members gm JOIN guilds g ON gm.guild_id = g.id WHERE gm.player_id = ?");
+$stmt->bind_param("i", $player_id);
+$stmt->execute();
+$guild_result = $stmt->get_result();
+$player_guild = $guild_result->fetch_assoc();
+$stmt->close();
+
+if (isset($_POST['edit_guild']) && $player_guild && $player_guild['role'] === 'leader') {
+    $new_name = trim($_POST['edit_name']);
+    $new_tag = trim($_POST['edit_tag']);
+    $new_desc = trim($_POST['edit_description']);
+
+    if ($new_name && $new_tag) {
+        $stmt = $conn->prepare("UPDATE guilds SET name = ?, tag = ?, description = ? WHERE id = ?");
+        $stmt->bind_param("sssi", $new_name, $new_tag, $new_desc, $player_guild['id']);
+        if ($stmt->execute()) {
+            echo "<p style='color:green;'>\u2705 Guild info updated.</p>";
+            $player_guild['name'] = $new_name;
+            $player_guild['tag'] = $new_tag;
+            $player_guild['description'] = $new_desc;
+        } else {
+            echo "<p style='color:red;'>\u274C Failed to update guild info.</p>";
+        }
+    } else {
+        echo "<p style='color:red;'>\u274C Name and Tag are required.</p>";
+    }
+}
 // Check if player is in a guild
 $stmt = $conn->prepare("
     SELECT g.*, gm.role 
@@ -23,6 +50,15 @@ $stmt->execute();
 $guild_result = $stmt->get_result();
 $player_guild = $guild_result->fetch_assoc();
 $stmt->close();
+
+// Leave alliance (only guild leader)
+if (isset($_POST['leave_alliance']) && $player_guild && $player_guild['role'] === 'leader') {
+    // Remove the guild from the alliance_members
+    $stmt = $conn->prepare("DELETE FROM alliance_members WHERE guild_id = ?");
+    $stmt->bind_param("i", $player_guild['id']);
+    $stmt->execute();
+    echo "<p style='color:green;'>✅ Your guild has left the alliance.</p>";
+}
 
 // Create Guild
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_guild']) && !$player_guild) {
@@ -214,23 +250,39 @@ if (isset($_POST['send_guild_chat']) && $player_guild) {
         </form>
     <?php endif; ?>
 
+<?php if ($player_guild['role'] === 'leader'): ?>
+    <h4>✍️ Edit Guild Info</h4>
+    <form method="post">
+        <label>New Name:<br><input type="text" name="edit_name" value="<?= htmlspecialchars($player_guild['name']) ?>" required></label><br><br>
+        <label>New Tag:<br><input type="text" name="edit_tag" value="<?= htmlspecialchars($player_guild['tag']) ?>" required></label><br><br>
+        <label>Description:<br><textarea name="edit_description" rows="4" cols="40"><?= htmlspecialchars($player_guild['description']) ?></textarea></label><br><br>
+        <button type="submit" name="edit_guild">Save Changes</button>
+    </form>
+<?php endif; ?>
+
 <?php
     // Check if the guild is already in an alliance
     $stmt = $conn->prepare("SELECT * FROM alliance_members WHERE guild_id = ?");
     $stmt->bind_param("i", $player_guild['id']);
     $stmt->execute();
     $is_in_alliance = $stmt->get_result()->num_rows > 0;
+?>
 
-    if (!$is_in_alliance):
-    ?>
-        <p>
-            <a href="alliance_create.php" style="display:inline-block; background:#007bff; color:white; padding:8px 12px; border-radius:6px; text-decoration:none;">
-                🛡️ Create Alliance
-            </a>
-        </p>
-    <?php else: ?>
-        <p><em>This guild is already part of an alliance.</em></p>
+<?php if (!$is_in_alliance): ?>
+    <p>
+        <a href="alliance_create.php" style="display:inline-block; background:#007bff; color:white; padding:8px 12px; border-radius:6px; text-decoration:none;">
+            🛡️ Create Alliance
+        </a>
+    </p>
+<?php else: ?>
+    <p><em>This guild is already part of an alliance.</em></p>
+
+    <?php if ($player_guild['role'] === 'leader'): ?>
+        <form method="post" onsubmit="return confirm('Are you sure you want to leave the alliance?');">
+            <button type="submit" name="leave_alliance" style="background: #dc3545; color: white; border: none; padding: 8px 12px; border-radius: 4px;">❌ Leave Alliance</button>
+        </form>
     <?php endif; ?>
+<?php endif; ?>
     <form method="post">
         <button name="leave" onclick="return confirm('Are you sure you want to leave the guild?')">Leave Guild</button>
     </form>
