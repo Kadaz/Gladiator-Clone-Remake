@@ -49,7 +49,7 @@ if ($last_fight_time > 0 && ($current_time - $last_fight_time) < $pvp_cooldown_s
 
 // Get all other players + guild + alliance info
 $stmt = $conn->prepare("
-    SELECT g.id, g.login, g.nivel, g.zloto, g.victorias, g.perdidas,
+    SELECT g.id, g.login, g.title, g.nivel, g.zloto, g.victorias, g.perdidas,
            gu.name AS guild_name, gu.id AS guild_id,
            al.name AS alliance_name, al.id AS alliance_id
     FROM gracze g
@@ -91,6 +91,9 @@ $result = $stmt->get_result();
         <td>
             <a href="player_profile.php?id=<?= $row['id'] ?>">
                 <?= htmlspecialchars($row['login']) ?>
+<?php if (!empty($row['title'])): ?>
+    <span style="font-size:12px; color:gray;"> - <?= htmlspecialchars($row['title']) ?></span>
+<?php endif; ?>
             </a>
         </td>
         <td><?= $row['nivel'] ?></td>

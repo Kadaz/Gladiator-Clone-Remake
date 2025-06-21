@@ -2,7 +2,8 @@
          if(empty($_SESSION['user'])){
              //menu niezalogowanego
              echo '             
-              <td valign="top" id="mainmenu">              
+              <td valign="top" id="mainmenu">
+                <a class = "menuitem_aktive" href="admin_panel.php" title="Index" target="_self">Admin</a>              
                  <a class = "menuitem_aktive" href="index.php" title="Index" target="_self">Index</a>
                  <a class = "menuitem_aktive" href="rejestracja.php" title="Register" target="_self">Register</a>
                  <a class = "menuitem_aktive" href="logowanie.php" title="Login" target="_self">Login</a>

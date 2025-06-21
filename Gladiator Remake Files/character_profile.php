@@ -12,7 +12,7 @@ if (!isset($_SESSION['id'])) {
 $player_id = $_SESSION['id'];
 
 // Fetch player data from 'gracze'
-$stmt = $conn->prepare("SELECT login, nivel, exp, exp_max, zloto, sila, obrona, zrecznosc, avatar FROM gracze WHERE id = ?");
+$stmt = $conn->prepare("SELECT login, nivel, exp, exp_max, zloto, sila, obrona, zrecznosc, avatar, title  FROM gracze WHERE id = ?");
 $stmt->bind_param("i", $player_id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -71,7 +71,12 @@ $total_zrecznosc = $player['zrecznosc'] + $bonus_zrecznosc;
 
 <h2>🧝 Character Profile</h2>
 <img src="<?= $avatar_img ?>" width="64" alt="Avatar"><br><br>
-<p><strong>Username:</strong> <?= htmlspecialchars($player['login']) ?></p>
+<p>
+    <strong>Username:</strong> <?= htmlspecialchars($player['login']) ?>
+    <?php if (!empty($player['title'])): ?>
+        <span style="color: darkblue; font-style: italic;">(<?= htmlspecialchars($player['title']) ?>)</span>
+    <?php endif; ?>
+</p>
 <p><strong>Level:</strong> <?= $player['nivel'] ?></p>
 <p><strong>Experience:</strong> <?= $player['exp'] ?> / <?= $player['exp_max'] ?></p>
 <p><strong>Gold:</strong> <?= $player['zloto'] ?></p>
