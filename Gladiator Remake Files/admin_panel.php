@@ -30,8 +30,10 @@ if (!$is_admin) {
 
 <ul style="line-height: 1.8;">
     <li><a href="admin_set_title.php">🎖️ Set Player Title</a></li>
-    <li><a href="#">🔒 Ban / Unban Players (coming soon)</a></li>
-    <li><a href="#">📜 View Logs (coming soon)</a></li>
-    <li><a href="#">⚙️ Server Config (coming soon)</a></li>
+    <li><a href="admin_ban_panel.php">🔒 Ban / Unban Players</a></li>
+    <li><a href="admin_log.php">📜 View Logs</a></li>
+	<li><a href="admin_delete_player.php">🗑️ Delete Players</a></li>
+	<li><a href="admin_edit_stats.php">🛠️ Edit Player Stats</a></li>
+    <li><a href="admin_config.php">⚙️ Game Settings</a></li>
     <li><a href="index.php">← Back to Dashboard</a></li>
 </ul>
