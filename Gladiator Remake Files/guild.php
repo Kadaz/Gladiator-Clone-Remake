@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once('maintenance_check.php');
 require 'db.php';
 require_once('var/ustawienia.php');
 require_once('gora_strony.php');

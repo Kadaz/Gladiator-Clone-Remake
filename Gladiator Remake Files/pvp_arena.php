@@ -5,6 +5,7 @@ body {
 </style>
 <?php
 session_start();
+require_once('maintenance_check.php');
 require 'db.php';
 require_once('var/ustawienia.php');
 require_once('gora_strony.php');
@@ -89,13 +90,14 @@ $result = $stmt->get_result();
     <?php while ($row = $result->fetch_assoc()): ?>
     <tr>
         <td>
-            <a href="player_profile.php?id=<?= $row['id'] ?>">
-                <?= htmlspecialchars($row['login']) ?>
-<?php if (!empty($row['title'])): ?>
-    <span style="font-size:12px; color:gray;"> - <?= htmlspecialchars($row['title']) ?></span>
-<?php endif; ?>
-            </a>
-        </td>
+    <a href="player_profile.php?id=<?= $row['id'] ?>">
+        <?= htmlspecialchars($row['login']) ?>
+        <?php if (!empty($row['title'])): ?>
+            <span style="font-size:12px; color:gray;"> - <?= htmlspecialchars($row['title']) ?></span>
+        <?php endif; ?>
+    </a><br>
+    <a href="report_player.php?id=<?= $row['id'] ?>" style="font-size:11px; color:red;">🚨 Report</a>
+    </td>
         <td><?= $row['nivel'] ?></td>
         <td><?= $row['zloto'] ?></td>
         <td><?= $row['victorias'] ?></td>
