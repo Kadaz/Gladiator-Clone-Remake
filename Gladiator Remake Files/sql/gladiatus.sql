@@ -10,10 +10,40 @@ Target Server Type    : MYSQL
 Target Server Version : 50718
 File Encoding         : 65001
 
-Date: 2025-06-24 15:45:31
+Date: 2025-07-02 01:40:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `achievements`
+-- ----------------------------
+DROP TABLE IF EXISTS `achievements`;
+CREATE TABLE `achievements` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `description` text,
+  `type` varchar(50) NOT NULL,
+  `target` int(11) NOT NULL,
+  `title_reward` varchar(50) DEFAULT NULL,
+  `image` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of achievements
+-- ----------------------------
+INSERT INTO `achievements` VALUES ('1', 'Veteran Warrior', 'Win 10 PvP fights', 'pvp_wins', '10', 'Veteran', 'pvp_wins.png');
+INSERT INTO `achievements` VALUES ('2', 'First Blood', 'Win your first PvP battle.', 'pvp_wins', '1', 'Rookie Slayer', 'first_blood.png');
+INSERT INTO `achievements` VALUES ('3', 'Veteran Fighter', 'Win 10 PvP battles.', 'pvp_wins', '10', 'Warrior', 'veteran_fighter.png');
+INSERT INTO `achievements` VALUES ('4', 'Arena Champion', 'Win 100 PvP battles.', 'pvp_wins', '100', 'Arena Champion', 'champion.png');
+INSERT INTO `achievements` VALUES ('5', 'Explorer', 'Complete your first quest.', 'quests_completed', '1', 'Pathfinder', 'explorer.png');
+INSERT INTO `achievements` VALUES ('6', 'Adventurer', 'Complete 10 quests.', 'quests_completed', '10', 'Adventurer', 'adventurer.png');
+INSERT INTO `achievements` VALUES ('7', 'Legendary Hero', 'Complete 100 quests.', 'quests_completed', '100', 'Legend', 'legendary.png');
+INSERT INTO `achievements` VALUES ('8', 'Apprentice', 'Reach level 5.', 'level_reached', '5', 'Apprentice', 'apprentice.png');
+INSERT INTO `achievements` VALUES ('9', 'Master', 'Reach level 15.', 'level_reached', '15', 'Master', 'master.png');
+INSERT INTO `achievements` VALUES ('10', 'Collector', 'Donate 10 items to your guild.', 'items_donated', '10', 'Guild Supporter', 'collector.png');
+INSERT INTO `achievements` VALUES ('11', 'Loyal Member', 'Stay in a guild for 7 days.', 'guild_days', '7', 'Loyal', 'loyal.png');
 
 -- ----------------------------
 -- Table structure for `alliances`
@@ -875,12 +905,12 @@ CREATE TABLE `gracze` (
 -- Records of gracze
 -- ----------------------------
 INSERT INTO `gracze` VALUES ('3', '1', 'tolis', 'e10adc3949ba59abbe56e057f20f883e', 'tolis@test1.com', '0', '3', 'dgfdg', 'gfdgfd', '1', '2', '148', '200', '0', '0', '9', '0', '0', '0', '0', '121', '15', '5', '10', '10', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '280', '100', '0', '2', '52', '0', '0', '0', '1747529809', '0', '1748220654', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1748220654', '0', '0', '0', null, '0');
-INSERT INTO `gracze` VALUES ('4', '2', 'Kadaz', 'e10adc3949ba59abbe56e057f20f883e', 'solidus8422@gmail.com', '0', '1', 'tolis', 'tolis', '1', '1', '0', '10', '0', '0', '0', '3', '0', '0', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '100', '100', '0', '2', '120', '0', '0', '0', '0', '0', '1747529610', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1747529610', '0', '0', '0', 'Warrior', '0');
+INSERT INTO `gracze` VALUES ('4', '2', 'Kadaz', 'e10adc3949ba59abbe56e057f20f883e', 'solidus8422@gmail.com', '0', '1', 'tolis', 'tolis', '1', '1', '0', '10', '0', '0', '0', '4', '0', '0', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '100', '100', '0', '2', '110', '0', '0', '0', '0', '0', '1747529610', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1747529610', '0', '0', '0', 'Warrior', '0');
 INSERT INTO `gracze` VALUES ('5', '0', 'test', '25f9e794323b453885f5181f1b624d0b', 'test@gmail.com', '0', '1', 'test', 'test', '1', '1', '0', '10', '0', '0', '0', '2', '0', '0', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '100', '100', '0', '2', '130', '0', '0', '0', '0', '0', '0', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', null, '0');
-INSERT INTO `gracze` VALUES ('6', '0', 'test2', 'ad0234829205b9033196ba818f7a872b', 'test2@gmail.com', '0', '1', 'test', 'test', '1', '15', '100', '600', '0', '0', '1', '1', '0', '0', '0', '19', '132', '0', '0', '2', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '140', '100', '0', '2', '1000000', '0', '0', '0', '0', '0', '1750768951', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1750768951', '0', '0', '1', null, '0');
+INSERT INTO `gracze` VALUES ('6', '0', 'test2', 'ad0234829205b9033196ba818f7a872b', 'test2@gmail.com', '0', '1', 'test', 'test', '1', '15', '100', '600', '0', '0', '1', '1', '0', '0', '0', '19', '132', '0', '0', '2', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '140', '100', '0', '2', '1000000', '0', '0', '0', '0', '0', '1751407606', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1751407606', '0', '0', '1', null, '0');
 INSERT INTO `gracze` VALUES ('7', '0', 'test3', '8ad8757baa8564dc136c1e07507f4a98', 'test3@gmail.com', '0', '1', 'test3', 'test3', '1', '86', '2198', '8600', '0', '0', '0', '1', '0', '0', '0', '0', '13', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '140', '100', '0', '2', '560', '0', '0', '0', '1750181162', '0', '1750450079', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1750450079', '0', '0', '0', null, '0');
-INSERT INTO `gracze` VALUES ('8', '0', 'test4', '86985e105f79b95d6bc918fb45ec7727', 'test4@gmail.com', '0', '3', 'test4', 'test4', '1', '7', '55', '700', '0', '0', '1', '4', '0', '0', '0', '2', '27', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '210', '100', '0', '2', '400', '0', '0', '0', '1747576645', '0', '1750768391', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1750768391', '0', '0', '0', null, '0');
-INSERT INTO `gracze` VALUES ('9', '0', 'test5', 'e3d704f3542b44a621ebed70dc0efe13', 'test5@gmail.com', '0', '1', 'test5', 'test5', '1', '2', '6', '10', '0', '0', '0', '0', '0', '0', '0', '0', '19', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '170', '100', '0', '2', '457', '0', '0', '0', '0', '0', '1750703548', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1750703548', '0', '0', '0', 'Duel Master', '0');
+INSERT INTO `gracze` VALUES ('8', '0', 'test4', '86985e105f79b95d6bc918fb45ec7727', 'test4@gmail.com', '0', '3', 'test4', 'test4', '1', '7', '65', '700', '0', '0', '2', '4', '0', '0', '0', '2', '27', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '210', '100', '0', '2', '405', '0', '0', '0', '1747576645', '0', '1750768391', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1750768391', '0', '0', '0', null, '0');
+INSERT INTO `gracze` VALUES ('9', '0', 'test5', 'e3d704f3542b44a621ebed70dc0efe13', 'test5@gmail.com', '0', '1', 'test5', 'test5', '1', '2', '26', '10', '0', '0', '1', '1', '0', '0', '0', '0', '19', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '170', '100', '0', '2', '467', '0', '0', '0', '1751409533', '0', '1751409594', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1751409594', '0', '0', '0', 'Pathfinder', '0');
 
 -- ----------------------------
 -- Table structure for `guilds`
@@ -1977,7 +2007,7 @@ CREATE TABLE `logs` (
   `details` text,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of logs
@@ -1986,6 +2016,8 @@ INSERT INTO `logs` VALUES ('1', '6', 'ban', 'Banned player ID 3', '2025-06-24 00
 INSERT INTO `logs` VALUES ('2', '6', 'unban', 'Unbanned player ID 3', '2025-06-24 00:56:22');
 INSERT INTO `logs` VALUES ('3', '6', 'delete_player', 'Deleted player: test6 (ID 10)', '2025-06-24 01:06:32');
 INSERT INTO `logs` VALUES ('4', '6', 'edit_stats', 'Changed stats of player ID 6 to Gold: 1000000, Level: 15, Exp: 100', '2025-06-24 01:12:31');
+INSERT INTO `logs` VALUES ('5', '9', 'achievement_unlocked', 'Unlocked achievement ID: 5', '2025-07-02 01:38:53');
+INSERT INTO `logs` VALUES ('6', '9', 'achievement_unlocked', 'Unlocked achievement ID: 6', '2025-07-02 01:38:53');
 
 -- ----------------------------
 -- Table structure for `mensajes`
@@ -2071,6 +2103,27 @@ CREATE TABLE `players` (
 -- Records of players
 -- ----------------------------
 INSERT INTO `players` VALUES ('1', '3', 'Tolis', '10', '10', '100', null, null, '1', '2025-05-15 15:42:11');
+
+-- ----------------------------
+-- Table structure for `player_achievements`
+-- ----------------------------
+DROP TABLE IF EXISTS `player_achievements`;
+CREATE TABLE `player_achievements` (
+  `player_id` int(11) NOT NULL,
+  `achievement_id` int(11) NOT NULL,
+  `unlocked_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`player_id`,`achievement_id`),
+  KEY `achievement_id` (`achievement_id`),
+  CONSTRAINT `player_achievements_ibfk_1` FOREIGN KEY (`player_id`) REFERENCES `gracze` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `player_achievements_ibfk_2` FOREIGN KEY (`achievement_id`) REFERENCES `achievements` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of player_achievements
+-- ----------------------------
+INSERT INTO `player_achievements` VALUES ('9', '1', '2025-07-02 01:07:29');
+INSERT INTO `player_achievements` VALUES ('9', '5', '2025-07-02 01:38:53');
+INSERT INTO `player_achievements` VALUES ('9', '6', '2025-07-02 01:38:53');
 
 -- ----------------------------
 -- Table structure for `player_items`

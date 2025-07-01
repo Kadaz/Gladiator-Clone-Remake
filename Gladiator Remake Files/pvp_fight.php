@@ -75,6 +75,8 @@ $update_stmt->close();
 // Update stats (optional)
 if ($winner === $player['login']) {
     mysqli_query($conn, "UPDATE gracze SET victorias = victorias + 1, zloto = zloto + 10, exp = exp + 20 WHERE id = $player_id");
+	require_once 'achievements_check.php';
+    check_achievements_for_player($player_id);
     mysqli_query($conn, "UPDATE gracze SET perdidas = perdidas + 1, zloto = GREATEST(0, zloto - 10) WHERE id = $enemy_id");
     $log[] = "<br><strong>🎉 You defeated {$enemy['login']}! You gained 10 gold and 20 XP.</strong>";
 } else {

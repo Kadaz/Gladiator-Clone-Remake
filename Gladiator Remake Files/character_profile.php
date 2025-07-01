@@ -77,6 +77,7 @@ $total_zrecznosc = $player['zrecznosc'] + $bonus_zrecznosc;
         <span style="color: darkblue; font-style: italic;">(<?= htmlspecialchars($player['title']) ?>)</span>
     <?php endif; ?>
 </p>
+<a href="player_titles.php" style="display:inline-block; background:#007bff; color:white; padding:6px 12px; border-radius:5px; text-decoration:none;">🎖️ Change Title</a>
 <p><strong>Level:</strong> <?= $player['nivel'] ?></p>
 <p><strong>Experience:</strong> <?= $player['exp'] ?> / <?= $player['exp_max'] ?></p>
 <p><strong>Gold:</strong> <?= $player['zloto'] ?></p>
