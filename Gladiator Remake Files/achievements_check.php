@@ -35,14 +35,12 @@ function check_achievements_for_player($player_id) {
         unlock_achievement($conn, $player_id, 1); // Adjust ID to match database
     }
 
-    // Achievement: Reach level 10
-    if ($player['nivel'] >= 10) {
-        unlock_achievement($conn, $player_id, 2);
+    // Level-based achievements
+    if ($player['nivel'] >= 5) {
+    unlock_achievement($conn, $player_id, 6); // Apprentice
     }
-
-    // Achievement: Reach level 15
     if ($player['nivel'] >= 15) {
-        unlock_achievement($conn, $player_id, 3);
+    unlock_achievement($conn, $player_id, 8); // Master
     }
 
     // Achievement: Lose 10 fights (for fun)

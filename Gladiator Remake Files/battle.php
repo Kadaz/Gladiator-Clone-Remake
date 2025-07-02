@@ -255,6 +255,9 @@ if (!$enemy_stunned && $enemy_hp - $player_damage > 0) {
         $stmt->bind_param("iiiiiii", $new_exp, $new_lvl, $new_exp_max, $gold, $new_hp, $new_str, $player_id);
         $stmt->execute();
         $_SESSION['reward_given'] = true;
+		// 🔓 Check for new achievements after rewards
+        require_once 'achievements_check.php';
+        check_achievements_for_player($player_id);
 
         // Victory message (added to log, not session directly)
         $log[] = "<span class='log-reward' data-sound='victory'>🏆 Victory! +$xp XP, +$gold gold.</span>";

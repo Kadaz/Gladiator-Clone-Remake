@@ -84,6 +84,8 @@ if ($winner === $player['login']) {
     mysqli_query($conn, "UPDATE gracze SET victorias = victorias + 1, zloto = zloto + 5, exp = exp + 10 WHERE id = $enemy_id");
     $log[] = "<br><strong>💀 You were defeated by {$enemy['login']}.</strong>";
 }
+require_once 'achievements_check.php';
+check_achievements_for_player($player_id);
 ?>
 
 <h2>⚔️ PvP Battle Result</h2>
