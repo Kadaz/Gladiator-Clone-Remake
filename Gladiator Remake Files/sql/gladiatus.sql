@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50718
 File Encoding         : 65001
 
-Date: 2025-07-02 01:40:46
+Date: 2025-07-04 00:44:19
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -23,27 +23,67 @@ CREATE TABLE `achievements` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `description` text,
+  `condition_text` text,
   `type` varchar(50) NOT NULL,
   `target` int(11) NOT NULL,
   `title_reward` varchar(50) DEFAULT NULL,
   `image` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of achievements
 -- ----------------------------
-INSERT INTO `achievements` VALUES ('1', 'Veteran Warrior', 'Win 10 PvP fights', 'pvp_wins', '10', 'Veteran', 'pvp_wins.png');
-INSERT INTO `achievements` VALUES ('2', 'First Blood', 'Win your first PvP battle.', 'pvp_wins', '1', 'Rookie Slayer', 'first_blood.png');
-INSERT INTO `achievements` VALUES ('3', 'Veteran Fighter', 'Win 10 PvP battles.', 'pvp_wins', '10', 'Warrior', 'veteran_fighter.png');
-INSERT INTO `achievements` VALUES ('4', 'Arena Champion', 'Win 100 PvP battles.', 'pvp_wins', '100', 'Arena Champion', 'champion.png');
-INSERT INTO `achievements` VALUES ('5', 'Explorer', 'Complete your first quest.', 'quests_completed', '1', 'Pathfinder', 'explorer.png');
-INSERT INTO `achievements` VALUES ('6', 'Adventurer', 'Complete 10 quests.', 'quests_completed', '10', 'Adventurer', 'adventurer.png');
-INSERT INTO `achievements` VALUES ('7', 'Legendary Hero', 'Complete 100 quests.', 'quests_completed', '100', 'Legend', 'legendary.png');
-INSERT INTO `achievements` VALUES ('8', 'Apprentice', 'Reach level 5.', 'level_reached', '5', 'Apprentice', 'apprentice.png');
-INSERT INTO `achievements` VALUES ('9', 'Master', 'Reach level 15.', 'level_reached', '15', 'Master', 'master.png');
-INSERT INTO `achievements` VALUES ('10', 'Collector', 'Donate 10 items to your guild.', 'items_donated', '10', 'Guild Supporter', 'collector.png');
-INSERT INTO `achievements` VALUES ('11', 'Loyal Member', 'Stay in a guild for 7 days.', 'guild_days', '7', 'Loyal', 'loyal.png');
+INSERT INTO `achievements` VALUES ('1', 'Veteran Warrior', 'Win 10 PvP fights', null, 'pvp_wins', '10', 'Veteran', 'pvp_wins.png');
+INSERT INTO `achievements` VALUES ('2', 'First Blood', 'Win your first PvP battle.', null, 'pvp_wins', '1', 'Rookie Slayer', 'first_blood.png');
+INSERT INTO `achievements` VALUES ('3', 'Veteran Fighter', 'Win 10 PvP battles.', null, 'pvp_wins', '10', 'Warrior', 'veteran_fighter.png');
+INSERT INTO `achievements` VALUES ('4', 'Arena Champion', 'Win 100 PvP battles.', null, 'pvp_wins', '100', 'Arena Champion', 'champion.png');
+INSERT INTO `achievements` VALUES ('5', 'Explorer', 'Complete your first quest.', null, 'quests_completed', '1', 'Pathfinder', 'explorer.png');
+INSERT INTO `achievements` VALUES ('6', 'Adventurer', 'Complete 10 quests.', null, 'quests_completed', '10', 'Adventurer', 'adventurer.png');
+INSERT INTO `achievements` VALUES ('7', 'Legendary Hero', 'Complete 100 quests.', null, 'quests_completed', '100', 'Legend', 'legendary.png');
+INSERT INTO `achievements` VALUES ('8', 'Apprentice', 'Reach level 5.', null, 'level_reached', '5', 'Apprentice', 'apprentice.png');
+INSERT INTO `achievements` VALUES ('9', 'Master', 'Reach level 15.', null, 'level_reached', '15', 'Master', 'master.png');
+INSERT INTO `achievements` VALUES ('10', 'Collector', 'Donate 10 items to your guild.', null, 'items_donated', '10', 'Guild Supporter', 'collector.png');
+INSERT INTO `achievements` VALUES ('11', 'Loyal Member', 'Stay in a guild for 7 days.', null, 'guild_days', '7', 'Loyal', 'loyal.png');
+INSERT INTO `achievements` VALUES ('12', 'Novice Fighter', 'Win 1 PvP battle.', 'Win 1 PvP battle', 'pvp_wins', '1', 'The Brave', 'pvp1.png');
+INSERT INTO `achievements` VALUES ('13', 'Skilled Fighter', 'Win 10 PvP battles.', 'Win 10 PvP battles', 'pvp_wins', '10', 'The Fierce', 'pvp10.png');
+INSERT INTO `achievements` VALUES ('14', 'Warlord', 'Win 50 PvP battles.', 'Win 50 PvP battles', 'pvp_wins', '50', 'The Warlord', 'pvp50.png');
+INSERT INTO `achievements` VALUES ('15', 'Loser?', 'Lose 10 PvP battles.', 'Lose 10 PvP battles', 'pvp_losses', '10', 'The Unlucky', 'loss10.png');
+INSERT INTO `achievements` VALUES ('16', 'Level Up!', 'Reach level 5.', 'Reach level 5', 'level', '5', 'The Beginner', 'level5.png');
+INSERT INTO `achievements` VALUES ('17', 'Getting Stronger', 'Reach level 10.', 'Reach level 10', 'level', '10', 'The Tough', 'level10.png');
+INSERT INTO `achievements` VALUES ('18', 'Heroic', 'Reach level 15.', 'Reach level 15', 'level', '15', 'The Heroic', 'level15.png');
+INSERT INTO `achievements` VALUES ('19', 'Quest Initiate', 'Complete your first quest.', 'Complete 1 quest', 'quests_completed', '1', 'The Seeker', 'quest1.png');
+INSERT INTO `achievements` VALUES ('20', 'Quest Veteran', 'Complete 10 quests.', 'Complete 10 quests', 'quests_completed', '10', 'The Adventurer', 'quest10.png');
+INSERT INTO `achievements` VALUES ('21', 'Guild Member', 'Join a guild.', 'Be a member of any guild', 'joined_guild', '1', 'The United', 'guild1.png');
+INSERT INTO `achievements` VALUES ('22', 'Guild Leader', 'Become a guild leader.', 'Be promoted to guild leader', 'guild_leader', '1', 'The Commander', 'guild_leader.png');
+INSERT INTO `achievements` VALUES ('23', 'Alliance Maker', 'Join an alliance.', 'Be in a guild that is part of an alliance', 'in_alliance', '1', 'The Allied', 'alliance1.png');
+INSERT INTO `achievements` VALUES ('24', 'First Blood', 'Win your first arena battle.', 'Win 1 PvP battle (arena)', 'pvp_wins', '1', 'The Duelist', 'firstblood.png');
+INSERT INTO `achievements` VALUES ('25', 'Socializer', 'Send 10 private messages.', 'Send 10 private messages to other players', 'whispers_sent', '10', 'The Social', 'social10.png');
+INSERT INTO `achievements` VALUES ('26', 'Quest Initiate', 'Complete your first quest.', 'Complete 1 quest', 'quests_completed', '1', 'The Seeker', 'quest1.png');
+INSERT INTO `achievements` VALUES ('27', 'Quest Veteran', 'Complete 10 quests.', 'Complete 10 quests', 'quests_completed', '10', 'The Adventurer', 'quest10.png');
+INSERT INTO `achievements` VALUES ('28', 'Guild Member', 'Join a guild.', 'Be a member of any guild', 'joined_guild', '1', 'The United', 'guild1.png');
+INSERT INTO `achievements` VALUES ('29', 'Guild Leader', 'Become a guild leader.', 'Be promoted to guild leader', 'guild_leader', '1', 'The Commander', 'guild_leader.png');
+INSERT INTO `achievements` VALUES ('30', 'Alliance Maker', 'Join an alliance.', 'Be in a guild that is part of an alliance', 'in_alliance', '1', 'The Allied', 'alliance1.png');
+INSERT INTO `achievements` VALUES ('31', 'First Blood', 'Win your first arena battle.', 'Win 1 PvP battle (arena)', 'pvp_wins', '1', 'The Duelist', 'firstblood.png');
+INSERT INTO `achievements` VALUES ('32', 'Socializer', 'Send 10 private messages.', 'Send 10 private messages to other players', 'whispers_sent', '10', 'The Social', 'social10.png');
+INSERT INTO `achievements` VALUES ('33', 'Skillful Striker', 'Use skills 10 times in combat.', 'Use any skill 10 times', 'skills_used', '10', 'The Skilled', 'skill10.png');
+INSERT INTO `achievements` VALUES ('34', 'Tactical Master', 'Use 50 skills in total.', 'Use 50 skills in total', 'skills_used', '50', 'The Strategist', 'skill50.png');
+INSERT INTO `achievements` VALUES ('35', 'Potion Apprentice', 'Use your first potion in battle.', 'Use 1 potion', 'potions_used', '1', 'The Alchemist', 'potion1.png');
+INSERT INTO `achievements` VALUES ('36', 'Elixir Enthusiast', 'Use 20 potions.', 'Use 20 potions', 'potions_used', '20', 'The Brewmaster', 'potion20.png');
+INSERT INTO `achievements` VALUES ('37', 'Arena Challenger', 'Participate in 10 PvP fights.', 'Participate in 10 PvP battles', 'pvp_fights', '10', 'The Challenger', 'arena10.png');
+INSERT INTO `achievements` VALUES ('38', 'Arena Champion', 'Win 50 PvP fights.', 'Win 50 PvP battles', 'pvp_wins', '50', 'The Champion', 'arena50.png');
+INSERT INTO `achievements` VALUES ('39', 'Quest Hunter', 'Complete 25 quests.', 'Complete 25 quests', 'quests_completed', '25', 'The Pathfinder', 'quest25.png');
+INSERT INTO `achievements` VALUES ('40', 'Lucky Drop', 'Receive your first item from a quest.', 'Receive an item as quest reward', 'quest_item_reward', '1', 'The Fortunate', 'item1.png');
+INSERT INTO `achievements` VALUES ('41', 'Gold Digger', 'Earn 1000 gold in total.', 'Earn 1,000 gold', 'gold_earned', '1000', 'The Wealthy', 'gold1000.png');
+INSERT INTO `achievements` VALUES ('42', 'Skillful Striker', 'Use skills 10 times in combat.', null, 'skills_used', '10', 'The Skilled', 'skill10.png');
+INSERT INTO `achievements` VALUES ('43', 'Tactical Master', 'Use 50 skills in total.', null, 'skills_used', '50', 'The Strategist', 'skill50.png');
+INSERT INTO `achievements` VALUES ('44', 'Potion Apprentice', 'Use your first potion in battle.', null, 'potions_used', '1', 'The Alchemist', 'potion1.png');
+INSERT INTO `achievements` VALUES ('45', 'Elixir Enthusiast', 'Use 20 potions.', null, 'potions_used', '20', 'The Brewmaster', 'potion20.png');
+INSERT INTO `achievements` VALUES ('46', 'Arena Challenger', 'Participate in 10 PvP fights.', null, 'pvp_fights', '10', 'The Challenger', 'arena10.png');
+INSERT INTO `achievements` VALUES ('47', 'Arena Champion', 'Win 50 PvP fights.', null, 'pvp_wins', '50', 'The Champion', 'arena50.png');
+INSERT INTO `achievements` VALUES ('48', 'Quest Hunter', 'Complete 25 quests.', null, 'quests_completed', '25', 'The Pathfinder', 'quest25.png');
+INSERT INTO `achievements` VALUES ('49', 'Lucky Drop', 'Receive your first item from a quest.', null, 'quest_item_reward', '1', 'The Fortunate', 'item1.png');
+INSERT INTO `achievements` VALUES ('50', 'Gold Digger', 'Earn 1000 gold in total.', null, 'gold_earned', '1000', 'The Wealthy', 'gold1000.png');
 
 -- ----------------------------
 -- Table structure for `alliances`
@@ -122,7 +162,7 @@ CREATE TABLE `battle_logs` (
   PRIMARY KEY (`id`),
   KEY `player_id` (`player_id`),
   CONSTRAINT `battle_logs_ibfk_1` FOREIGN KEY (`player_id`) REFERENCES `gracze` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=297 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=299 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of battle_logs
@@ -423,6 +463,8 @@ INSERT INTO `battle_logs` VALUES ('293', '6', '2025-06-02 20:14:06', 'normal', '
 INSERT INTO `battle_logs` VALUES ('294', '6', '2025-06-02 20:14:12', 'normal', 'arena');
 INSERT INTO `battle_logs` VALUES ('295', '6', '2025-06-21 22:29:50', 'normal', 'arena');
 INSERT INTO `battle_logs` VALUES ('296', '6', '2025-06-21 22:29:56', 'normal', 'arena');
+INSERT INTO `battle_logs` VALUES ('297', '6', '2025-07-03 00:44:11', 'normal', 'arena');
+INSERT INTO `battle_logs` VALUES ('298', '6', '2025-07-03 00:44:20', 'normal', 'arena');
 
 -- ----------------------------
 -- Table structure for `br`
@@ -904,13 +946,13 @@ CREATE TABLE `gracze` (
 -- ----------------------------
 -- Records of gracze
 -- ----------------------------
-INSERT INTO `gracze` VALUES ('3', '1', 'tolis', 'e10adc3949ba59abbe56e057f20f883e', 'tolis@test1.com', '0', '3', 'dgfdg', 'gfdgfd', '1', '2', '148', '200', '0', '0', '9', '0', '0', '0', '0', '121', '15', '5', '10', '10', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '280', '100', '0', '2', '52', '0', '0', '0', '1747529809', '0', '1748220654', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1748220654', '0', '0', '0', null, '0');
+INSERT INTO `gracze` VALUES ('3', '1', 'tolis', 'e10adc3949ba59abbe56e057f20f883e', 'tolis@test1.com', '0', '3', 'dgfdg', 'gfdgfd', '1', '2', '148', '200', '0', '0', '9', '1', '0', '0', '0', '121', '15', '5', '10', '10', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '280', '100', '0', '2', '42', '0', '0', '0', '1747529809', '0', '1748220654', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1748220654', '0', '0', '0', null, '0');
 INSERT INTO `gracze` VALUES ('4', '2', 'Kadaz', 'e10adc3949ba59abbe56e057f20f883e', 'solidus8422@gmail.com', '0', '1', 'tolis', 'tolis', '1', '1', '0', '10', '0', '0', '0', '4', '0', '0', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '100', '100', '0', '2', '110', '0', '0', '0', '0', '0', '1747529610', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1747529610', '0', '0', '0', 'Warrior', '0');
 INSERT INTO `gracze` VALUES ('5', '0', 'test', '25f9e794323b453885f5181f1b624d0b', 'test@gmail.com', '0', '1', 'test', 'test', '1', '1', '0', '10', '0', '0', '0', '2', '0', '0', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '100', '100', '0', '2', '130', '0', '0', '0', '0', '0', '0', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', null, '0');
-INSERT INTO `gracze` VALUES ('6', '0', 'test2', 'ad0234829205b9033196ba818f7a872b', 'test2@gmail.com', '0', '1', 'test', 'test', '1', '15', '100', '600', '0', '0', '1', '1', '0', '0', '0', '19', '132', '0', '0', '2', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '140', '100', '0', '2', '1000000', '0', '0', '0', '0', '0', '1751407606', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1751407606', '0', '0', '1', null, '0');
+INSERT INTO `gracze` VALUES ('6', '0', 'test2', 'ad0234829205b9033196ba818f7a872b', 'test2@gmail.com', '0', '1', 'test', 'test', '1', '15', '170', '1500', '0', '0', '2', '1', '0', '0', '0', '19', '132', '0', '0', '2', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '140', '100', '0', '2', '1000035', '0', '0', '0', '1751492698', '0', '1751573258', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1751573258', '0', '0', '1', null, '0');
 INSERT INTO `gracze` VALUES ('7', '0', 'test3', '8ad8757baa8564dc136c1e07507f4a98', 'test3@gmail.com', '0', '1', 'test3', 'test3', '1', '86', '2198', '8600', '0', '0', '0', '1', '0', '0', '0', '0', '13', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '140', '100', '0', '2', '560', '0', '0', '0', '1750181162', '0', '1750450079', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1750450079', '0', '0', '0', null, '0');
 INSERT INTO `gracze` VALUES ('8', '0', 'test4', '86985e105f79b95d6bc918fb45ec7727', 'test4@gmail.com', '0', '3', 'test4', 'test4', '1', '7', '65', '700', '0', '0', '2', '4', '0', '0', '0', '2', '27', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '210', '100', '0', '2', '405', '0', '0', '0', '1747576645', '0', '1750768391', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1750768391', '0', '0', '0', null, '0');
-INSERT INTO `gracze` VALUES ('9', '0', 'test5', 'e3d704f3542b44a621ebed70dc0efe13', 'test5@gmail.com', '0', '1', 'test5', 'test5', '1', '2', '26', '10', '0', '0', '1', '1', '0', '0', '0', '0', '19', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '170', '100', '0', '2', '467', '0', '0', '0', '1751409533', '0', '1751409594', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1751409594', '0', '0', '0', 'Pathfinder', '0');
+INSERT INTO `gracze` VALUES ('9', '0', 'test5', 'e3d704f3542b44a621ebed70dc0efe13', 'test5@gmail.com', '0', '1', 'test5', 'test5', '1', '2', '26', '10', '0', '0', '1', '1', '0', '0', '0', '0', '19', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '170', '100', '0', '2', '467', '0', '0', '0', '1751409533', '0', '1751552806', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1751552806', '0', '0', '0', 'Pathfinder', '0');
 
 -- ----------------------------
 -- Table structure for `guilds`
@@ -2007,7 +2049,7 @@ CREATE TABLE `logs` (
   `details` text,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of logs
@@ -2018,6 +2060,9 @@ INSERT INTO `logs` VALUES ('3', '6', 'delete_player', 'Deleted player: test6 (ID
 INSERT INTO `logs` VALUES ('4', '6', 'edit_stats', 'Changed stats of player ID 6 to Gold: 1000000, Level: 15, Exp: 100', '2025-06-24 01:12:31');
 INSERT INTO `logs` VALUES ('5', '9', 'achievement_unlocked', 'Unlocked achievement ID: 5', '2025-07-02 01:38:53');
 INSERT INTO `logs` VALUES ('6', '9', 'achievement_unlocked', 'Unlocked achievement ID: 6', '2025-07-02 01:38:53');
+INSERT INTO `logs` VALUES ('7', '6', 'achievement_unlocked', 'Unlocked achievement ID: 6', '2025-07-03 00:44:11');
+INSERT INTO `logs` VALUES ('8', '6', 'achievement_unlocked', 'Unlocked achievement ID: 8', '2025-07-03 00:44:11');
+INSERT INTO `logs` VALUES ('9', '6', 'achievement_unlocked', 'Unlocked achievement ID: 5', '2025-07-03 00:44:11');
 
 -- ----------------------------
 -- Table structure for `mensajes`
@@ -2121,6 +2166,9 @@ CREATE TABLE `player_achievements` (
 -- ----------------------------
 -- Records of player_achievements
 -- ----------------------------
+INSERT INTO `player_achievements` VALUES ('6', '5', '2025-07-03 00:44:11');
+INSERT INTO `player_achievements` VALUES ('6', '6', '2025-07-03 00:44:11');
+INSERT INTO `player_achievements` VALUES ('6', '8', '2025-07-03 00:44:11');
 INSERT INTO `player_achievements` VALUES ('9', '1', '2025-07-02 01:07:29');
 INSERT INTO `player_achievements` VALUES ('9', '5', '2025-07-02 01:38:53');
 INSERT INTO `player_achievements` VALUES ('9', '6', '2025-07-02 01:38:53');

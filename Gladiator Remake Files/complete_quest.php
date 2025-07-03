@@ -77,5 +77,9 @@ if ($current_exp >= $required_exp) {
 echo "<p style='color:green;'>✅ Quest completed! You earned $zloto złoto and $exp XP.</p>";
 if ($item_id) echo "<p>🎁 You also received a new item!</p>";
 
+// ✅ Check for achievements
+require_once 'achievements_check.php';
+check_achievements_for_player($player_id);
+
 echo "<br><a href='quest.php'>← Back to Quests</a>";
 ?>
