@@ -97,6 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['battle_log'][] = "<span class='log-heal'>🧪 You used {$potion['name']}! Effect: +{$potion['effect_value']} {$potion['target_attr']} ({$potion['duration']} turns)</span>";
             }
             $conn->query("DELETE FROM player_items WHERE id = $item_id");
+			$_SESSION['potion_used_once'] = true;
             header("Location: battle.php");
             exit;
         }

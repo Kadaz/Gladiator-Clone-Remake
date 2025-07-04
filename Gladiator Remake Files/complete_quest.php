@@ -54,6 +54,16 @@ $now = date('Y-m-d H:i:s');
 $update_status = $conn->prepare("UPDATE player_quests SET status = 'completed', completed_at = ? WHERE player_id = ? AND quest_id = ?");
 $update_status->bind_param("sii", $now, $player_id, $quest_id);
 $update_status->execute();
+// ✅ Increase quest completion counter
+$check = $conn->prepare("UPDATE counters SET value = value + 1 WHERE player_id = ? AND name = 'quests_completed'");
+$check->bind_param("i", $player_id);
+$check->execute();
+
+if ($check->affected_rows === 0) {
+    $insert = $conn->prepare("INSERT INTO counters (player_id, name, value) VALUES (?, 'quests_completed', 1)");
+    $insert->bind_param("i", $player_id);
+    $insert->execute();
+}
 
 // Level-up check
 $xp_check = $conn->prepare("SELECT exp, nivel FROM gracze WHERE id = ?");

@@ -47,6 +47,28 @@ function check_achievements_for_player($player_id) {
     if ($player['perdidas'] >= 10) {
         unlock_achievement($conn, $player_id, 4);
     }
+	
+	// Has 10+ items
+    $stmt = $conn->prepare("SELECT COUNT(*) FROM player_items WHERE player_id = ?");
+    $stmt->bind_param("i", $player_id);
+    $stmt->execute();
+    $stmt->bind_result($item_count);
+    $stmt->fetch();
+    $stmt->close();
+    if ($item_count >= 10) {
+        unlock_achievement($conn, $player_id, 8); // Collector
+    }
+
+    // Has 1000+ gold
+    $stmt = $conn->prepare("SELECT zloto FROM gracze WHERE id = ?");
+    $stmt->bind_param("i", $player_id);
+    $stmt->execute();
+    $stmt->bind_result($gold);
+    $stmt->fetch();
+    $stmt->close();
+    if ($gold >= 1000) {
+        unlock_achievement($conn, $player_id, 9); // Rich Boy
+    }
 
     // Add more below with relevant achievement IDs
 
@@ -67,8 +89,40 @@ function check_achievements_for_player($player_id) {
     if ($ally->num_rows > 0) {
         unlock_achievement($conn, $player_id, 6);
     }
+	// 🧪 Use your first potion (detected via session for now)
+    if (!empty($_SESSION['potion_used_once'])) {
+        unlock_achievement($conn, $player_id, 10); // Alchemist
+    }
+
+    // 🥇 Win your first battle
+    if ($player['victorias'] >= 1) {
+        unlock_achievement($conn, $player_id, 11); // Battle Tested
+    }
+
+    // 📘 Quest Completion Count (moved here from outside!)
+    $stmt = $conn->prepare("SELECT value FROM counters WHERE player_id = ? AND name = 'quests_completed'");
+    $stmt->bind_param("i", $player_id);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    $counter = $res->fetch_assoc();
+    $quest_count = $counter ? (int)$counter['value'] : 0;
+
+    if ($quest_count >= 5) {
+        unlock_achievement($conn, $player_id, 7); // 5 Quests Done
+    }
 }
 
 // How to use:
 // require_once 'achievements_check.php';
 // check_achievements_for_player($player_id);
+// Quest Completion Count
+$stmt = $conn->prepare("SELECT value FROM counters WHERE player_id = ? AND name = 'quests_completed'");
+$stmt->bind_param("i", $player_id);
+$stmt->execute();
+$res = $stmt->get_result();
+$counter = $res->fetch_assoc();
+$quest_count = $counter ? (int)$counter['value'] : 0;
+
+if ($quest_count >= 5) {
+    unlock_achievement($conn, $player_id, 7); // ID 7: Complete 5 quests
+}
