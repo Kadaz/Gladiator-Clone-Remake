@@ -12,6 +12,7 @@
 				 <a class = "menuitem_aktive" href="guild.php" title="Guild" target="_self">Guild</a>
                  <a class = "menuitem_aktive" href="forum.php" title="Forum" target="_self">Forum</a>
                  <a class = "menuitem_aktive" href="event_portal.php" title="Events" target="_self">Events</a>
+				 <a class = "menuitem_aktive" href="achievements.php" title="Αchievements" target="_self">Αchievements</a>
                  <a class = "menuitem_aktive" href="ranking2.php" title="Ranking" target="_self">Ranking</a>
              ';
          } else {

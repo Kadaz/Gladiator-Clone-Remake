@@ -54,12 +54,19 @@ $now = date('Y-m-d H:i:s');
 $update_status = $conn->prepare("UPDATE player_quests SET status = 'completed', completed_at = ? WHERE player_id = ? AND quest_id = ?");
 $update_status->bind_param("sii", $now, $player_id, $quest_id);
 $update_status->execute();
-// ✅ Increase quest completion counter
-$check = $conn->prepare("UPDATE counters SET value = value + 1 WHERE player_id = ? AND name = 'quests_completed'");
-$check->bind_param("i", $player_id);
-$check->execute();
+// ✅ Increase quests_completed counter manually
+$stmt = $conn->prepare("SELECT value FROM counters WHERE player_id = ? AND name = 'quests_completed'");
+$stmt->bind_param("i", $player_id);
+$stmt->execute();
+$res = $stmt->get_result();
+$row = $res->fetch_assoc();
 
-if ($check->affected_rows === 0) {
+if ($row) {
+    $new_val = $row['value'] + 1;
+    $update = $conn->prepare("UPDATE counters SET value = ? WHERE player_id = ? AND name = 'quests_completed'");
+    $update->bind_param("ii", $new_val, $player_id);
+    $update->execute();
+} else {
     $insert = $conn->prepare("INSERT INTO counters (player_id, name, value) VALUES (?, 'quests_completed', 1)");
     $insert->bind_param("i", $player_id);
     $insert->execute();
