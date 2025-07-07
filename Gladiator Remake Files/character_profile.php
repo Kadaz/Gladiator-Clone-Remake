@@ -18,7 +18,14 @@ $stmt->execute();
 $result = $stmt->get_result();
 $player = $result->fetch_assoc();
 $stmt->close();
-
+// PvP Streak Counter
+$pvp_streak = 0;
+$stmt_streak = $conn->prepare("SELECT value FROM counters WHERE player_id = ? AND name = 'pvp_streak'");
+$stmt_streak->bind_param("i", $player_id);
+$stmt_streak->execute();
+$stmt_streak->bind_result($pvp_streak);
+$stmt_streak->fetch();
+$stmt_streak->close();
 if (!$player) {
     echo "<p style='color:red;'>Player not found.</p>";
     exit;
@@ -81,6 +88,7 @@ $total_zrecznosc = $player['zrecznosc'] + $bonus_zrecznosc;
 <p><strong>Level:</strong> <?= $player['nivel'] ?></p>
 <p><strong>Experience:</strong> <?= $player['exp'] ?> / <?= $player['exp_max'] ?></p>
 <p><strong>Gold:</strong> <?= $player['zloto'] ?></p>
+<p><strong>🔥 PvP Win Streak:</strong> <?= $pvp_streak ?> consecutive wins</p>
 
 <h3>Combat Stats</h3>
 <ul>

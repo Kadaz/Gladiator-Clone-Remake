@@ -26,6 +26,18 @@ if (!empty($_POST['login']) && !empty($_POST['haslo'])) {
         $_SESSION['login'] = $user['login'];
         $_SESSION['is_admin'] = $user['is_admin'];
 		
+		// Night login tracker
+       date_default_timezone_set('Europe/Athens');
+       $current_hour = date('H');
+
+      if ($current_hour >= 0 && $current_hour < 5) {
+          $player_id = $user['id'];
+          $stmt = $conn->prepare("UPDATE gracze SET night_logins = night_logins + 1 WHERE id = ?");
+          $stmt->bind_param("i", $player_id);
+          $stmt->execute();
+          $stmt->close();
+      }
+		
         // Redirect to index.php (must be before any output)
         header("Location: index.php");
         exit;

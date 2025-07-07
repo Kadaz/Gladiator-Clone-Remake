@@ -205,6 +205,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
         $conn->query("INSERT INTO battle_logs (player_id, timestamp, zone) VALUES ($player_id, NOW(), 'arena_boss')");
     }
+	// ✅ Boss defeated counter
+    $stmt = $conn->prepare("UPDATE gracze SET boss_defeated = boss_defeated + 1 WHERE id = ?");
+    $stmt->bind_param("i", $player_id);
+    $stmt->execute();
+    $stmt->close();
 
     header("Location: arena_boss.php");
     exit;

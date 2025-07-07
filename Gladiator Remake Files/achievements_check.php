@@ -91,6 +91,18 @@ function check_achievements_for_player($player_id) {
         unlock_achievement($conn, $player_id, 9); // Rich Boy
     }
 
+    // 🔥 PvP streak achievement
+    $stmt = $conn->prepare("SELECT value FROM counters WHERE player_id = ? AND name = 'pvp_streak'");
+    $stmt->bind_param("i", $player_id);
+    $stmt->execute();
+    $stmt->bind_result($streak);
+    $stmt->fetch();
+    $stmt->close();
+
+    if ($streak >= 3) {
+        unlock_achievement($conn, $player_id, 61); // Winning Streak
+    }
+
     // Add more below with relevant achievement IDs
 
 // PvP Veteran (50 wins)

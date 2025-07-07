@@ -5,6 +5,25 @@ require_once('var/ustawienia.php');
 require_once('gora_strony.php');
 require_once('menu_l.php');
 
+function update_counter($conn, $player_id, $name, $delta = 1, $reset = false) {
+    if ($reset) {
+        $stmt = $conn->prepare("UPDATE counters SET value = 0 WHERE player_id = ? AND name = ?");
+        $stmt->bind_param("is", $player_id, $name);
+        $stmt->execute();
+        return;
+    }
+
+    $stmt = $conn->prepare("UPDATE counters SET value = value + ? WHERE player_id = ? AND name = ?");
+    $stmt->bind_param("iis", $delta, $player_id, $name);
+    $stmt->execute();
+
+    if ($stmt->affected_rows === 0) {
+        $stmt = $conn->prepare("INSERT INTO counters (player_id, name, value) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE value = value + ?");
+        $stmt->bind_param("isii", $player_id, $name, $delta, $delta);
+        $stmt->execute();
+    }
+}
+
 if (!isset($_SESSION['id']) || !isset($_POST['enemy_id'])) {
     header("Location: index.php");
     exit;
@@ -75,6 +94,9 @@ $update_stmt->close();
 // Update stats (optional)
 if ($winner === $player['login']) {
     mysqli_query($conn, "UPDATE gracze SET victorias = victorias + 1, zloto = zloto + 10, exp = exp + 20 WHERE id = $player_id");
+	update_counter($conn, $player_id, 'pvp_streak'); // Αύξησε το streak του νικητή
+    update_counter($conn, $enemy_id, 'pvp_streak', 0, true); // Reset του ηττημένου
+	
 	require_once 'achievements_check.php';
     check_achievements_for_player($player_id);
     mysqli_query($conn, "UPDATE gracze SET perdidas = perdidas + 1, zloto = GREATEST(0, zloto - 10) WHERE id = $enemy_id");
