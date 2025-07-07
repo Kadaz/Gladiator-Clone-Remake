@@ -37,5 +37,6 @@ if (!$is_admin) {
     <li><a href="admin_config.php">⚙️ Game Settings</a></li>
 	<li><a href="admin_review_reports.php">🚨 Review Player Reports</a></li>
 	<li><a href="admin_edit_achievements.php">🏅 Manage Achievements</a></li>
+	<li><a href="generate_daily_shop.php">🛒 Refresh Daily Shop</a></li>
     <li><a href="index.php">← Back to Dashboard</a></li>
 </ul>

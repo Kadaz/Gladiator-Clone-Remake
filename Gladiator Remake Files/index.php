@@ -52,6 +52,13 @@ $avatarPath = "avatars/avatar" . ($avatar ?? 1) . ".gif";
     <img class="avatar" src="<?= $avatarPath ?>" alt="Avatar" width="80" height="80">
     <h2>Welcome, <?= htmlspecialchars($login) ?>!</h2>
     <p>You are logged in to <strong>Gladiatus</strong>.</p>
+	<?php if (!empty($_SESSION['daily_reward_msg'])): ?>
+    <div id="daily-popup" style="position:fixed;top:20%;left:50%;transform:translateX(-50%);background:#fff;border:3px solid #33cc33;padding:20px;border-radius:10px;z-index:9999;box-shadow:0 0 20px rgba(0,0,0,0.5);">
+        <h3>🎁 Daily Reward</h3>
+        <p><?= htmlspecialchars($_SESSION['daily_reward_msg']) ?></p>
+        <button onclick="document.getElementById('daily-popup').style.display='none'">OK</button>
+    </div>
+    <?php unset($_SESSION['daily_reward_msg']); endif; ?>
 
     <h3>Main Menu</h3>
     <ul>
