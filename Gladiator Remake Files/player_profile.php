@@ -13,7 +13,7 @@ if (!isset($_GET['id'])) {
 $player_id = (int)$_GET['id'];
 
 // Fetch player info
-$stmt = $conn->prepare("SELECT id, login, nivel, exp, victorias, perdidas, honor, title FROM gracze WHERE id = ?");
+$stmt = $conn->prepare("SELECT id, login, nivel, exp, victorias, perdidas, honor, title, is_premium FROM gracze WHERE id = ?");
 if (!$stmt) {
     die("Prepare failed: " . $conn->error);
 }
@@ -53,9 +53,12 @@ if ($guild) {
 ?>
 
 <h2>🧍 Player Profile: <?= htmlspecialchars($player['login']) ?>
-<?php if (!empty($player['title'])): ?>
-    <span style="font-size:14px; color:#888;"> - <?= htmlspecialchars($player['title']) ?></span>
-<?php endif; ?>
+    <?php if (!empty($player['title'])): ?>
+        <span style="font-size:14px; color:#888;"> - <?= htmlspecialchars($player['title']) ?></span>
+    <?php endif; ?>
+    <?php if (!empty($player['is_premium'])): ?>
+        <span style="color:gold; font-weight:bold; font-size:14px;"> 👑 Premium</span>
+    <?php endif; ?>
 </h2>
 
 <p><strong>Level:</strong> <?= $player['nivel'] ?></p>

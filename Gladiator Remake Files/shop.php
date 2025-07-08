@@ -53,7 +53,8 @@ $shop_items = $conn->query("SELECT * FROM items WHERE $where ORDER BY RAND() LIM
 
 <h2>🏪 Shop</h2>
 <p>Gold: <strong><?= $gold ?></strong> | Inventory: <?= $inv_count ?>/20</p>
-<p><br><a href="daily_shop.php">← Daily Shop</a></p>
+<p><br><a href="daily_shop.php">← 🛒 Daily Shop</a></p>
+<p><br><a href="premium_shop.php">← 🛍️ Premium Shop</a></p>
 <div>
     <strong>Filter:</strong>
     <a href="shop.php?type=all">All</a>

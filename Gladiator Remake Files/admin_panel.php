@@ -38,5 +38,8 @@ if (!$is_admin) {
 	<li><a href="admin_review_reports.php">🚨 Review Player Reports</a></li>
 	<li><a href="admin_edit_achievements.php">🏅 Manage Achievements</a></li>
 	<li><a href="generate_daily_shop.php">🛒 Refresh Daily Shop</a></li>
+	<li><a href="premium_shop.php">🛍️ Open Premium Shop</a></li>
+	<li><a href="admin_edit_premium_shop.php">🛍️ Manage Premium Shop</a></li>
+	<li><a href="admin_set_premium.php">🛍️ Manage Premium Players</a></li>
     <li><a href="index.php">← Back to Dashboard</a></li>
 </ul>

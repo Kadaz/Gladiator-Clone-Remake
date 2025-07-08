@@ -124,3 +124,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['item_id'])) {
         <?php endforeach; ?>
     </table>
 <?php endif; ?>
+<br><a href="shop.php">← Back to the Shop </a>
