@@ -13,7 +13,7 @@ if (!isset($_SESSION['id'])) {
 $player_id = $_SESSION['id'];
 $date_today = date('Y-m-d');
 
-// Πάρε τα σημερινά αντικείμενα του shop
+// Take the items
 $stmt = $conn->prepare("
     SELECT d.item_id, d.cost, i.name, i.image 
     FROM daily_shop_items d 
@@ -29,11 +29,16 @@ while ($row = $res->fetch_assoc()) {
 }
 $stmt->close();
 
-// Χειρισμός αγοράς
+// Order The Coins
+$res = $conn->query("SELECT coins FROM gracze WHERE id = $player_id");
+$player = $res->fetch_assoc();
+$player_coins = $player['coins'];
+
+// Shop Control
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['item_id'])) {
     $item_id = (int)$_POST['item_id'];
 
-    // Έλεγχος αν έχει ήδη αγοράσει
+    // Check If You already buy it
     $stmt = $conn->prepare("SELECT id FROM daily_shop_purchases WHERE player_id = ? AND item_id = ? AND purchase_date = ?");
     $stmt->bind_param("iis", $player_id, $item_id, $date_today);
     $stmt->execute();
@@ -44,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['item_id'])) {
     } else {
         $stmt->close();
 
-        // Παίρνουμε το κόστος του αντικειμένου
+        // Take the items' valew
         $stmt = $conn->prepare("SELECT cost FROM daily_shop_items WHERE item_id = ? AND day_date = ?");
         $stmt->bind_param("is", $item_id, $date_today);
         $stmt->execute();
@@ -52,23 +57,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['item_id'])) {
         if ($stmt->fetch()) {
             $stmt->close();
 
-            // Έλεγχος αν έχει coins
+            // Check if you have coins
             $res = $conn->query("SELECT coins FROM gracze WHERE id = $player_id");
             $row = $res->fetch_assoc();
             $player_coins = $row['coins'];
 
             if ($player_coins >= $cost) {
-                // Ολοκλήρωση αγοράς
+                // Complete Order
                 $conn->query("UPDATE gracze SET coins = coins - $cost WHERE id = $player_id");
                 $conn->query("INSERT INTO player_items (player_id, item_id, equipped) VALUES ($player_id, $item_id, 0)");
                 $conn->query("INSERT INTO daily_shop_purchases (player_id, item_id, purchase_date) VALUES ($player_id, $item_id, '$date_today')");
 
-                echo "<p style='color:green;'>✅ Επιτυχής αγορά!</p>";
+                echo "<p style='color:green;'>✅ Success Order !</p>";
             } else {
-                echo "<p style='color:red;'>❌ Δεν έχεις αρκετά coins.</p>";
+                echo "<p style='color:red;'>❌ Not Enough Coins.</p>";
             }
         } else {
-            echo "<p style='color:red;'>❌ Σφάλμα: Το αντικείμενο δεν βρέθηκε.</p>";
+            echo "<p style='color:red;'>❌ Error: Item Not Found.</p>";
         }
     }
 }
@@ -76,15 +81,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['item_id'])) {
 
 <h2>🛒 Daily Shop</h2>
 
+<div style="background: #f0f0f0; border: 1px solid #999; padding: 10px; margin-bottom: 10px; font-size: 18px;">
+    💰 You Have <strong><?= $player_coins ?></strong> coins available
+</div>
+
 <?php if (empty($shop_items)): ?>
-    <p>Δεν υπάρχουν αντικείμενα διαθέσιμα σήμερα.</p>
+    <p>No available Items For Today.</p>
 <?php else: ?>
     <table border="1" cellpadding="6">
         <tr>
-            <th>Εικόνα</th>
-            <th>Όνομα</th>
-            <th>Κόστος (coins)</th>
-            <th>Ενέργεια</th>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Coins</th>
+            <th>Order</th>
         </tr>
         <?php foreach ($shop_items as $item): ?>
             <tr>
@@ -93,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['item_id'])) {
                 <td><?= $item['cost'] ?> 🪙</td>
                 <td>
                     <?php
-                    // Έλεγχος αν έχει ήδη αγοράσει
+                    // Check if you already buy it
                     $item_id = $item['item_id'];
                     $stmt = $conn->prepare("SELECT id FROM daily_shop_purchases WHERE player_id = ? AND item_id = ? AND purchase_date = ?");
                     $stmt->bind_param("iis", $player_id, $item_id, $date_today);
@@ -101,11 +110,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['item_id'])) {
                     $stmt->store_result();
 
                     if ($stmt->num_rows > 0) {
-                        echo "<span style='color:gray;'>Ήδη αγοράστηκε</span>";
+                        echo "<span style='color:gray;'>Already Buy it</span>";
                     } else {
                         echo "<form method='post'>
                                 <input type='hidden' name='item_id' value='$item_id'>
-                                <button type='submit'>Αγορά</button>
+                                <button type='submit'>Shop</button>
                               </form>";
                     }
                     $stmt->close();
