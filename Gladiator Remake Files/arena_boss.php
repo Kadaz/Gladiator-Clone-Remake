@@ -37,7 +37,7 @@ $check->close();
 
 if ($count >= 10) die("<h3 style='color:red'>⛔ Arena Boss limit (10/hour) reached.</h3><a href='index.php'>← Back</a>");
 
-$stmt = $conn->prepare("SELECT * FROM gracze WHERE id = ?");
+$stmt = $conn->prepare("SELECT *, is_premium FROM gracze WHERE id = ?");
 $stmt->bind_param("i", $player_id);
 $stmt->execute();
 $player = $stmt->get_result()->fetch_assoc();
@@ -163,6 +163,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     if ($enemy_hp <= 0 && $player_hp > 0 && empty($_SESSION['boss_reward'])) {
         $xp = $enemy['xp_reward'];
         $gold = $enemy['gold_reward'];
+		if (!empty($player['is_premium'])) {
+           $xp = floor($xp * 1.25); // +25% XP
+           $log[] = "<span class='log-reward' style='color:gold;'>👑 Premium Bonus applied: +25% XP</span>";
+        }
         $new_exp = $player['exp'] + $xp;
         $new_lvl = $player['nivel'];
         $new_hp = $player['zycie'];

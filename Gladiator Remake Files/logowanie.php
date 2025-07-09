@@ -25,100 +25,94 @@ if (!empty($_POST['login']) && !empty($_POST['haslo'])) {
         $_SESSION['id'] = $user['id'];
         $_SESSION['login'] = $user['login'];
         $_SESSION['is_admin'] = $user['is_admin'];
+
+        // Night login tracker
+        date_default_timezone_set('Europe/Athens');
+        $current_hour = date('H');
+
+        if ($current_hour >= 0 && $current_hour < 5) {
+            $player_id = $user['id'];
+            $stmt = $conn->prepare("UPDATE gracze SET night_logins = night_logins + 1 WHERE id = ?");
+            $stmt->bind_param("i", $player_id);
+            $stmt->execute();
+            $stmt->close();
+        }
+
+        // 🎁 Daily Login Reward
+        $date_today = date('Y-m-d');
+        $player_id = $user['id'];
+
+        $result = $conn->query("SELECT daily_login_streak, last_login_date, is_premium FROM gracze WHERE id = $player_id");
+        if (!$result) {
+            die("SELECT failed: " . $conn->error);
+        }
+        $row = $result->fetch_assoc();
+        $streak = $row['daily_login_streak'];
+        $last_login = $row['last_login_date'];
+        $is_premium = $row['is_premium'];
+
+        if (trim($last_login) == $date_today) {
+            // Already claimed today
+        } else {
+            if (trim($last_login) == date('Y-m-d', strtotime('-1 day'))) {
+                $new_streak = min($streak + 1, 7);
+            } else {
+                $new_streak = 1;
+            }
+
+            $reward_coins = [0, 100, 150, 200, 250, 300, 350, 500];
+            $coins = $reward_coins[$new_streak];
+            $premium_coins = 1;
+
+            $premium_bonus = 0;
+            if (!empty($is_premium)) {
+                $coins += 2;
+                $premium_bonus = 2;
+            }
+
+            $update = $conn->query("UPDATE gracze SET coins = coins + $coins, premium_coins = premium_coins + $premium_coins, daily_login_streak = $new_streak, last_login_date = '$date_today' WHERE id = $player_id");
+            if (!$update) {
+                die("UPDATE failed: " . $conn->error);
+            }
+
+            // Format reward message
+            $msg = "✅ Daily Login: Day $new_streak\n+ $coins coins\n+ 1 premium coin";
+            if ($premium_bonus > 0) {
+                $msg .= "\n👑 Premium Bonus: +$premium_bonus coins!";
+            }
+
+            $conn->query("INSERT INTO notifications (player_id, message) VALUES ($player_id, '$msg')");
+            $_SESSION['daily_reward_msg'] = $msg;
+        }
 		
-		// Night login tracker
-       date_default_timezone_set('Europe/Athens');
-       $current_hour = date('H');
+		// 🎁 DAILY PREMIUM ITEM REWARD
+if (!empty($is_premium)) {
+    $item_check = $conn->query("SELECT premium_item_last_date FROM gracze WHERE id = $player_id");
+    $item_row = $item_check->fetch_assoc();
+    $last_item_date = $item_row['premium_item_last_date'];
+    $today = date('Y-m-d');
 
-      if ($current_hour >= 0 && $current_hour < 5) {
-          $player_id = $user['id'];
-          $stmt = $conn->prepare("UPDATE gracze SET night_logins = night_logins + 1 WHERE id = ?");
-          $stmt->bind_param("i", $player_id);
-          $stmt->execute();
-          $stmt->close();
-      }
-// 🎁 DAILY LOGIN REWARD
-date_default_timezone_set('Europe/Athens');
-$date_today = date('Y-m-d');
-$player_id = $user['id'];
+    if ($last_item_date !== $today) {
+        // Get a random potion or buff/debuff item
+        $result = $conn->query("SELECT id FROM items WHERE type IN ('potion', 'buff', 'debuff') ORDER BY RAND() LIMIT 1");
+        if ($result && $result->num_rows > 0) {
+            $item = $result->fetch_assoc();
+            $item_id = $item['id'];
 
-$result = $conn->query("SELECT daily_login_streak, last_login_date, is_premium FROM gracze WHERE id = $player_id");
-if (!$result) {
-    die("SELECT failed: " . $conn->error);
+            // Insert into player's inventory
+            $conn->query("INSERT INTO player_items (player_id, item_id, equipped) VALUES ($player_id, $item_id, 0)");
+
+            // Update last given date
+            $conn->query("UPDATE gracze SET premium_item_last_date = '$today' WHERE id = $player_id");
+
+            // Optional: Notification
+            $msg = "👑 Daily Premium Item delivered to your inventory!";
+            $conn->query("INSERT INTO notifications (player_id, message) VALUES ($player_id, '$msg')");
+        }
+    }
 }
-$row = $result->fetch_assoc();
-$streak = $row['daily_login_streak'];
-$last_login = $row['last_login_date'];
-$is_premium = $row['is_premium'];
 
-if ($last_login === $date_today) {
-    echo "Already logged in today<br>";
-} else {
-    if ($last_login === date('Y-m-d', strtotime('-1 day'))) {
-        $new_streak = min($streak + 1, 7);
-    } else {
-        $new_streak = 1;
-    }
-
-    $reward_coins = [0, 100, 150, 200, 250, 300, 350, 500];
-    $coins = $reward_coins[$new_streak];
-    $premium_coins = 1;
-
-    // ✅ Premium bonus
-    $premium_bonus = 0;
-    if ($is_premium) {
-        $coins += 2;
-        $premium_bonus = 2;
-    }
-
-    $update = $conn->query("UPDATE gracze SET coins = coins + $coins, premium_coins = premium_coins + $premium_coins, daily_login_streak = $new_streak, last_login_date = '$date_today' WHERE id = $player_id");
-    if (!$update) {
-        die("UPDATE failed: " . $conn->error);
-    }
-
-    $msg = "✅ Daily Login: Day $new_streak - You received $coins coins & 1 premium coin!";
-    if ($premium_bonus > 0) {
-        $msg .= " 👑 (+$premium_bonus bonus for Premium)";
-    }
-
-    $conn->query("INSERT INTO notifications (player_id, message) VALUES ($player_id, '$msg')");
-    $_SESSION['daily_reward_msg'] = $msg;
-}
-if (!$result) {
-    die("SELECT failed: " . $conn->error);
-}
-$row = $result->fetch_assoc();
-$streak = $row['daily_login_streak'];
-$last_login = $row['last_login_date'];
-
-echo "DEBUG<br>Today: $date_today<br>Last Login: $last_login<br>Streak: $streak<br>";
-
-if ($last_login === $date_today) {
-    echo "Already logged in today<br>";
-} else {
-    if ($last_login === date('Y-m-d', strtotime('-1 day'))) {
-        $new_streak = min($streak + 1, 7);
-    } else {
-        $new_streak = 1;
-    }
-
-    $reward_coins = [0, 100, 150, 200, 250, 300, 350, 500];
-    $coins = $reward_coins[$new_streak];
-    $premium_coins = 1;
-
-    echo "Giving $coins coins and $premium_coins premium coins. New streak: $new_streak<br>";
-
-    $update = $conn->query("UPDATE gracze SET coins = coins + $coins, premium_coins = premium_coins + $premium_coins, daily_login_streak = $new_streak, last_login_date = '$date_today' WHERE id = $player_id");
-    if (!$update) {
-        die("UPDATE failed: " . $conn->error);
-    }
-
-    $msg = "✅ Daily Login: Day $new_streak - You received $coins coins & 1 premium coin!";
-    $conn->query("INSERT INTO notifications (player_id, message) VALUES ($player_id, '$msg')");
-
-    $_SESSION['daily_reward_msg'] = $msg;
-}
-        // Redirect to index.php (must be before any output)
+        // Redirect after everything
         header("Location: index.php");
         exit;
     } else {

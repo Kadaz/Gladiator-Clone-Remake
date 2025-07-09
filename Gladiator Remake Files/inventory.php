@@ -12,9 +12,16 @@ if (!isset($_SESSION['id'])) {
 
 $player_id = $_SESSION['id'];
 
+// Check if player is premium
+$res = $conn->query("SELECT is_premium FROM gracze WHERE id = $player_id");
+$is_premium = $res->fetch_assoc()['is_premium'] ?? 0;
+
+// Set inventory limit based on premium status
+$inventory_limit = $is_premium ? 30 : 20;
+
 // Inventory limit
 $inv_count = $conn->query("SELECT COUNT(*) AS total FROM player_items WHERE player_id = $player_id")->fetch_assoc()['total'];
-$inventory_limit = 20;
+
 
 // Count current inventory items (unequipped only)
 $count_query = $conn->prepare("SELECT COUNT(*) FROM player_items WHERE player_id = ? AND equipped = 0");
@@ -64,7 +71,7 @@ if (isset($_GET['equip']) && !$inventory_full) {
 ?>
 
 <h2>Inventory</h2>
-<p>Inventory: <?= $inv_count ?>/20</p>
+<p>Inventory: <?= $inv_count ?>/<?= $inventory_limit ?> <?= $is_premium ? "👑 Premium" : "" ?></p>
 
 <li><a href='character_equipment.php'>Character Equipment</a></li>
 <?php

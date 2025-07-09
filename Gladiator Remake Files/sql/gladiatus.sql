@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50718
 File Encoding         : 65001
 
-Date: 2025-07-08 22:26:46
+Date: 2025-07-09 23:09:07
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -145,7 +145,7 @@ CREATE TABLE `battle_logs` (
   PRIMARY KEY (`id`),
   KEY `player_id` (`player_id`),
   CONSTRAINT `battle_logs_ibfk_1` FOREIGN KEY (`player_id`) REFERENCES `gracze` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=311 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=317 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of battle_logs
@@ -460,6 +460,12 @@ INSERT INTO `battle_logs` VALUES ('307', '6', '2025-07-07 21:22:59', 'normal', '
 INSERT INTO `battle_logs` VALUES ('308', '6', '2025-07-07 21:22:59', 'normal', 'arena_boss');
 INSERT INTO `battle_logs` VALUES ('309', '6', '2025-07-07 21:29:01', 'normal', 'boss');
 INSERT INTO `battle_logs` VALUES ('310', '6', '2025-07-07 21:29:01', 'normal', 'arena_boss');
+INSERT INTO `battle_logs` VALUES ('311', '9', '2025-07-09 21:01:25', 'normal', 'arena');
+INSERT INTO `battle_logs` VALUES ('312', '6', '2025-07-09 21:30:20', 'normal', 'dungeon');
+INSERT INTO `battle_logs` VALUES ('313', '6', '2025-07-09 21:33:28', 'normal', 'boss');
+INSERT INTO `battle_logs` VALUES ('314', '6', '2025-07-09 21:33:28', 'normal', 'arena_boss');
+INSERT INTO `battle_logs` VALUES ('315', '6', '2025-07-09 21:34:54', 'normal', 'boss');
+INSERT INTO `battle_logs` VALUES ('316', '6', '2025-07-09 21:34:54', 'normal', 'arena_boss');
 
 -- ----------------------------
 -- Table structure for `br`
@@ -530,7 +536,7 @@ CREATE TABLE `counters` (
 -- ----------------------------
 INSERT INTO `counters` VALUES ('3', 'boss_defeated', '0');
 INSERT INTO `counters` VALUES ('3', 'night_logins', '0');
-INSERT INTO `counters` VALUES ('3', 'pvp_streak', '0');
+INSERT INTO `counters` VALUES ('3', 'pvp_streak', '1');
 INSERT INTO `counters` VALUES ('4', 'boss_defeated', '0');
 INSERT INTO `counters` VALUES ('4', 'night_logins', '0');
 INSERT INTO `counters` VALUES ('4', 'pvp_streak', '0');
@@ -539,19 +545,19 @@ INSERT INTO `counters` VALUES ('5', 'night_logins', '0');
 INSERT INTO `counters` VALUES ('5', 'pvp_streak', '0');
 INSERT INTO `counters` VALUES ('6', 'boss_defeated', '0');
 INSERT INTO `counters` VALUES ('6', 'night_logins', '0');
-INSERT INTO `counters` VALUES ('6', 'pvp_streak', '0');
-INSERT INTO `counters` VALUES ('6', 'quests_completed', '11');
+INSERT INTO `counters` VALUES ('6', 'pvp_streak', '1');
+INSERT INTO `counters` VALUES ('6', 'quests_completed', '12');
 INSERT INTO `counters` VALUES ('7', 'boss_defeated', '0');
 INSERT INTO `counters` VALUES ('7', 'night_logins', '0');
 INSERT INTO `counters` VALUES ('7', 'pvp_streak', '0');
-INSERT INTO `counters` VALUES ('7', 'quests_completed', '4');
+INSERT INTO `counters` VALUES ('7', 'quests_completed', '6');
 INSERT INTO `counters` VALUES ('8', 'boss_defeated', '0');
 INSERT INTO `counters` VALUES ('8', 'night_logins', '0');
-INSERT INTO `counters` VALUES ('8', 'pvp_streak', '0');
+INSERT INTO `counters` VALUES ('8', 'pvp_streak', '1');
 INSERT INTO `counters` VALUES ('8', 'quests_completed', '3');
 INSERT INTO `counters` VALUES ('9', 'boss_defeated', '0');
 INSERT INTO `counters` VALUES ('9', 'night_logins', '0');
-INSERT INTO `counters` VALUES ('9', 'pvp_streak', '2');
+INSERT INTO `counters` VALUES ('9', 'pvp_streak', '3');
 INSERT INTO `counters` VALUES ('9', 'quests_completed', '5');
 
 -- ----------------------------
@@ -564,7 +570,7 @@ CREATE TABLE `daily_shop_items` (
   `cost` int(11) NOT NULL,
   `day_date` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of daily_shop_items
@@ -572,6 +578,9 @@ CREATE TABLE `daily_shop_items` (
 INSERT INTO `daily_shop_items` VALUES ('10', '3', '100', '2025-07-08');
 INSERT INTO `daily_shop_items` VALUES ('11', '422', '100', '2025-07-08');
 INSERT INTO `daily_shop_items` VALUES ('12', '605', '100', '2025-07-08');
+INSERT INTO `daily_shop_items` VALUES ('13', '3', '100', '2025-07-09');
+INSERT INTO `daily_shop_items` VALUES ('14', '905', '100', '2025-07-09');
+INSERT INTO `daily_shop_items` VALUES ('15', '855', '100', '2025-07-09');
 
 -- ----------------------------
 -- Table structure for `daily_shop_purchases`
@@ -1021,6 +1030,7 @@ CREATE TABLE `gracze` (
   `premium_coins` int(11) DEFAULT '0',
   `coins` int(11) DEFAULT '0',
   `is_premium` tinyint(1) DEFAULT '0',
+  `premium_item_last_date` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `login` (`login`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
@@ -1028,13 +1038,13 @@ CREATE TABLE `gracze` (
 -- ----------------------------
 -- Records of gracze
 -- ----------------------------
-INSERT INTO `gracze` VALUES ('3', '1', 'tolis', 'e10adc3949ba59abbe56e057f20f883e', 'tolis@test1.com', '0', '3', 'dgfdg', 'gfdgfd', '1', '2', '148', '200', '0', '0', '9', '1', '0', '0', '0', '121', '15', '5', '10', '10', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '280', '100', '0', '2', '42', '0', '0', '0', '1747529809', '0', '1751922774', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1751922774', '0', '0', '0', null, '0', '1', '0', '1', '2025-07-08', '1', '99', '0');
-INSERT INTO `gracze` VALUES ('4', '2', 'Kadaz', 'e10adc3949ba59abbe56e057f20f883e', 'solidus8422@gmail.com', '0', '1', 'tolis', 'tolis', '1', '1', '0', '10', '0', '0', '0', '5', '0', '0', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '100', '100', '0', '2', '100', '0', '0', '0', '0', '0', '1747529610', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1747529610', '0', '0', '0', 'Warrior', '0', '0', '0', '0', null, '0', '0', '0');
-INSERT INTO `gracze` VALUES ('5', '0', 'test', '25f9e794323b453885f5181f1b624d0b', 'test@gmail.com', '0', '1', 'test', 'test', '1', '1', '0', '10', '0', '0', '0', '6', '0', '0', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '100', '100', '0', '2', '90', '0', '0', '0', '0', '0', '0', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', null, '0', '0', '0', '0', null, '0', '0', '0');
-INSERT INTO `gracze` VALUES ('6', '0', 'test2', 'ad0234829205b9033196ba818f7a872b', 'test2@gmail.com', '0', '1', 'test', 'test', '1', '80', '2113', '9900', '0', '0', '4', '1', '0', '0', '0', '19', '132', '0', '0', '2', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '140', '100', '0', '2', '997615', '0', '0', '0', '1751843108', '0', '1752002187', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1752002187', '0', '0', '1', 'Pathfinder', '0', '0', '34', '1', '2025-07-08', '11', '693', '1');
-INSERT INTO `gracze` VALUES ('7', '0', 'test3', '8ad8757baa8564dc136c1e07507f4a98', 'test3@gmail.com', '0', '1', 'test3', 'test3', '1', '86', '2579', '8600', '0', '0', '2', '3', '0', '0', '0', '0', '13', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '140', '100', '0', '2', '61', '0', '0', '0', '1751843125', '0', '1751921829', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1751921829', '0', '0', '0', null, '0', '0', '57', '1', '2025-07-07', '1', '99', '0');
-INSERT INTO `gracze` VALUES ('8', '0', 'test4', '86985e105f79b95d6bc918fb45ec7727', 'test4@gmail.com', '0', '3', 'test4', 'test4', '1', '7', '225', '700', '0', '0', '3', '4', '0', '0', '0', '2', '27', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '210', '100', '0', '2', '710', '0', '0', '0', '1747576645', '0', '1752001199', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1752001199', '0', '0', '0', null, '0', '0', '0', '1', '2025-07-08', '3', '350', '0');
-INSERT INTO `gracze` VALUES ('9', '0', 'test5', 'e3d704f3542b44a621ebed70dc0efe13', 'test5@gmail.com', '0', '1', 'test5', 'test5', '1', '2', '206', '10', '0', '0', '4', '1', '0', '0', '0', '0', '19', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '170', '100', '0', '2', '762', '0', '0', '0', '1751895170', '0', '1752002613', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1752002613', '0', '0', '0', 'Pathfinder', '0', '0', '17', '1', '2025-07-08', '7', '604', '1');
+INSERT INTO `gracze` VALUES ('3', '1', 'tolis', 'e10adc3949ba59abbe56e057f20f883e', 'tolis@test1.com', '0', '3', 'dgfdg', 'gfdgfd', '1', '2', '168', '200', '0', '0', '10', '1', '0', '0', '0', '121', '15', '5', '10', '10', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '280', '100', '0', '2', '52', '0', '0', '0', '1752083835', '0', '1752083886', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1752083886', '0', '0', '0', null, '0', '1', '0', '2', '2025-07-09', '2', '249', '0', null);
+INSERT INTO `gracze` VALUES ('4', '2', 'Kadaz', 'e10adc3949ba59abbe56e057f20f883e', 'solidus8422@gmail.com', '0', '1', 'tolis', 'tolis', '1', '1', '0', '10', '0', '0', '0', '5', '0', '0', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '100', '100', '0', '2', '100', '0', '0', '0', '0', '0', '1752087207', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1752087207', '0', '0', '0', 'Warrior', '0', '0', '0', '1', '2025-07-09', '1', '102', '1', '2025-07-09');
+INSERT INTO `gracze` VALUES ('5', '0', 'test', '25f9e794323b453885f5181f1b624d0b', 'test@gmail.com', '0', '1', 'test', 'test', '1', '1', '0', '10', '0', '0', '0', '10', '0', '0', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '100', '100', '0', '2', '50', '0', '0', '0', '0', '0', '0', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', null, '0', '0', '0', '0', null, '0', '0', '0', null);
+INSERT INTO `gracze` VALUES ('6', '0', 'test2', 'ad0234829205b9033196ba818f7a872b', 'test2@gmail.com', '0', '1', 'test', 'test', '1', '80', '2763', '8000', '0', '0', '5', '1', '0', '0', '0', '19', '132', '0', '0', '2', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '140', '100', '0', '2', '998184', '0', '0', '0', '1752083783', '0', '1752091568', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1752091568', '0', '0', '1', 'Pathfinder', '0', '0', '67', '2', '2025-07-09', '12', '845', '1', null);
+INSERT INTO `gracze` VALUES ('7', '0', 'test3', '8ad8757baa8564dc136c1e07507f4a98', 'test3@gmail.com', '0', '1', 'test3', 'test3', '1', '86', '2819', '8600', '0', '0', '2', '3', '0', '0', '0', '0', '13', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '140', '100', '0', '2', '551', '0', '0', '0', '1751843125', '0', '1752089239', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1752089239', '0', '0', '0', null, '0', '0', '57', '1', '2025-07-09', '3', '299', '0', null);
+INSERT INTO `gracze` VALUES ('8', '0', 'test4', '86985e105f79b95d6bc918fb45ec7727', 'test4@gmail.com', '0', '3', 'test4', 'test4', '1', '7', '245', '700', '0', '0', '4', '4', '0', '0', '0', '2', '27', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '210', '100', '0', '2', '720', '0', '0', '0', '1752083976', '0', '1752084030', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1752084030', '0', '0', '0', null, '0', '0', '0', '2', '2025-07-09', '4', '500', '0', null);
+INSERT INTO `gracze` VALUES ('9', '0', 'test5', 'e3d704f3542b44a621ebed70dc0efe13', 'test5@gmail.com', '0', '1', 'test5', 'test5', '1', '3', '47', '300', '0', '0', '5', '1', '0', '0', '0', '0', '21', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '180', '100', '0', '2', '731', '0', '0', '0', '1752084103', '0', '1752089209', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1752089209', '0', '0', '0', 'Pathfinder', '0', '0', '75', '1', '2025-07-09', '10', '956', '1', '2025-07-09');
 
 -- ----------------------------
 -- Table structure for `guilds`
@@ -2131,7 +2141,7 @@ CREATE TABLE `logs` (
   `details` text,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of logs
@@ -2165,6 +2175,12 @@ INSERT INTO `logs` VALUES ('26', '6', 'achievement_unlocked', 'Unlocked achievem
 INSERT INTO `logs` VALUES ('27', '6', 'achievement_unlocked', 'Unlocked achievement ID: 63', '2025-07-07 01:56:29');
 INSERT INTO `logs` VALUES ('28', '6', 'achievement_unlocked', 'Unlocked achievement ID: 11', '2025-07-07 01:56:29');
 INSERT INTO `logs` VALUES ('29', '9', 'achievement_unlocked', 'Unlocked achievement ID: 61', '2025-07-07 15:24:38');
+INSERT INTO `logs` VALUES ('30', '6', 'achievement_unlocked', 'Unlocked achievement ID: 57', '2025-07-09 20:56:23');
+INSERT INTO `logs` VALUES ('31', '3', 'achievement_unlocked', 'Unlocked achievement ID: 1', '2025-07-09 20:57:16');
+INSERT INTO `logs` VALUES ('32', '3', 'achievement_unlocked', 'Unlocked achievement ID: 8', '2025-07-09 20:57:16');
+INSERT INTO `logs` VALUES ('33', '3', 'achievement_unlocked', 'Unlocked achievement ID: 61', '2025-07-09 20:57:16');
+INSERT INTO `logs` VALUES ('34', '8', 'achievement_unlocked', 'Unlocked achievement ID: 61', '2025-07-09 20:59:36');
+INSERT INTO `logs` VALUES ('35', '7', 'achievement_unlocked', 'Unlocked achievement ID: 7', '2025-07-09 21:41:46');
 
 -- ----------------------------
 -- Table structure for `mensajes`
@@ -2222,7 +2238,7 @@ CREATE TABLE `notifications` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `seen` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of notifications
@@ -2230,17 +2246,12 @@ CREATE TABLE `notifications` (
 INSERT INTO `notifications` VALUES ('8', '8', '✅ Daily Login: Day 1 - You received 100 coins & 1 premium coin!', '2025-07-07 22:39:15', '0');
 INSERT INTO `notifications` VALUES ('9', '7', '✅ Daily Login: Day 1 - You received 100 coins & 1 premium coin!', '2025-07-07 22:45:28', '0');
 INSERT INTO `notifications` VALUES ('10', '3', '✅ Daily Login: Day 1 - You received 100 coins & 1 premium coin!', '2025-07-08 00:02:40', '0');
-INSERT INTO `notifications` VALUES ('11', '9', '✅ Daily Login: Day 1 - You received 100 coins & 1 premium coin!', '2025-07-08 14:47:14', '0');
-INSERT INTO `notifications` VALUES ('12', '9', '✅ Daily Login: Day 1 - You received 100 coins & 1 premium coin!', '2025-07-08 21:59:39', '0');
 INSERT INTO `notifications` VALUES ('13', '8', '✅ Daily Login: Day 2 - You received 150 coins & 1 premium coin!', '2025-07-08 21:59:59', '0');
 INSERT INTO `notifications` VALUES ('14', '8', '✅ Daily Login: Day 1 - You received 100 coins & 1 premium coin!', '2025-07-08 21:59:59', '0');
-INSERT INTO `notifications` VALUES ('15', '9', '✅ Daily Login: Day 1 - You received 100 coins & 1 premium coin!', '2025-07-08 22:00:23', '0');
-INSERT INTO `notifications` VALUES ('16', '6', '✅ Daily Login: Day 1 - You received 100 coins & 1 premium coin!', '2025-07-08 22:06:44', '0');
-INSERT INTO `notifications` VALUES ('17', '6', '✅ Daily Login: Day 1 - You received 100 coins & 1 premium coin!', '2025-07-08 22:07:43', '0');
-INSERT INTO `notifications` VALUES ('18', '6', '✅ Daily Login: Day 1 - You received 100 coins & 1 premium coin!', '2025-07-08 22:15:32', '0');
-INSERT INTO `notifications` VALUES ('19', '6', '✅ Daily Login: Day 1 - You received 100 coins & 1 premium coin!', '2025-07-08 22:16:27', '0');
-INSERT INTO `notifications` VALUES ('20', '9', '✅ Daily Login: Day 1 - You received 100 coins & 1 premium coin!', '2025-07-08 22:18:33', '0');
-INSERT INTO `notifications` VALUES ('21', '9', '✅ Daily Login: Day 1 - You received 100 coins & 1 premium coin!', '2025-07-08 22:23:33', '0');
+INSERT INTO `notifications` VALUES ('23', '7', '✅ Daily Login: Day 1 - You received 100 coins & 1 premium coin!', '2025-07-09 15:12:31', '0');
+INSERT INTO `notifications` VALUES ('24', '7', '✅ Daily Login: Day 1 - You received 100 coins & 1 premium coin!', '2025-07-09 15:12:31', '0');
+INSERT INTO `notifications` VALUES ('26', '3', '✅ Daily Login: Day 2\n+ 150 coins\n+ 1 premium coin', '2025-07-09 15:30:45', '0');
+INSERT INTO `notifications` VALUES ('27', '8', '✅ Daily Login: Day 2\n+ 150 coins\n+ 1 premium coin', '2025-07-09 20:59:15', '0');
 
 -- ----------------------------
 -- Table structure for `players`
@@ -2282,16 +2293,21 @@ CREATE TABLE `player_achievements` (
 -- ----------------------------
 -- Records of player_achievements
 -- ----------------------------
+INSERT INTO `player_achievements` VALUES ('3', '1', '2025-07-09 20:57:16');
+INSERT INTO `player_achievements` VALUES ('3', '8', '2025-07-09 20:57:16');
+INSERT INTO `player_achievements` VALUES ('3', '61', '2025-07-09 20:57:16');
 INSERT INTO `player_achievements` VALUES ('6', '5', '2025-07-03 00:44:11');
 INSERT INTO `player_achievements` VALUES ('6', '6', '2025-07-03 00:44:11');
 INSERT INTO `player_achievements` VALUES ('6', '7', '2025-07-04 22:30:31');
 INSERT INTO `player_achievements` VALUES ('6', '8', '2025-07-03 00:44:11');
 INSERT INTO `player_achievements` VALUES ('6', '9', '2025-07-04 22:26:19');
+INSERT INTO `player_achievements` VALUES ('6', '57', '2025-07-09 20:56:23');
 INSERT INTO `player_achievements` VALUES ('6', '59', '2025-07-07 01:56:29');
 INSERT INTO `player_achievements` VALUES ('6', '61', '2025-07-07 01:56:29');
 INSERT INTO `player_achievements` VALUES ('6', '63', '2025-07-07 01:56:29');
 INSERT INTO `player_achievements` VALUES ('7', '5', '2025-07-07 00:27:50');
 INSERT INTO `player_achievements` VALUES ('7', '6', '2025-07-07 00:27:50');
+INSERT INTO `player_achievements` VALUES ('7', '7', '2025-07-09 21:41:46');
 INSERT INTO `player_achievements` VALUES ('7', '8', '2025-07-07 00:27:50');
 INSERT INTO `player_achievements` VALUES ('7', '9', '2025-07-07 00:29:20');
 INSERT INTO `player_achievements` VALUES ('7', '57', '2025-07-07 01:55:18');
@@ -2299,6 +2315,7 @@ INSERT INTO `player_achievements` VALUES ('7', '61', '2025-07-07 02:01:23');
 INSERT INTO `player_achievements` VALUES ('8', '5', '2025-07-06 00:22:55');
 INSERT INTO `player_achievements` VALUES ('8', '6', '2025-07-06 00:22:55');
 INSERT INTO `player_achievements` VALUES ('8', '8', '2025-07-06 00:22:55');
+INSERT INTO `player_achievements` VALUES ('8', '61', '2025-07-09 20:59:36');
 INSERT INTO `player_achievements` VALUES ('9', '1', '2025-07-02 01:07:29');
 INSERT INTO `player_achievements` VALUES ('9', '5', '2025-07-02 01:38:53');
 INSERT INTO `player_achievements` VALUES ('9', '6', '2025-07-02 01:38:53');
@@ -2321,7 +2338,7 @@ CREATE TABLE `player_items` (
   KEY `item_id` (`item_id`),
   CONSTRAINT `player_items_ibfk_1` FOREIGN KEY (`player_id`) REFERENCES `gracze` (`id`),
   CONSTRAINT `player_items_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=408 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=418 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of player_items
@@ -2338,14 +2355,11 @@ INSERT INTO `player_items` VALUES ('10', '3', '11', '1', '1', '0');
 INSERT INTO `player_items` VALUES ('11', '3', '10', '1', '1', '0');
 INSERT INTO `player_items` VALUES ('19', '8', '8', '1', '1', '0');
 INSERT INTO `player_items` VALUES ('20', '8', '10', '1', '1', '0');
-INSERT INTO `player_items` VALUES ('22', '7', '2', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('62', '6', '872', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('111', '7', '25', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('128', '6', '516', '1', '1', '0');
 INSERT INTO `player_items` VALUES ('135', '6', '103', '1', '1', '0');
 INSERT INTO `player_items` VALUES ('139', '7', '10', '1', '1', '0');
-INSERT INTO `player_items` VALUES ('140', '7', '27', '1', '0', '0');
-INSERT INTO `player_items` VALUES ('141', '7', '31', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('145', '7', '121', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('148', '6', '931', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('149', '3', '626', '1', '1', '0');
@@ -2399,6 +2413,16 @@ INSERT INTO `player_items` VALUES ('404', '3', '3', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('405', '6', '805', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('406', '9', '855', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('407', '6', '12', '1', '0', '0');
+INSERT INTO `player_items` VALUES ('408', '6', '90', '1', '0', '0');
+INSERT INTO `player_items` VALUES ('409', '7', '3', '1', '0', '0');
+INSERT INTO `player_items` VALUES ('410', '7', '3', '1', '0', '0');
+INSERT INTO `player_items` VALUES ('411', '4', '3', '1', '0', '0');
+INSERT INTO `player_items` VALUES ('412', '9', '934', '1', '0', '0');
+INSERT INTO `player_items` VALUES ('413', '9', '727', '1', '0', '0');
+INSERT INTO `player_items` VALUES ('414', '9', '626', '1', '0', '0');
+INSERT INTO `player_items` VALUES ('415', '9', '9', '1', '0', '0');
+INSERT INTO `player_items` VALUES ('416', '9', '13', '1', '0', '0');
+INSERT INTO `player_items` VALUES ('417', '9', '17', '1', '0', '0');
 
 -- ----------------------------
 -- Table structure for `player_quests`
@@ -2414,7 +2438,7 @@ CREATE TABLE `player_quests` (
   PRIMARY KEY (`id`),
   KEY `quest_id` (`quest_id`),
   CONSTRAINT `player_quests_ibfk_1` FOREIGN KEY (`quest_id`) REFERENCES `quests` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of player_quests
@@ -2443,6 +2467,9 @@ INSERT INTO `player_quests` VALUES ('23', '7', '1', 'completed', '2025-07-07 00:
 INSERT INTO `player_quests` VALUES ('24', '7', '38', 'completed', '2025-07-07 00:28:55', '2025-07-06 21:29:01');
 INSERT INTO `player_quests` VALUES ('25', '7', '39', 'completed', '2025-07-07 00:29:06', '2025-07-06 21:29:12');
 INSERT INTO `player_quests` VALUES ('26', '7', '40', 'completed', '2025-07-07 00:29:16', '2025-07-06 21:29:20');
+INSERT INTO `player_quests` VALUES ('27', '6', '51', 'completed', '2025-07-09 21:40:26', '2025-07-09 18:40:35');
+INSERT INTO `player_quests` VALUES ('28', '7', '41', 'completed', '2025-07-09 21:41:39', '2025-07-09 18:41:45');
+INSERT INTO `player_quests` VALUES ('29', '7', '42', 'completed', '2025-07-09 21:42:01', '2025-07-09 18:42:06');
 
 -- ----------------------------
 -- Table structure for `player_reports`

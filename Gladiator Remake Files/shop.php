@@ -17,9 +17,15 @@ $player = $conn->query("SELECT nivel, zloto FROM gracze WHERE id = $player_id")-
 $level = $player['nivel'];
 $gold = $player['zloto'];
 
+// Check if player is premium
+$res = $conn->query("SELECT is_premium FROM gracze WHERE id = $player_id");
+$is_premium = $res->fetch_assoc()['is_premium'] ?? 0;
+
+// Set inventory limit based on premium status
+$inventory_limit = $is_premium ? 30 : 20;
+
 // Inventory limit
 $inv_count = $conn->query("SELECT COUNT(*) AS total FROM player_items WHERE player_id = $player_id")->fetch_assoc()['total'];
-$inventory_limit = 20;
 
 // Filter system
 $item_types = ['weapon', 'armor', 'shield', 'helm', 'boots', 'gloves', 'ring', 'ring2', 'necklace', 'potion',];
@@ -31,7 +37,7 @@ if (isset($_GET['buy'])) {
     $item = $conn->query("SELECT * FROM items WHERE id = $item_id")->fetch_assoc();
 
     if ($inv_count >= $inventory_limit) {
-        echo "<p style='color:red;'>❌ Inventory full (20/20). Sell or use items first.</p>";
+    echo "<p style='color:red;'>❌ Inventory full ($inv_count/$inventory_limit). Sell or use items first.</p>";
     } elseif ($item && $item['level_required'] <= $level && $item['value'] <= $gold) {
         $conn->query("UPDATE gracze SET zloto = zloto - {$item['value']} WHERE id = $player_id");
         $conn->query("INSERT INTO player_items (player_id, item_id, equipped) VALUES ($player_id, $item_id, 0)");
@@ -52,7 +58,7 @@ $shop_items = $conn->query("SELECT * FROM items WHERE $where ORDER BY RAND() LIM
 ?>
 
 <h2>🏪 Shop</h2>
-<p>Gold: <strong><?= $gold ?></strong> | Inventory: <?= $inv_count ?>/20</p>
+<p>Gold: <strong><?= $gold ?></strong> | Inventory: <?= $inv_count ?>/<?= $inventory_limit ?> <?= $is_premium ? "👑 Premium" : "" ?></p>
 <p><br><a href="daily_shop.php">← 🛒 Daily Shop</a></p>
 <p><br><a href="premium_shop.php">← 🛍️ Premium Shop</a></p>
 <div>

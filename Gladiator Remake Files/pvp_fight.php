@@ -33,10 +33,11 @@ $player_id = $_SESSION['id'];
 $enemy_id = (int)$_POST['enemy_id'];
 
 // Load player
-$stmt1 = $conn->prepare("SELECT id, login, zycie, sila, obrazenia_min, obrazenia_max FROM gracze WHERE id = ?");
+$stmt1 = $conn->prepare("SELECT id, login, zycie, sila, obrazenia_min, obrazenia_max, is_premium FROM gracze WHERE id = ?");
 $stmt1->bind_param("i", $player_id);
 $stmt1->execute();
 $player = $stmt1->get_result()->fetch_assoc();
+$is_premium = $player['is_premium'];
 $stmt1->close();
 
 // Load enemy
@@ -93,14 +94,24 @@ $update_stmt->close();
 
 // Update stats (optional)
 if ($winner === $player['login']) {
-    mysqli_query($conn, "UPDATE gracze SET victorias = victorias + 1, zloto = zloto + 10, exp = exp + 20 WHERE id = $player_id");
-	update_counter($conn, $player_id, 'pvp_streak'); // Αύξησε το streak του νικητή
-    update_counter($conn, $enemy_id, 'pvp_streak', 0, true); // Reset του ηττημένου
-	
+    $xp = 20;
+    if (!empty($is_premium)) {
+        $xp = floor($xp * 1.25); // +25% XP
+    }
+
+    mysqli_query($conn, "UPDATE gracze SET victorias = victorias + 1, zloto = zloto + 10, exp = exp + $xp WHERE id = $player_id");
+	update_counter($conn, $player_id, 'pvp_streak');
+    update_counter($conn, $enemy_id, 'pvp_streak', 0, true);
+
 	require_once 'achievements_check.php';
     check_achievements_for_player($player_id);
+
     mysqli_query($conn, "UPDATE gracze SET perdidas = perdidas + 1, zloto = GREATEST(0, zloto - 10) WHERE id = $enemy_id");
-    $log[] = "<br><strong>🎉 You defeated {$enemy['login']}! You gained 10 gold and 20 XP.</strong>";
+
+    $log[] = "<br><strong>🎉 You defeated {$enemy['login']}! You gained 10 gold and $xp XP.</strong>";
+    if (!empty($is_premium)) {
+        $log[] = "<em style='color:gold;'>👑 Premium Bonus applied: +25% XP</em>";
+    }
 } else {
     mysqli_query($conn, "UPDATE gracze SET perdidas = perdidas + 1 WHERE id = $player_id");
     mysqli_query($conn, "UPDATE gracze SET victorias = victorias + 1, zloto = zloto + 5, exp = exp + 10 WHERE id = $enemy_id");
