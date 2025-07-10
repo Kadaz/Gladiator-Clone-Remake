@@ -8,6 +8,7 @@
                  <a class = "menuitem_aktive" href="rejestracja.php" title="Register" target="_self">Register</a>
                  <a class = "menuitem_aktive" href="logowanie.php" title="Login" target="_self">Login</a>
                  <a class = "menuitem_aktive" href="screenshot.php" title="Screenshots" target="_self">Screenshots</a>
+				 <a class = "menuitem_aktive" href="deity_temple.php" title="Temple" target="_self">Temple</a>
 				 <a class = "menuitem_aktive" href="chatbox.php" title="Live Chat" target="_self">Live Chat</a>
 				 <a class = "menuitem_aktive" href="guild.php" title="Guild" target="_self">Guild</a>
                  <a class = "menuitem_aktive" href="forum.php" title="Forum" target="_self">Forum</a>

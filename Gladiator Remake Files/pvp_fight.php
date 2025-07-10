@@ -62,8 +62,22 @@ $winner = null;
 while ($p1_hp > 0 && $p2_hp > 0) {
     $log[] = "<strong>Turn $turn</strong>";
 
+    // Deity PvP Bonus
+    $deity_bonus = 0;
+    $bonus_stmt = $conn->prepare("
+        SELECT d.bonus_value 
+        FROM gracze g 
+        JOIN deities d ON g.deity_id = d.id 
+        WHERE g.id = ? AND d.bonus_type = 'pvp_damage'
+    ");
+    $bonus_stmt->bind_param("i", $player_id);
+    $bonus_stmt->execute();
+    $bonus_stmt->bind_result($deity_bonus);
+    $bonus_stmt->fetch();
+    $bonus_stmt->close();
+
     // Player attacks
-    $p1_damage = rand($player['obrazenia_min'], $player['obrazenia_max']) + floor($player['sila'] * 0.5);
+    $p1_damage = rand($player['obrazenia_min'], $player['obrazenia_max']) + floor($player['sila'] * 0.5) + $deity_bonus;
     $p2_hp -= $p1_damage;
     $log[] = "{$player['login']} hits {$enemy['login']} for $p1_damage damage. (Enemy HP: " . max($p2_hp, 0) . ")";
 
