@@ -141,4 +141,29 @@ if (isset($_POST['toggle_lock'])) {
 </form>
 
 <br>
+
+<hr>
+<h3>👑 Premium Membership</h3>
+
+<?php
+$premium_stmt = $conn->prepare("SELECT premium_until FROM gracze WHERE id = ?");
+$premium_stmt->bind_param("i", $player_id);
+$premium_stmt->execute();
+$premium_stmt->bind_result($premium_until);
+$premium_stmt->fetch();
+$premium_stmt->close();
+
+$today = date('Y-m-d');
+if ($premium_until && $premium_until >= $today) {
+    echo "<p>You are <strong>Premium</strong> until <strong>$premium_until</strong>.</p>";
+} else {
+    echo "<p>You are <strong>not Premium</strong>.</p>";
+}
+?>
+
+<a href="buy_premium.php">
+    <button style="padding: 8px 16px; background: gold; color: black; border: none; border-radius: 6px; font-weight: bold;">
+        🔑 Buy Premium Access
+    </button>
+</a>
 <a href="index.php">← Back to Dashboard</a>
