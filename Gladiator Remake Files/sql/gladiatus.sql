@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50718
 File Encoding         : 65001
 
-Date: 2025-07-11 02:06:02
+Date: 2025-07-12 01:07:19
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -545,16 +545,16 @@ INSERT INTO `counters` VALUES ('5', 'night_logins', '0');
 INSERT INTO `counters` VALUES ('5', 'pvp_streak', '0');
 INSERT INTO `counters` VALUES ('6', 'boss_defeated', '0');
 INSERT INTO `counters` VALUES ('6', 'night_logins', '0');
-INSERT INTO `counters` VALUES ('6', 'pvp_streak', '2');
+INSERT INTO `counters` VALUES ('6', 'pvp_streak', '4');
 INSERT INTO `counters` VALUES ('6', 'quests_completed', '12');
 INSERT INTO `counters` VALUES ('7', 'boss_defeated', '0');
 INSERT INTO `counters` VALUES ('7', 'night_logins', '0');
 INSERT INTO `counters` VALUES ('7', 'pvp_streak', '0');
-INSERT INTO `counters` VALUES ('7', 'quests_completed', '7');
+INSERT INTO `counters` VALUES ('7', 'quests_completed', '12');
 INSERT INTO `counters` VALUES ('8', 'boss_defeated', '0');
 INSERT INTO `counters` VALUES ('8', 'night_logins', '0');
-INSERT INTO `counters` VALUES ('8', 'pvp_streak', '1');
-INSERT INTO `counters` VALUES ('8', 'quests_completed', '3');
+INSERT INTO `counters` VALUES ('8', 'pvp_streak', '2');
+INSERT INTO `counters` VALUES ('8', 'quests_completed', '7');
 INSERT INTO `counters` VALUES ('9', 'boss_defeated', '0');
 INSERT INTO `counters` VALUES ('9', 'night_logins', '0');
 INSERT INTO `counters` VALUES ('9', 'pvp_streak', '4');
@@ -1069,11 +1069,11 @@ CREATE TABLE `gracze` (
 -- ----------------------------
 INSERT INTO `gracze` VALUES ('3', '1', 'tolis', 'e10adc3949ba59abbe56e057f20f883e', 'tolis@test1.com', '0', '3', 'dgfdg', 'gfdgfd', '1', '2', '168', '200', '0', '0', '10', '1', '0', '0', '0', '121', '15', '5', '10', '10', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '280', '100', '0', '2', '52', '0', '0', '0', '1752083835', '0', '1752083886', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1752083886', '0', '0', '0', null, '0', '1', '0', '2', '2025-07-09', '2', '249', '0', null, null, null, null);
 INSERT INTO `gracze` VALUES ('4', '2', 'Kadaz', 'e10adc3949ba59abbe56e057f20f883e', 'solidus8422@gmail.com', '0', '1', 'tolis', 'tolis', '1', '1', '0', '10', '0', '0', '0', '6', '0', '0', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '100', '100', '0', '2', '90', '0', '0', '0', '0', '0', '1752087207', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1752087207', '0', '0', '0', 'Warrior', '0', '0', '0', '1', '2025-07-09', '1', '102', '1', '2025-07-09', null, null, null);
-INSERT INTO `gracze` VALUES ('5', '0', 'test', '25f9e794323b453885f5181f1b624d0b', 'test@gmail.com', '0', '1', 'test', 'test', '1', '1', '0', '10', '0', '0', '0', '11', '0', '0', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '100', '100', '0', '2', '40', '0', '0', '0', '0', '0', '0', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', null, '0', '0', '0', '0', null, '0', '0', '0', null, null, null, null);
-INSERT INTO `gracze` VALUES ('6', '0', 'test2', 'ad0234829205b9033196ba818f7a872b', 'test2@gmail.com', '0', '1', 'test', 'test', '1', '80', '2788', '8000', '0', '0', '6', '1', '0', '0', '0', '19', '132', '0', '0', '2', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '140', '100', '0', '2', '998194', '0', '0', '0', '1752187199', '0', '1752187210', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1752187210', '0', '0', '1', 'Pathfinder', '0', '0', '67', '2', '2025-07-09', '125', '845', '1', null, '2025-08-09', '35', '2025-07-11');
-INSERT INTO `gracze` VALUES ('7', '0', 'test3', '8ad8757baa8564dc136c1e07507f4a98', 'test3@gmail.com', '0', '1', 'test3', 'test3', '1', '86', '2939', '8600', '0', '0', '2', '3', '0', '0', '0', '0', '13', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '140', '100', '0', '2', '751', '0', '0', '0', '1751843125', '0', '1752165184', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1752165184', '0', '0', '0', null, '0', '0', '57', '2', '2025-07-10', '4', '449', '0', null, null, null, null);
-INSERT INTO `gracze` VALUES ('8', '0', 'test4', '86985e105f79b95d6bc918fb45ec7727', 'test4@gmail.com', '0', '3', 'test4', 'test4', '1', '7', '245', '700', '0', '0', '4', '4', '0', '0', '0', '2', '27', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '210', '100', '0', '2', '720', '0', '0', '0', '1752083976', '0', '1752084030', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1752084030', '0', '0', '0', null, '0', '0', '0', '2', '2025-07-09', '4', '500', '0', null, null, null, null);
-INSERT INTO `gracze` VALUES ('9', '0', 'test5', 'e3d704f3542b44a621ebed70dc0efe13', 'test5@gmail.com', '0', '1', 'test5', 'test5', '1', '3', '184', '300', '0', '0', '6', '1', '0', '0', '0', '0', '21', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '180', '100', '0', '2', '921', '0', '0', '0', '1752187219', '0', '1752187223', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1752187223', '0', '0', '0', 'Pathfinder', '0', '0', '75', '2', '2025-07-10', '0', '1108', '1', '2025-07-10', '2025-08-09', '37', '2025-07-11');
+INSERT INTO `gracze` VALUES ('5', '0', 'test', '25f9e794323b453885f5181f1b624d0b', 'test@gmail.com', '0', '1', 'test', 'test', '1', '1', '0', '10', '0', '0', '0', '14', '0', '0', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '100', '100', '0', '2', '10', '0', '0', '0', '0', '0', '0', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', null, '0', '0', '0', '0', null, '0', '0', '0', null, null, null, null);
+INSERT INTO `gracze` VALUES ('6', '0', 'test2', 'ad0234829205b9033196ba818f7a872b', 'test2@gmail.com', '0', '1', 'test', 'test', '1', '80', '2838', '8000', '0', '0', '8', '1', '0', '0', '0', '19', '132', '0', '0', '2', '0', '0', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '140', '100', '0', '2', '998214', '0', '0', '0', '1752266779', '0', '1752268625', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1752268625', '0', '0', '1', 'Pathfinder', '0', '0', '86', '1', '2025-07-11', '126', '947', '1', '2025-07-11', '2025-08-09', '35', '2025-07-11');
+INSERT INTO `gracze` VALUES ('7', '0', 'test3', '8ad8757baa8564dc136c1e07507f4a98', 'test3@gmail.com', '0', '1', 'test3', 'test3', '1', '86', '6549', '8600', '0', '0', '2', '3', '0', '0', '0', '0', '13', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '140', '100', '0', '2', '4481', '0', '0', '0', '1751843125', '0', '1752271494', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1752271494', '0', '0', '0', null, '0', '1', '64', '4', '2025-07-12', '6', '899', '0', null, null, '36', '2025-07-11');
+INSERT INTO `gracze` VALUES ('8', '0', 'test4', '86985e105f79b95d6bc918fb45ec7727', 'test4@gmail.com', '0', '3', 'test4', 'test4', '1', '8', '735', '700', '0', '0', '5', '4', '0', '0', '0', '2', '27', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '210', '100', '0', '2', '1280', '0', '0', '0', '1752266300', '0', '1752270976', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1752270976', '0', '0', '0', null, '0', '0', '5', '1', '2025-07-11', '5', '600', '0', null, null, '36', '2025-07-11');
+INSERT INTO `gracze` VALUES ('9', '0', 'test5', 'e3d704f3542b44a621ebed70dc0efe13', 'test5@gmail.com', '0', '1', 'test5', 'test5', '1', '3', '184', '300', '0', '0', '6', '1', '0', '0', '0', '0', '21', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '5', '0', '10', '0', '0', '0', '180', '100', '0', '2', '921', '0', '0', '0', '1752187219', '0', '1752247539', 'Newbie', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1752247539', '0', '0', '0', 'Pathfinder', '0', '0', '75', '3', '2025-07-11', '1', '1310', '1', '2025-07-11', '2025-08-09', '37', '2025-07-11');
 
 -- ----------------------------
 -- Table structure for `guilds`
@@ -2170,7 +2170,7 @@ CREATE TABLE `logs` (
   `details` text,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of logs
@@ -2211,6 +2211,8 @@ INSERT INTO `logs` VALUES ('33', '3', 'achievement_unlocked', 'Unlocked achievem
 INSERT INTO `logs` VALUES ('34', '8', 'achievement_unlocked', 'Unlocked achievement ID: 61', '2025-07-09 20:59:36');
 INSERT INTO `logs` VALUES ('35', '7', 'achievement_unlocked', 'Unlocked achievement ID: 7', '2025-07-09 21:41:46');
 INSERT INTO `logs` VALUES ('36', '9', 'achievement_unlocked', 'Unlocked achievement ID: 8', '2025-07-10 19:31:26');
+INSERT INTO `logs` VALUES ('37', '8', 'achievement_unlocked', 'Unlocked achievement ID: 7', '2025-07-12 00:48:28');
+INSERT INTO `logs` VALUES ('38', '8', 'achievement_unlocked', 'Unlocked achievement ID: 9', '2025-07-12 00:55:51');
 
 -- ----------------------------
 -- Table structure for `mensajes`
@@ -2268,21 +2270,18 @@ CREATE TABLE `notifications` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `seen` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of notifications
 -- ----------------------------
-INSERT INTO `notifications` VALUES ('8', '8', '✅ Daily Login: Day 1 - You received 100 coins & 1 premium coin!', '2025-07-07 22:39:15', '0');
-INSERT INTO `notifications` VALUES ('9', '7', '✅ Daily Login: Day 1 - You received 100 coins & 1 premium coin!', '2025-07-07 22:45:28', '0');
 INSERT INTO `notifications` VALUES ('10', '3', '✅ Daily Login: Day 1 - You received 100 coins & 1 premium coin!', '2025-07-08 00:02:40', '0');
-INSERT INTO `notifications` VALUES ('13', '8', '✅ Daily Login: Day 2 - You received 150 coins & 1 premium coin!', '2025-07-08 21:59:59', '0');
-INSERT INTO `notifications` VALUES ('14', '8', '✅ Daily Login: Day 1 - You received 100 coins & 1 premium coin!', '2025-07-08 21:59:59', '0');
-INSERT INTO `notifications` VALUES ('23', '7', '✅ Daily Login: Day 1 - You received 100 coins & 1 premium coin!', '2025-07-09 15:12:31', '0');
-INSERT INTO `notifications` VALUES ('24', '7', '✅ Daily Login: Day 1 - You received 100 coins & 1 premium coin!', '2025-07-09 15:12:31', '0');
 INSERT INTO `notifications` VALUES ('26', '3', '✅ Daily Login: Day 2\n+ 150 coins\n+ 1 premium coin', '2025-07-09 15:30:45', '0');
-INSERT INTO `notifications` VALUES ('27', '8', '✅ Daily Login: Day 2\n+ 150 coins\n+ 1 premium coin', '2025-07-09 20:59:15', '0');
-INSERT INTO `notifications` VALUES ('28', '7', '✅ Daily Login: Day 2\n+ 150 coins\n+ 1 premium coin', '2025-07-10 19:32:42', '0');
+INSERT INTO `notifications` VALUES ('32', '8', '✅ You completed a battle quest and earned 20 gold & 100 XP. ', '2025-07-12 00:48:28', '0');
+INSERT INTO `notifications` VALUES ('33', '8', '✅ You completed a battle quest and earned 20 gold & 100 XP. ', '2025-07-12 00:52:48', '0');
+INSERT INTO `notifications` VALUES ('34', '7', '✅ Daily Login: Day 4\n+ 250 coins\n+ 1 premium coin', '2025-07-12 00:56:30', '0');
+INSERT INTO `notifications` VALUES ('35', '7', '✅ You completed a battle quest and earned 500 gold & 310 XP. ', '2025-07-12 00:57:30', '0');
+INSERT INTO `notifications` VALUES ('36', '7', '✅ You completed a battle quest and earned 350 gold & 1200 XP. ', '2025-07-12 01:03:54', '0');
 
 -- ----------------------------
 -- Table structure for `players`
@@ -2345,7 +2344,9 @@ INSERT INTO `player_achievements` VALUES ('7', '57', '2025-07-07 01:55:18');
 INSERT INTO `player_achievements` VALUES ('7', '61', '2025-07-07 02:01:23');
 INSERT INTO `player_achievements` VALUES ('8', '5', '2025-07-06 00:22:55');
 INSERT INTO `player_achievements` VALUES ('8', '6', '2025-07-06 00:22:55');
+INSERT INTO `player_achievements` VALUES ('8', '7', '2025-07-12 00:48:28');
 INSERT INTO `player_achievements` VALUES ('8', '8', '2025-07-06 00:22:55');
+INSERT INTO `player_achievements` VALUES ('8', '9', '2025-07-12 00:55:51');
 INSERT INTO `player_achievements` VALUES ('8', '61', '2025-07-09 20:59:36');
 INSERT INTO `player_achievements` VALUES ('9', '1', '2025-07-02 01:07:29');
 INSERT INTO `player_achievements` VALUES ('9', '5', '2025-07-02 01:38:53');
@@ -2370,7 +2371,7 @@ CREATE TABLE `player_items` (
   KEY `item_id` (`item_id`),
   CONSTRAINT `player_items_ibfk_1` FOREIGN KEY (`player_id`) REFERENCES `gracze` (`id`),
   CONSTRAINT `player_items_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=421 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=432 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of player_items
@@ -2458,6 +2459,17 @@ INSERT INTO `player_items` VALUES ('417', '9', '17', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('418', '6', '296', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('419', '9', '934', '1', '0', '0');
 INSERT INTO `player_items` VALUES ('420', '9', '3', '1', '0', '0');
+INSERT INTO `player_items` VALUES ('421', '9', '934', '1', '0', '0');
+INSERT INTO `player_items` VALUES ('422', '6', '934', '1', '0', '0');
+INSERT INTO `player_items` VALUES ('423', '7', '215', '1', '0', '0');
+INSERT INTO `player_items` VALUES ('424', '8', '3', '1', '0', '0');
+INSERT INTO `player_items` VALUES ('425', '8', '10', '1', '0', '0');
+INSERT INTO `player_items` VALUES ('426', '8', '100', '1', '0', '0');
+INSERT INTO `player_items` VALUES ('427', '8', '56', '1', '0', '0');
+INSERT INTO `player_items` VALUES ('428', '7', '100', '1', '0', '0');
+INSERT INTO `player_items` VALUES ('429', '7', '56', '1', '0', '0');
+INSERT INTO `player_items` VALUES ('430', '7', '320', '1', '0', '0');
+INSERT INTO `player_items` VALUES ('431', '7', '335', '1', '0', '0');
 
 -- ----------------------------
 -- Table structure for `player_quests`
@@ -2473,7 +2485,7 @@ CREATE TABLE `player_quests` (
   PRIMARY KEY (`id`),
   KEY `quest_id` (`quest_id`),
   CONSTRAINT `player_quests_ibfk_1` FOREIGN KEY (`quest_id`) REFERENCES `quests` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of player_quests
@@ -2507,6 +2519,15 @@ INSERT INTO `player_quests` VALUES ('28', '7', '41', 'completed', '2025-07-09 21
 INSERT INTO `player_quests` VALUES ('29', '7', '42', 'completed', '2025-07-09 21:42:01', '2025-07-09 18:42:06');
 INSERT INTO `player_quests` VALUES ('30', '9', '40', 'completed', '2025-07-10 19:31:22', '2025-07-10 16:31:26');
 INSERT INTO `player_quests` VALUES ('31', '7', '43', 'completed', '2025-07-10 19:32:56', '2025-07-10 16:33:01');
+INSERT INTO `player_quests` VALUES ('32', '7', '74', 'completed', '2025-07-11 21:42:28', '2025-07-11 18:42:37');
+INSERT INTO `player_quests` VALUES ('33', '8', '41', 'completed', '2025-07-12 00:44:49', '2025-07-11 21:44:54');
+INSERT INTO `player_quests` VALUES ('34', '8', '138', 'completed', '2025-07-12 00:45:02', '2025-07-11 21:48:28');
+INSERT INTO `player_quests` VALUES ('35', '8', '147', 'completed', '2025-07-12 00:52:43', '2025-07-11 21:52:48');
+INSERT INTO `player_quests` VALUES ('36', '8', '44', 'completed', '2025-07-12 00:55:47', '2025-07-11 21:55:51');
+INSERT INTO `player_quests` VALUES ('37', '7', '53', 'completed', '2025-07-12 00:57:22', '2025-07-11 21:57:29');
+INSERT INTO `player_quests` VALUES ('38', '7', '44', 'completed', '2025-07-12 00:59:39', '2025-07-11 21:59:45');
+INSERT INTO `player_quests` VALUES ('39', '7', '95', 'completed', '2025-07-12 01:01:10', '2025-07-11 22:01:17');
+INSERT INTO `player_quests` VALUES ('40', '7', '167', 'completed', '2025-07-12 01:01:32', '2025-07-11 22:03:54');
 
 -- ----------------------------
 -- Table structure for `player_reports`
@@ -2738,174 +2759,176 @@ CREATE TABLE `quests` (
   `reward_item_id` int(11) DEFAULT NULL,
   `is_repeatable` tinyint(1) NOT NULL DEFAULT '0',
   `npc_name` varchar(255) NOT NULL DEFAULT 'Unknown NPC',
+  `requires_battle` tinyint(1) NOT NULL DEFAULT '0',
+  `enemy_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9017 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of quests
 -- ----------------------------
-INSERT INTO `quests` VALUES ('1', null, 'Clean the Training Yard', 'Help the blacksmith clean the training yard from broken weapons.', 'npc1.jpg', 'A grumpy old blacksmith with a heart of gold.', '1', '20', '10', '1', '0', 'Kadaz');
-INSERT INTO `quests` VALUES ('38', null, 'The Lost Ring', 'Find the golden ring stolen by the rats.', 'npc1.jpg', 'My precious ring... I need it back!', '1', '100', '50', '1', '0', 'Old Merchant');
-INSERT INTO `quests` VALUES ('39', null, 'Arena Aspirant', 'Win your first arena battle.', 'npc2.jpg', 'Let\'s see if you have what it takes.', '2', '150', '70', '2', '0', 'Arena Master');
-INSERT INTO `quests` VALUES ('40', null, 'Broken Blades', 'Collect 5 broken swords from training dummies.', 'npc3.jpg', 'We recycle everything here.', '3', '180', '90', '3', '0', 'Blacksmith');
-INSERT INTO `quests` VALUES ('41', null, 'Local Trouble', 'Defeat 3 thugs harassing villagers.', 'npc1.jpg', 'Those bullies are bad for business.', '4', '210', '110', '3', '0', 'Old Merchant');
-INSERT INTO `quests` VALUES ('42', null, 'Training Grounds', 'Train your strength stat 1 time.', 'npc2.jpg', 'Discipline is everything.', '5', '250', '130', '3', '0', 'Arena Master');
-INSERT INTO `quests` VALUES ('43', null, 'Clean Sweep', 'Sweep the training yard. Seriously.', 'npc3.jpg', 'No glory without humility.', '6', '200', '120', null, '1', 'Blacksmith');
-INSERT INTO `quests` VALUES ('44', null, 'The First Hunt', 'Hunt a wild boar and bring back meat.', 'npc4.jpg', 'Boar meat is a delicacy.', '7', '300', '160', '56', '0', 'Butcher Varga');
-INSERT INTO `quests` VALUES ('45', null, 'Relic Recovery', 'Retrieve a stolen relic from the caves.', 'npc1.jpg', 'It belongs in a museum.', '8', '350', '190', '63', '0', 'Old Merchant');
-INSERT INTO `quests` VALUES ('46', null, 'Daily Patrol', 'Patrol the southern gate.', 'npc2.jpg', 'A guard\'s work is never done.', '9', '220', '140', null, '1', 'Arena Master');
-INSERT INTO `quests` VALUES ('47', null, 'Champion’s Trial', 'Win 2 arena battles in a row.', 'npc3.jpg', 'Rise above the rest.', '10', '400', '220', '70', '0', 'Blacksmith');
-INSERT INTO `quests` VALUES ('48', null, 'Healing Hands', 'Deliver herbs to the local healer.', 'npc4.jpg', 'My patients are depending on you.', '11', '260', '150', '75', '0', 'Healer Mira');
-INSERT INTO `quests` VALUES ('49', null, 'The Mine Job', 'Escort miners to the cave entrance.', 'npc1.jpg', 'We\'re sitting ducks out there.', '12', '430', '250', '80', '0', 'Old Merchant');
-INSERT INTO `quests` VALUES ('50', null, 'Bounty Duty', 'Collect a bounty on a rogue gladiator.', 'npc2.jpg', 'He broke the code.', '13', '460', '270', '85', '0', 'Arena Master');
-INSERT INTO `quests` VALUES ('51', null, 'Field Test', 'Use a skill in battle successfully.', 'npc3.jpg', 'Put what you learned to use.', '14', '480', '290', '90', '0', 'Blacksmith');
-INSERT INTO `quests` VALUES ('52', null, 'Training Cleanup', 'Sharpen 3 weapons.', 'npc4.jpg', 'Blunt blades are dangerous.', '15', '300', '180', null, '1', 'Healer Mira');
-INSERT INTO `quests` VALUES ('53', null, 'Wolf Hunt', 'Hunt down the alpha wolf in the forest.', 'npc1.jpg', 'He\'s terrorizing the livestock.', '16', '500', '310', '100', '0', 'Old Merchant');
-INSERT INTO `quests` VALUES ('54', null, 'Sacred Fire', 'Light all torches in the temple.', 'npc2.jpg', 'Tradition must be honored.', '17', '530', '330', '105', '0', 'Arena Master');
-INSERT INTO `quests` VALUES ('55', null, 'Routine Inspection', 'Inspect the northern wall.', 'npc3.jpg', 'A loose stone can be deadly.', '18', '320', '200', null, '1', 'Blacksmith');
-INSERT INTO `quests` VALUES ('56', null, 'Apprentice’s Task', 'Bring a crate to the forge.', 'npc4.jpg', 'Mind the weight.', '19', '550', '350', '115', '0', 'Healer Mira');
-INSERT INTO `quests` VALUES ('57', null, 'Gladiator’s Honor', 'Defend your title in the arena.', 'npc1.jpg', 'Everyone is watching.', '20', '600', '400', '120', '0', 'Old Merchant');
-INSERT INTO `quests` VALUES ('58', null, 'Desert Watch', 'Guard the caravan heading east.', 'npc2.jpg', 'No one touches my spices.', '21', '650', '420', '125', '0', 'Trader Hassan');
-INSERT INTO `quests` VALUES ('59', null, 'Well Maintenance', 'Clean and repair the town well.', 'npc3.jpg', 'Water is life.', '22', '340', '210', null, '1', 'Blacksmith');
-INSERT INTO `quests` VALUES ('60', null, 'Storm Ritual', 'Assist the shaman in the rain ritual.', 'npc4.jpg', 'The sky listens when we chant.', '23', '680', '450', '145', '0', 'Shaman Kura');
-INSERT INTO `quests` VALUES ('61', null, 'Messenger Duty', 'Deliver a sealed scroll to the northern post.', 'npc1.jpg', 'It must reach them today.', '24', '700', '470', '150', '0', 'Old Merchant');
-INSERT INTO `quests` VALUES ('62', null, 'Shadow Hunt', 'Find and eliminate the night stalker.', 'npc2.jpg', 'It\'s been preying on our people.', '25', '740', '490', '155', '0', 'Arena Master');
-INSERT INTO `quests` VALUES ('63', null, 'Scroll Recovery', 'Find the ancient scroll lost in the crypt.', 'npc3.jpg', 'It holds forgotten knowledge.', '26', '770', '510', '160', '0', 'Librarian Theo');
-INSERT INTO `quests` VALUES ('64', null, 'Patrol Rotation', 'Switch guard duty with the west tower.', 'npc4.jpg', 'Don\'t let them slack off.', '27', '360', '220', null, '1', 'Arena Master');
-INSERT INTO `quests` VALUES ('65', null, 'Thief in the Camp', 'Catch the pickpocket lurking around.', 'npc1.jpg', 'He took my last coin!', '28', '800', '530', '170', '0', 'Old Merchant');
-INSERT INTO `quests` VALUES ('66', null, 'Cursed Idol', 'Destroy the cursed statue found in ruins.', 'npc2.jpg', 'Its presence is foul.', '29', '820', '550', '175', '0', 'Shaman Kura');
-INSERT INTO `quests` VALUES ('67', null, 'Honor Duel', 'Win a duel without taking critical damage.', 'npc3.jpg', 'That\'s how legends are made.', '30', '850', '580', '180', '0', 'Arena Master');
-INSERT INTO `quests` VALUES ('68', null, 'Potion Delivery', 'Bring special herbs to the apothecary.', 'npc4.jpg', 'Freshness is key.', '31', '380', '240', null, '1', 'Healer Mira');
-INSERT INTO `quests` VALUES ('69', null, 'Bandit Camp', 'Scout and report enemy positions.', 'npc1.jpg', 'Don\'t engage. Just observe.', '32', '880', '600', '190', '0', 'Old Merchant');
-INSERT INTO `quests` VALUES ('70', null, 'Broken Shield', 'Craft and deliver a replacement shield.', 'npc2.jpg', 'Every guard must be prepared.', '33', '910', '620', '195', '0', 'Blacksmith');
-INSERT INTO `quests` VALUES ('71', null, 'The Fugitive', 'Track the escaped convict into the woods.', 'npc3.jpg', 'Bring him back alive.', '34', '940', '650', '200', '0', 'Guard Captain');
-INSERT INTO `quests` VALUES ('72', null, 'Barracks Duty', 'Clean and repair armor in barracks.', 'npc4.jpg', 'Respect the tools of war.', '35', '400', '250', null, '1', 'Blacksmith');
-INSERT INTO `quests` VALUES ('73', null, 'River Spirits', 'Appease the river spirits with offerings.', 'npc1.jpg', 'We can’t afford a flood.', '36', '960', '670', '210', '0', 'Shaman Kura');
-INSERT INTO `quests` VALUES ('74', null, 'Beast of the Hills', 'Slay the horned beast sighted near the hills.', 'npc2.jpg', 'The farmers are terrified.', '37', '1000', '700', '215', '0', 'Old Merchant');
-INSERT INTO `quests` VALUES ('75', null, 'Mage’s Request', 'Gather arcane dust from elemental ruins.', 'npc3.jpg', 'Handle with extreme care.', '38', '1040', '730', '220', '0', 'Mage Elandra');
-INSERT INTO `quests` VALUES ('76', null, 'Reinforcement Call', 'Send a signal to eastern barracks.', 'npc4.jpg', 'They need backup.', '39', '420', '260', null, '1', 'Arena Master');
-INSERT INTO `quests` VALUES ('77', null, 'The Gladiator’s Mark', 'Win a flawless arena match.', 'npc1.jpg', 'Leave no room for doubt.', '40', '1100', '800', '230', '0', 'Arena Master');
-INSERT INTO `quests` VALUES ('78', null, 'Forest Ambush', 'Defend the caravan from bandits in the forest.', 'npc2.jpg', 'They won’t see us coming.', '41', '1150', '850', '235', '0', 'Trader Hassan');
-INSERT INTO `quests` VALUES ('79', null, 'Lost Relic', 'Recover the lost relic from ancient ruins.', 'npc3.jpg', 'This relic holds great power.', '42', '1180', '880', '240', '0', 'Librarian Theo');
-INSERT INTO `quests` VALUES ('80', null, 'Herbal Hunt', 'Collect rare herbs for the apothecary.', 'npc4.jpg', 'Every potion depends on these.', '43', '460', '300', null, '1', 'Healer Mira');
-INSERT INTO `quests` VALUES ('81', null, 'Sentry Duty', 'Keep watch over the southern gate.', 'npc1.jpg', 'No one gets past unnoticed.', '44', '1210', '900', '250', '0', 'Guard Captain');
-INSERT INTO `quests` VALUES ('82', null, 'Wolves at the Gate', 'Drive away the wolf pack threatening the village.', 'npc2.jpg', 'The livestock is in danger.', '45', '1250', '940', '255', '0', 'Old Merchant');
-INSERT INTO `quests` VALUES ('83', null, 'Ancient Texts', 'Copy ancient texts for the mage’s study.', 'npc3.jpg', 'Accuracy is key.', '46', '1280', '960', '260', '0', 'Mage Elandra');
-INSERT INTO `quests` VALUES ('84', null, 'Water Purification', 'Cleanse the town’s water supply.', 'npc4.jpg', 'The people are counting on you.', '47', '480', '320', null, '1', 'Blacksmith');
-INSERT INTO `quests` VALUES ('85', null, 'Guard Escort', 'Escort the noble safely through the forest.', 'npc1.jpg', 'The nobles’ lives are precious.', '48', '1300', '1000', '270', '0', 'Guard Captain');
-INSERT INTO `quests` VALUES ('86', null, 'Beast Tamer', 'Capture the wild beast without harming it.', 'npc2.jpg', 'It’s a test of skill.', '49', '1340', '1040', '275', '0', 'Arena Master');
-INSERT INTO `quests` VALUES ('87', null, 'Mystic Trial', 'Complete the shaman’s trial of endurance.', 'npc3.jpg', 'Only the worthy survive.', '50', '1380', '1080', '280', '0', 'Shaman Kura');
-INSERT INTO `quests` VALUES ('88', null, 'Supply Run', 'Deliver supplies to the outpost.', 'npc4.jpg', 'Speed and discretion required.', '51', '520', '350', null, '1', 'Old Merchant');
-INSERT INTO `quests` VALUES ('89', null, 'Shadow Stalker', 'Track the shadowy figure through the city.', 'npc1.jpg', 'No one knows who they are.', '52', '1420', '1120', '290', '0', 'Mage Elandra');
-INSERT INTO `quests` VALUES ('90', null, 'Craftsman’s Request', 'Gather materials for the blacksmith.', 'npc2.jpg', 'Strong weapons need strong materials.', '53', '1450', '1150', '295', '0', 'Blacksmith');
-INSERT INTO `quests` VALUES ('91', null, 'Night Watch', 'Stand guard all night in the town square.', 'npc3.jpg', 'Keep your eyes open.', '54', '540', '360', null, '1', 'Guard Captain');
-INSERT INTO `quests` VALUES ('92', null, 'Rescue Mission', 'Save the captive from bandits.', 'npc4.jpg', 'Time is of the essence.', '55', '1500', '1180', '305', '0', 'Arena Master');
-INSERT INTO `quests` VALUES ('93', null, 'Herbal Remedy', 'Create a potent remedy with rare herbs.', 'npc1.jpg', 'Healing the sick is urgent.', '56', '1540', '1200', '310', '0', 'Healer Mira');
-INSERT INTO `quests` VALUES ('94', null, 'Fire Watch', 'Put out the fire threatening the granary.', 'npc2.jpg', 'Protect our food supply.', '57', '580', '400', null, '1', 'Old Merchant');
-INSERT INTO `quests` VALUES ('95', null, 'Gladiator’s Challenge', 'Defeat the champion without losing a round.', 'npc3.jpg', 'Glory awaits the brave.', '58', '1580', '1240', '320', '0', 'Arena Master');
-INSERT INTO `quests` VALUES ('96', null, 'Ancient Altar', 'Cleanse the ancient altar from corruption.', 'npc4.jpg', 'The spirits must be appeased.', '59', '1620', '1280', '325', '0', 'Shaman Kura');
-INSERT INTO `quests` VALUES ('97', null, 'Messenger\'s Duty', 'Deliver urgent messages to allied towns.', 'npc1.jpg', 'No time to waste.', '60', '600', '420', null, '1', 'Old Merchant');
-INSERT INTO `quests` VALUES ('98', null, 'Bandit Hideout', 'Infiltrate the bandit camp and retrieve stolen goods.', 'npc2.jpg', 'Stay quiet and strike fast.', '61', '1650', '1320', '335', '0', 'Trader Hassan');
-INSERT INTO `quests` VALUES ('99', null, 'Cursed Forest', 'Lift the curse plaguing the forest.', 'npc3.jpg', 'Darkness has taken root.', '62', '1680', '1350', '340', '0', 'Shaman Kura');
-INSERT INTO `quests` VALUES ('100', null, 'Herbal Collection', 'Gather medicinal herbs from the hills.', 'npc4.jpg', 'Every leaf counts.', '63', '620', '430', null, '1', 'Healer Mira');
-INSERT INTO `quests` VALUES ('101', null, 'Gate Defense', 'Protect the northern gate from invaders.', 'npc1.jpg', 'Hold the line at all costs.', '64', '1700', '1380', '350', '0', 'Guard Captain');
-INSERT INTO `quests` VALUES ('102', null, 'Wild Boar Hunt', 'Track and hunt the wild boar threatening crops.', 'npc2.jpg', 'Precision is key.', '65', '1750', '1420', '355', '0', 'Old Merchant');
-INSERT INTO `quests` VALUES ('103', null, 'Ancient Library', 'Recover lost scrolls from the ruins.', 'npc3.jpg', 'Knowledge is power.', '66', '1780', '1450', '360', '0', 'Librarian Theo');
-INSERT INTO `quests` VALUES ('104', null, 'Water Supply Repair', 'Fix the broken aqueduct supplying the town.', 'npc4.jpg', 'Without water, we perish.', '67', '640', '450', null, '1', 'Blacksmith');
-INSERT INTO `quests` VALUES ('105', null, 'Escort Mission', 'Escort the merchant caravan safely through dangerous lands.', 'npc1.jpg', 'Danger lurks at every corner.', '68', '1800', '1480', '370', '0', 'Trader Hassan');
-INSERT INTO `quests` VALUES ('106', null, 'Beast Tracking', 'Locate the missing hunting beast.', 'npc2.jpg', 'The forest is alive with secrets.', '69', '1850', '1520', '375', '0', 'Arena Master');
-INSERT INTO `quests` VALUES ('107', null, 'Trial of Strength', 'Prove your might in the gladiator arena.', 'npc3.jpg', 'Only the strong survive.', '70', '1880', '1550', '380', '0', 'Arena Master');
-INSERT INTO `quests` VALUES ('108', null, 'Supply Transport', 'Deliver vital supplies to the frontline.', 'npc4.jpg', 'Speed and stealth required.', '71', '660', '470', null, '1', 'Old Merchant');
-INSERT INTO `quests` VALUES ('109', null, 'Shadow Pursuit', 'Track the elusive shadow through the city streets.', 'npc1.jpg', 'They are always one step ahead.', '72', '1920', '1580', '390', '0', 'Mage Elandra');
-INSERT INTO `quests` VALUES ('110', null, 'Crafting Materials', 'Collect materials for the town’s craftsmen.', 'npc2.jpg', 'Quality tools require quality materials.', '73', '1950', '1600', '395', '0', 'Blacksmith');
-INSERT INTO `quests` VALUES ('111', null, 'Night Watch Duty', 'Keep vigil through the night to protect the town.', 'npc3.jpg', 'Alertness saves lives.', '74', '680', '480', null, '1', 'Guard Captain');
-INSERT INTO `quests` VALUES ('112', null, 'Rescue Operation', 'Rescue hostages from the bandit camp.', 'npc4.jpg', 'Time is running out.', '75', '2000', '1650', '405', '0', 'Arena Master');
-INSERT INTO `quests` VALUES ('113', null, 'Healing Potion', 'Prepare a batch of healing potions.', 'npc1.jpg', 'The sick need relief.', '76', '2040', '1680', '410', '0', 'Healer Mira');
-INSERT INTO `quests` VALUES ('114', null, 'Fire Suppression', 'Extinguish the fire threatening the granary.', 'npc2.jpg', 'Protect our food.', '77', '700', '500', null, '1', 'Old Merchant');
-INSERT INTO `quests` VALUES ('115', null, 'Champion’s Duel', 'Defeat the reigning champion without losing a round.', 'npc3.jpg', 'Glory is within reach.', '78', '2080', '1720', '420', '0', 'Arena Master');
-INSERT INTO `quests` VALUES ('116', null, 'Altar Cleansing', 'Cleanse the corrupted altar.', 'npc4.jpg', 'Restore balance to the land.', '79', '2120', '1750', '425', '0', 'Shaman Kura');
-INSERT INTO `quests` VALUES ('117', null, 'Urgent Messages', 'Deliver important messages to allied settlements.', 'npc1.jpg', 'Speed is of the essence.', '80', '720', '520', null, '1', 'Old Merchant');
-INSERT INTO `quests` VALUES ('118', null, 'Mountain Patrol', 'Patrol the mountain passes to deter enemy scouts.', 'npc2.jpg', 'Keep your eyes sharp.', '81', '2400', '1950', '430', '0', 'Guard Captain');
-INSERT INTO `quests` VALUES ('119', null, 'Lost Relic', 'Find the ancient relic lost in the catacombs.', 'npc3.jpg', 'It holds untold power.', '82', '2450', '1980', '435', '0', 'Librarian Theo');
-INSERT INTO `quests` VALUES ('120', null, 'Herbalist’s Aid', 'Assist the herbalist in gathering rare plants.', 'npc4.jpg', 'Every plant has a purpose.', '83', '740', '540', null, '1', 'Healer Mira');
-INSERT INTO `quests` VALUES ('121', null, 'Fortress Reinforcement', 'Bring reinforcements to the fortress under siege.', 'npc1.jpg', 'The walls must hold.', '84', '2500', '2020', '445', '0', 'General Marcus');
-INSERT INTO `quests` VALUES ('122', null, 'Beast Hunt', 'Track and slay the legendary beast threatening villages.', 'npc2.jpg', 'A challenge for the brave.', '85', '2550', '2050', '450', '0', 'Arena Master');
-INSERT INTO `quests` VALUES ('123', null, 'Ancient Puzzle', 'Solve the ancient puzzle guarding the treasure.', 'npc3.jpg', 'Mind and courage are needed.', '86', '2580', '2080', '455', '0', 'Mage Elandra');
-INSERT INTO `quests` VALUES ('124', null, 'Waterway Repair', 'Fix the damaged waterway supplying the city.', 'npc4.jpg', 'Without water, life ends.', '87', '760', '550', null, '1', 'Blacksmith');
-INSERT INTO `quests` VALUES ('125', null, 'Escort the Envoy', 'Ensure the safe passage of the royal envoy.', 'npc1.jpg', 'Diplomacy is on the line.', '88', '2600', '2100', '465', '0', 'Trader Hassan');
-INSERT INTO `quests` VALUES ('126', null, 'Shadow Stalker', 'Eliminate the shadow stalker haunting the streets.', 'npc2.jpg', 'No one is safe.', '89', '2650', '2130', '470', '0', 'Mage Elandra');
-INSERT INTO `quests` VALUES ('127', null, 'Gladiator’s Challenge', 'Defeat 10 challengers in the arena.', 'npc3.jpg', 'Prove your dominance.', '90', '2680', '2150', '475', '0', 'Arena Master');
-INSERT INTO `quests` VALUES ('128', null, 'Supply Run', 'Deliver essential supplies to remote outposts.', 'npc4.jpg', 'Every minute counts.', '91', '780', '560', null, '1', 'Old Merchant');
-INSERT INTO `quests` VALUES ('129', null, 'Investigate Disturbance', 'Investigate strange happenings near the village.', 'npc1.jpg', 'Something is amiss.', '92', '2700', '2170', '485', '0', 'Guard Captain');
-INSERT INTO `quests` VALUES ('130', null, 'Crafting Request', 'Gather rare materials for special equipment.', 'npc2.jpg', 'Only the finest will do.', '93', '2750', '2200', '490', '0', 'Blacksmith');
-INSERT INTO `quests` VALUES ('131', null, 'Night Watch', 'Guard the city walls overnight.', 'npc3.jpg', 'Stay alert.', '94', '800', '570', null, '1', 'Guard Captain');
-INSERT INTO `quests` VALUES ('132', null, 'Rescue the Prisoners', 'Free prisoners captured by bandits.', 'npc4.jpg', 'Their freedom depends on you.', '95', '2800', '2230', '500', '0', 'Arena Master');
-INSERT INTO `quests` VALUES ('133', null, 'Potion Brewing', 'Brew powerful potions for the upcoming battle.', 'npc1.jpg', 'Ingredients are key.', '96', '2840', '2260', '505', '0', 'Healer Mira');
-INSERT INTO `quests` VALUES ('134', null, 'Fire Watch', 'Keep watch for fires in the forest.', 'npc2.jpg', 'Prevent disaster.', '97', '820', '580', null, '1', 'Old Merchant');
-INSERT INTO `quests` VALUES ('135', null, 'Champion’s Gauntlet', 'Survive the champion’s gauntlet undefeated.', 'npc3.jpg', 'Only the worthy pass.', '98', '2880', '2290', '515', '0', 'Arena Master');
-INSERT INTO `quests` VALUES ('136', null, 'Sacred Grove', 'Protect the sacred grove from defilers.', 'npc4.jpg', 'Nature must be preserved.', '99', '2920', '2320', '520', '0', 'Shaman Kura');
-INSERT INTO `quests` VALUES ('137', null, 'Final Test', 'Complete the final test to prove your worth.', 'npc1.jpg', 'Your destiny awaits.', '100', '3000', '2400', '525', '0', 'General Marcus');
-INSERT INTO `quests` VALUES ('138', null, 'Kill 5 Rats', 'Clean the tavern cellar by killing 5 rats.', '0_1.jpg', 'Those rats are ruining the cellar! Help us get rid of them.', '5', '20', '100', '10', '0', 'Tavern Keeper');
-INSERT INTO `quests` VALUES ('139', null, 'Kill 5 Rats', 'Clean the tavern cellar by killing 5 rats.', '0_1.jpg', 'Those rats are ruining the cellar! Help us get rid of them.', '10', '30', '150', '20', '0', 'Tavern Keeper');
-INSERT INTO `quests` VALUES ('140', null, 'Kill 5 Rats', 'Clean the tavern cellar by killing 5 rats.', '0_1.jpg', 'Those rats are ruining the cellar! Help us get rid of them.', '15', '40', '200', '30', '0', 'Tavern Keeper');
-INSERT INTO `quests` VALUES ('141', null, 'Deliver Message', 'Deliver a message to the blacksmith.', '0_2.jpg', 'We need this message delivered quickly to the blacksmith.', '3', '15', '80', '40', '0', 'Town Crier');
-INSERT INTO `quests` VALUES ('142', null, 'Deliver Message', 'Deliver a message to the blacksmith.', '0_2.jpg', 'We need this message delivered quickly to the blacksmith.', '7', '25', '130', '50', '0', 'Town Crier');
-INSERT INTO `quests` VALUES ('143', null, 'Deliver Message', 'Deliver a message to the blacksmith.', '0_2.jpg', 'We need this message delivered quickly to the blacksmith.', '12', '35', '180', '60', '0', 'Town Crier');
-INSERT INTO `quests` VALUES ('144', null, 'Win a Duel', 'Win one arena battle against another player.', '0_3.jpg', 'Show your skill in the arena and defeat your opponent.', '20', '50', '250', '70', '0', 'Arena Master');
-INSERT INTO `quests` VALUES ('145', null, 'Win a Duel', 'Win one arena battle against another player.', '0_3.jpg', 'Show your skill in the arena and defeat your opponent.', '30', '70', '350', '80', '0', 'Arena Master');
-INSERT INTO `quests` VALUES ('146', null, 'Win a Duel', 'Win one arena battle against another player.', '0_3.jpg', 'Show your skill in the arena and defeat your opponent.', '40', '90', '450', '90', '0', 'Arena Master');
-INSERT INTO `quests` VALUES ('147', null, 'Kill 5 Rats', 'Clean the tavern cellar by killing 5 rats.', '0_1.jpg', 'Those rats are ruining the cellar! Help us get rid of them.', '5', '20', '100', '100', '0', 'Tavern Keeper');
-INSERT INTO `quests` VALUES ('148', null, 'Kill 5 Rats', 'Clean the tavern cellar by killing 5 rats.', '0_1.jpg', 'Those rats are ruining the cellar! Help us get rid of them.', '10', '30', '150', '110', '0', 'Tavern Keeper');
-INSERT INTO `quests` VALUES ('149', null, 'Kill 5 Rats', 'Clean the tavern cellar by killing 5 rats.', '0_1.jpg', 'Those rats are ruining the cellar! Help us get rid of them.', '15', '40', '200', '120', '0', 'Tavern Keeper');
-INSERT INTO `quests` VALUES ('150', null, 'Deliver Message', 'Deliver a message to the blacksmith.', '0_2.jpg', 'We need this message delivered quickly to the blacksmith.', '3', '15', '80', '130', '0', 'Town Crier');
-INSERT INTO `quests` VALUES ('151', null, 'Deliver Message', 'Deliver a message to the blacksmith.', '0_2.jpg', 'We need this message delivered quickly to the blacksmith.', '7', '25', '130', '140', '0', 'Town Crier');
-INSERT INTO `quests` VALUES ('152', null, 'Deliver Message', 'Deliver a message to the blacksmith.', '0_2.jpg', 'We need this message delivered quickly to the blacksmith.', '12', '35', '180', '150', '0', 'Town Crier');
-INSERT INTO `quests` VALUES ('153', null, 'Win a Duel', 'Win one arena battle against another player.', '0_3.jpg', 'Show your skill in the arena and defeat your opponent.', '20', '50', '250', '160', '0', 'Arena Master');
-INSERT INTO `quests` VALUES ('154', null, 'Win a Duel', 'Win one arena battle against another player.', '0_3.jpg', 'Show your skill in the arena and defeat your opponent.', '30', '70', '350', '170', '0', 'Arena Master');
-INSERT INTO `quests` VALUES ('155', null, 'Win a Duel', 'Win one arena battle against another player.', '0_3.jpg', 'Show your skill in the arena and defeat your opponent.', '40', '90', '450', '180', '0', 'Arena Master');
-INSERT INTO `quests` VALUES ('156', null, 'Collect 10 Herbs', 'Gather 10 healing herbs from the forest.', '0_4.jpg', 'The healer needs these herbs to make medicines.', '25', '60', '300', '190', '0', 'Healer');
-INSERT INTO `quests` VALUES ('157', null, 'Collect 10 Herbs', 'Gather 10 healing herbs from the forest.', '0_4.jpg', 'The healer needs these herbs to make medicines.', '35', '80', '400', '200', '0', 'Healer');
-INSERT INTO `quests` VALUES ('158', null, 'Collect 10 Herbs', 'Gather 10 healing herbs from the forest.', '0_4.jpg', 'The healer needs these herbs to make medicines.', '45', '100', '500', '210', '0', 'Healer');
-INSERT INTO `quests` VALUES ('159', null, 'Defeat the Bandit Leader', 'Eliminate the bandit leader terrorizing the village.', '0_5.jpg', 'Our village is safe only if you kill the bandit leader.', '30', '70', '350', '220', '0', 'Village Elder');
-INSERT INTO `quests` VALUES ('160', null, 'Defeat the Bandit Leader', 'Eliminate the bandit leader terrorizing the village.', '0_5.jpg', 'Our village is safe only if you kill the bandit leader.', '40', '90', '450', '230', '0', 'Village Elder');
-INSERT INTO `quests` VALUES ('161', null, 'Defeat the Bandit Leader', 'Eliminate the bandit leader terrorizing the village.', '0_5.jpg', 'Our village is safe only if you kill the bandit leader.', '50', '110', '550', '240', '0', 'Village Elder');
-INSERT INTO `quests` VALUES ('162', null, 'Escort the Merchant', 'Protect the merchant on his journey to the next town.', '0_6.jpg', 'The roads are dangerous; escort the merchant safely.', '35', '80', '400', '250', '0', 'Merchant');
-INSERT INTO `quests` VALUES ('163', null, 'Escort the Merchant', 'Protect the merchant on his journey to the next town.', '0_6.jpg', 'The roads are dangerous; escort the merchant safely.', '45', '100', '500', '260', '0', 'Merchant');
-INSERT INTO `quests` VALUES ('164', null, 'Escort the Merchant', 'Protect the merchant on his journey to the next town.', '0_6.jpg', 'The roads are dangerous; escort the merchant safely.', '55', '120', '600', '270', '0', 'Merchant');
-INSERT INTO `quests` VALUES ('165', null, 'Hunt the Desert Wyrm', 'Slay the monstrous wyrm lurking beneath the desert sands.', '0_7.jpg', 'The beast swallows caravans whole. Only you can stop it.', '60', '250', '800', '325', '0', 'Desert Commander');
-INSERT INTO `quests` VALUES ('166', null, 'Hunt the Desert Wyrm', 'Slay the monstrous wyrm lurking beneath the desert sands.', '0_7.jpg', 'The beast swallows caravans whole. Only you can stop it.', '70', '300', '1000', '330', '0', 'Desert Commander');
-INSERT INTO `quests` VALUES ('167', null, 'Hunt the Desert Wyrm', 'Slay the monstrous wyrm lurking beneath the desert sands.', '0_7.jpg', 'The beast swallows caravans whole. Only you can stop it.', '80', '350', '1200', '335', '0', 'Desert Commander');
-INSERT INTO `quests` VALUES ('168', null, 'Retrieve the Cursed Artifact', 'Venture into the ruins and retrieve a powerful artifact guarded by the undead.', '0_8.jpg', 'Legends say the artifact corrupts the weak. Are you strong enough?', '65', '270', '850', '340', '0', 'Arcanist Veleron');
-INSERT INTO `quests` VALUES ('169', null, 'Retrieve the Cursed Artifact', 'Venture into the ruins and retrieve a powerful artifact guarded by the undead.', '0_8.jpg', 'Legends say the artifact corrupts the weak. Are you strong enough?', '75', '320', '1100', '345', '0', 'Arcanist Veleron');
-INSERT INTO `quests` VALUES ('170', null, 'Retrieve the Cursed Artifact', 'Venture into the ruins and retrieve a powerful artifact guarded by the undead.', '0_8.jpg', 'Legends say the artifact corrupts the weak. Are you strong enough?', '85', '380', '1300', '350', '0', 'Arcanist Veleron');
-INSERT INTO `quests` VALUES ('171', null, 'Siege the Shadow Fortress', 'Lead a strike force to infiltrate the fortress of the dark cultists.', '0_9.jpg', 'No one has returned from the fortress alive... yet.', '70', '300', '900', '355', '0', 'General Tharon');
-INSERT INTO `quests` VALUES ('172', null, 'Siege the Shadow Fortress', 'Lead a strike force to infiltrate the fortress of the dark cultists.', '0_9.jpg', 'No one has returned from the fortress alive... yet.', '80', '350', '1200', '360', '0', 'General Tharon');
-INSERT INTO `quests` VALUES ('173', null, 'Siege the Shadow Fortress', 'Lead a strike force to infiltrate the fortress of the dark cultists.', '0_9.jpg', 'No one has returned from the fortress alive... yet.', '90', '400', '1500', '365', '0', 'General Tharon');
-INSERT INTO `quests` VALUES ('174', null, 'Slay the Void Tyrant', 'Defeat the ancient Void Tyrant who feeds on worlds.', '1_0.jpg', 'He is eternal, he is hunger, and now he awaits you.', '90', '500', '2000', '370', '0', 'Chrono-Seer Lysara');
-INSERT INTO `quests` VALUES ('175', null, 'Slay the Void Tyrant', 'Defeat the ancient Void Tyrant who feeds on worlds.', '1_0.jpg', 'He is eternal, he is hunger, and now he awaits you.', '95', '600', '2500', '375', '0', 'Chrono-Seer Lysara');
-INSERT INTO `quests` VALUES ('176', null, 'Slay the Void Tyrant', 'Defeat the ancient Void Tyrant who feeds on worlds.', '1_0.jpg', 'He is eternal, he is hunger, and now he awaits you.', '100', '800', '3000', '500', '0', 'Chrono-Seer Lysara');
-INSERT INTO `quests` VALUES ('177', null, 'Defend the Gates of Solara', 'Stand with the last defenders of the golden city against the demonic horde.', '1_1.jpg', 'Our walls shall not fall today. Not while you still breathe.', '91', '550', '2100', '510', '0', 'Captain Myros');
-INSERT INTO `quests` VALUES ('178', null, 'Defend the Gates of Solara', 'Stand with the last defenders of the golden city against the demonic horde.', '1_1.jpg', 'Our walls shall not fall today. Not while you still breathe.', '96', '650', '2700', '515', '0', 'Captain Myros');
-INSERT INTO `quests` VALUES ('179', null, 'Defend the Gates of Solara', 'Stand with the last defenders of the golden city against the demonic horde.', '1_1.jpg', 'Our walls shall not fall today. Not while you still breathe.', '100', '900', '3200', '520', '0', 'Captain Myros');
-INSERT INTO `quests` VALUES ('180', null, 'The Final Trial', 'Face your mirror self in a deadly trial of strength, wit, and will.', '1_2.jpg', 'Only one of you may emerge. Will it be you, or the darkness within?', '92', '580', '2200', '525', '0', 'Master Altherion');
-INSERT INTO `quests` VALUES ('181', null, 'The Final Trial', 'Face your mirror self in a deadly trial of strength, wit, and will.', '1_2.jpg', 'Only one of you may emerge. Will it be you, or the darkness within?', '97', '680', '2800', '530', '0', 'Master Altherion');
-INSERT INTO `quests` VALUES ('182', null, 'The Final Trial', 'Face your mirror self in a deadly trial of strength, wit, and will.', '1_2.jpg', 'Only one of you may emerge. Will it be you, or the darkness within?', '100', '1000', '3500', '535', '0', 'Master Altherion');
-INSERT INTO `quests` VALUES ('9001', null, 'Whispers in the North', 'Investigate rumors of unrest in the frozen Ashen Vale.', 'npc_general.jpg', 'Captain Elrik has caught wind of unsettling whispers in the north. He needs someone brave enough to verify them.', '85', '850', '1800', '540', '0', 'Captain Elrik');
-INSERT INTO `quests` VALUES ('9002', '9001', 'Tracks in the Snow', 'Follow the signs of rebel activity and report your findings.', 'npc_scout.jpg', 'Scout Mira guides you through the perilous ice fields, helping track rebel footprints.', '86', '900', '1900', '545', '0', 'Scout Mira');
-INSERT INTO `quests` VALUES ('9003', '9002', 'Saboteur\'s Den', 'Infiltrate a hidden rebel outpost and eliminate the saboteur.', 'npc_rogue.jpg', 'A cunning saboteur is undermining supply lines. Find their den and stop them.', '87', '1000', '2000', '550', '0', 'Shade Dalan');
-INSERT INTO `quests` VALUES ('9004', '9003', 'Rebel War Council', 'Eavesdrop on a rebel war meeting and bring back intel.', 'npc_spy.jpg', 'The time to strike is coming. But first, we need to know their plans. Trust no one.', '88', '1100', '2150', '555', '0', 'Agent Cyra');
-INSERT INTO `quests` VALUES ('9005', '9004', 'Crush the Commander', 'Face the rebel leader in the highlands and put an end to the rebellion.', 'npc_warlord.jpg', 'This is it. The commander who started it all awaits. The fate of the north hangs in balance.', '89', '1250', '2300', '560', '0', 'Warlord Kharax');
-INSERT INTO `quests` VALUES ('9006', '9005', 'Betrayal in the Ranks', 'Uncover the traitor leaking information to the rebels.', 'npc_spy.jpg', 'Agent Cyra suspects there’s a mole in the king’s council. Find proof.', '90', '1350', '2500', '565', '0', 'Agent Cyra');
-INSERT INTO `quests` VALUES ('9007', '9006', 'Fortress Under Siege', 'Lead a strike to break the rebel siege on the northern fortress.', 'npc_warlord.jpg', 'Warlord Kharax calls upon your strength to rally the defenders.', '91', '1500', '2700', '570', '0', 'Warlord Kharax');
-INSERT INTO `quests` VALUES ('9008', '9007', 'The Dark Ritual', 'Stop the rebels from completing a forbidden ritual that could doom the realm.', 'npc_mage.jpg', 'High Mage Valera warns of a dark ritual in the shadowed woods.', '92', '1650', '2900', '575', '0', 'High Mage Valera');
-INSERT INTO `quests` VALUES ('9009', '9008', 'Shadows in the Mist', 'Hunt down rebel assassins lurking in the fog.', 'npc_rogue.jpg', 'Shade Dalan returns with vital info on assassin movements.', '93', '1800', '3100', '580', '0', 'Shade Dalan');
-INSERT INTO `quests` VALUES ('9010', '9009', 'Final Stand at Ashen Peak', 'Confront the last of the rebels and secure peace for the north.', 'npc_warlord.jpg', 'Warlord Kharax prepares for the decisive battle atop Ashen Peak.', '94', '2000', '3500', '585', '0', 'Warlord Kharax');
-INSERT INTO `quests` VALUES ('9011', '9010', 'A Hero’s Reward', 'Celebrate your victory with the king’s recognition and a grand reward.', 'npc_king.jpg', 'King Alaric honors your bravery and sacrifices.', '95', '2500', '4000', '590', '0', 'King Alaric');
-INSERT INTO `quests` VALUES ('9012', '9011', 'The Siege Breaker', 'Lead the final assault to break the rebel siege on the capital.', 'npc_warlord.jpg', 'Warlord Kharax entrusts you with this crucial mission.', '96', '2800', '4500', '595', '0', 'Warlord Kharax');
-INSERT INTO `quests` VALUES ('9013', '9012', 'Into the Heart of Darkness', 'Infiltrate the rebel stronghold and retrieve the stolen relic.', 'npc_rogue.jpg', 'Shade Dalan provides stealth tactics for your mission.', '97', '3000', '4800', '600', '0', 'Shade Dalan');
-INSERT INTO `quests` VALUES ('9014', '9013', 'The Cursed Artifact', 'Destroy the cursed relic before it corrupts the land.', 'npc_mage.jpg', 'High Mage Valera warns of the artifact’s devastating power.', '98', '3200', '5200', '610', '0', 'High Mage Valera');
-INSERT INTO `quests` VALUES ('9015', '9014', 'Betrayal Revealed', 'Expose the rebel leader’s hidden allies within the kingdom.', 'npc_spy.jpg', 'Agent Cyra shares secret intelligence to aid your cause.', '99', '3500', '5600', '620', '0', 'Agent Cyra');
-INSERT INTO `quests` VALUES ('9016', '9015', 'Ashen Rebellion: Final Judgment', 'Face the rebel leader in a decisive battle to end the rebellion.', 'npc_king.jpg', 'King Alaric stands with you for the kingdom’s fate.', '100', '4000', '6000', '630', '0', 'King Alaric');
+INSERT INTO `quests` VALUES ('1', null, 'Clean the Training Yard', 'Help the blacksmith clean the training yard from broken weapons.', 'npc1.jpg', 'A grumpy old blacksmith with a heart of gold.', '1', '20', '10', '1', '0', 'Kadaz', '0', null);
+INSERT INTO `quests` VALUES ('38', null, 'The Lost Ring', 'Find the golden ring stolen by the rats.', 'npc1.jpg', 'My precious ring... I need it back!', '1', '100', '50', '1', '0', 'Old Merchant', '0', null);
+INSERT INTO `quests` VALUES ('39', null, 'Arena Aspirant', 'Win your first arena battle.', 'npc2.jpg', 'Let\'s see if you have what it takes.', '2', '150', '70', '2', '0', 'Arena Master', '0', null);
+INSERT INTO `quests` VALUES ('40', null, 'Broken Blades', 'Collect 5 broken swords from training dummies.', 'npc3.jpg', 'We recycle everything here.', '3', '180', '90', '3', '0', 'Blacksmith', '0', null);
+INSERT INTO `quests` VALUES ('41', null, 'Local Trouble', 'Defeat 3 thugs harassing villagers.', 'npc1.jpg', 'Those bullies are bad for business.', '4', '210', '110', '3', '0', 'Old Merchant', '0', null);
+INSERT INTO `quests` VALUES ('42', null, 'Training Grounds', 'Train your strength stat 1 time.', 'npc2.jpg', 'Discipline is everything.', '5', '250', '130', '3', '0', 'Arena Master', '0', null);
+INSERT INTO `quests` VALUES ('43', null, 'Clean Sweep', 'Sweep the training yard. Seriously.', 'npc3.jpg', 'No glory without humility.', '6', '200', '120', null, '1', 'Blacksmith', '0', null);
+INSERT INTO `quests` VALUES ('44', null, 'The First Hunt', 'Hunt a wild boar and bring back meat.', 'npc4.jpg', 'Boar meat is a delicacy.', '7', '300', '160', '56', '0', 'Butcher Varga', '0', null);
+INSERT INTO `quests` VALUES ('45', null, 'Relic Recovery', 'Retrieve a stolen relic from the caves.', 'npc1.jpg', 'It belongs in a museum.', '8', '350', '190', '63', '0', 'Old Merchant', '0', null);
+INSERT INTO `quests` VALUES ('46', null, 'Daily Patrol', 'Patrol the southern gate.', 'npc2.jpg', 'A guard\'s work is never done.', '9', '220', '140', null, '1', 'Arena Master', '0', null);
+INSERT INTO `quests` VALUES ('47', null, 'Champion’s Trial', 'Win 2 arena battles in a row.', 'npc3.jpg', 'Rise above the rest.', '10', '400', '220', '70', '0', 'Blacksmith', '0', null);
+INSERT INTO `quests` VALUES ('48', null, 'Healing Hands', 'Deliver herbs to the local healer.', 'npc4.jpg', 'My patients are depending on you.', '11', '260', '150', '75', '0', 'Healer Mira', '0', null);
+INSERT INTO `quests` VALUES ('49', null, 'The Mine Job', 'Escort miners to the cave entrance.', 'npc1.jpg', 'We\'re sitting ducks out there.', '12', '430', '250', '80', '0', 'Old Merchant', '0', null);
+INSERT INTO `quests` VALUES ('50', null, 'Bounty Duty', 'Collect a bounty on a rogue gladiator.', 'npc2.jpg', 'He broke the code.', '13', '460', '270', '85', '0', 'Arena Master', '0', null);
+INSERT INTO `quests` VALUES ('51', null, 'Field Test', 'Use a skill in battle successfully.', 'npc3.jpg', 'Put what you learned to use.', '14', '480', '290', '90', '0', 'Blacksmith', '0', null);
+INSERT INTO `quests` VALUES ('52', null, 'Training Cleanup', 'Sharpen 3 weapons.', 'npc4.jpg', 'Blunt blades are dangerous.', '15', '300', '180', null, '1', 'Healer Mira', '0', null);
+INSERT INTO `quests` VALUES ('53', null, 'Wolf Hunt', 'Hunt down the alpha wolf in the forest.', 'npc1.jpg', 'He\'s terrorizing the livestock.', '16', '500', '310', '100', '0', 'Old Merchant', '1', '1');
+INSERT INTO `quests` VALUES ('54', null, 'Sacred Fire', 'Light all torches in the temple.', 'npc2.jpg', 'Tradition must be honored.', '17', '530', '330', '105', '0', 'Arena Master', '0', null);
+INSERT INTO `quests` VALUES ('55', null, 'Routine Inspection', 'Inspect the northern wall.', 'npc3.jpg', 'A loose stone can be deadly.', '18', '320', '200', null, '1', 'Blacksmith', '0', null);
+INSERT INTO `quests` VALUES ('56', null, 'Apprentice’s Task', 'Bring a crate to the forge.', 'npc4.jpg', 'Mind the weight.', '19', '550', '350', '115', '0', 'Healer Mira', '0', null);
+INSERT INTO `quests` VALUES ('57', null, 'Gladiator’s Honor', 'Defend your title in the arena.', 'npc1.jpg', 'Everyone is watching.', '20', '600', '400', '120', '0', 'Old Merchant', '0', null);
+INSERT INTO `quests` VALUES ('58', null, 'Desert Watch', 'Guard the caravan heading east.', 'npc2.jpg', 'No one touches my spices.', '21', '650', '420', '125', '0', 'Trader Hassan', '0', null);
+INSERT INTO `quests` VALUES ('59', null, 'Well Maintenance', 'Clean and repair the town well.', 'npc3.jpg', 'Water is life.', '22', '340', '210', null, '1', 'Blacksmith', '0', null);
+INSERT INTO `quests` VALUES ('60', null, 'Storm Ritual', 'Assist the shaman in the rain ritual.', 'npc4.jpg', 'The sky listens when we chant.', '23', '680', '450', '145', '0', 'Shaman Kura', '0', null);
+INSERT INTO `quests` VALUES ('61', null, 'Messenger Duty', 'Deliver a sealed scroll to the northern post.', 'npc1.jpg', 'It must reach them today.', '24', '700', '470', '150', '0', 'Old Merchant', '0', null);
+INSERT INTO `quests` VALUES ('62', null, 'Shadow Hunt', 'Find and eliminate the night stalker.', 'npc2.jpg', 'It\'s been preying on our people.', '25', '740', '490', '155', '0', 'Arena Master', '0', null);
+INSERT INTO `quests` VALUES ('63', null, 'Scroll Recovery', 'Find the ancient scroll lost in the crypt.', 'npc3.jpg', 'It holds forgotten knowledge.', '26', '770', '510', '160', '0', 'Librarian Theo', '0', null);
+INSERT INTO `quests` VALUES ('64', null, 'Patrol Rotation', 'Switch guard duty with the west tower.', 'npc4.jpg', 'Don\'t let them slack off.', '27', '360', '220', null, '1', 'Arena Master', '0', null);
+INSERT INTO `quests` VALUES ('65', null, 'Thief in the Camp', 'Catch the pickpocket lurking around.', 'npc1.jpg', 'He took my last coin!', '28', '800', '530', '170', '0', 'Old Merchant', '0', null);
+INSERT INTO `quests` VALUES ('66', null, 'Cursed Idol', 'Destroy the cursed statue found in ruins.', 'npc2.jpg', 'Its presence is foul.', '29', '820', '550', '175', '0', 'Shaman Kura', '0', null);
+INSERT INTO `quests` VALUES ('67', null, 'Honor Duel', 'Win a duel without taking critical damage.', 'npc3.jpg', 'That\'s how legends are made.', '30', '850', '580', '180', '0', 'Arena Master', '0', null);
+INSERT INTO `quests` VALUES ('68', null, 'Potion Delivery', 'Bring special herbs to the apothecary.', 'npc4.jpg', 'Freshness is key.', '31', '380', '240', null, '1', 'Healer Mira', '0', null);
+INSERT INTO `quests` VALUES ('69', null, 'Bandit Camp', 'Scout and report enemy positions.', 'npc1.jpg', 'Don\'t engage. Just observe.', '32', '880', '600', '190', '0', 'Old Merchant', '0', null);
+INSERT INTO `quests` VALUES ('70', null, 'Broken Shield', 'Craft and deliver a replacement shield.', 'npc2.jpg', 'Every guard must be prepared.', '33', '910', '620', '195', '0', 'Blacksmith', '0', null);
+INSERT INTO `quests` VALUES ('71', null, 'The Fugitive', 'Track the escaped convict into the woods.', 'npc3.jpg', 'Bring him back alive.', '34', '940', '650', '200', '0', 'Guard Captain', '0', null);
+INSERT INTO `quests` VALUES ('72', null, 'Barracks Duty', 'Clean and repair armor in barracks.', 'npc4.jpg', 'Respect the tools of war.', '35', '400', '250', null, '1', 'Blacksmith', '0', null);
+INSERT INTO `quests` VALUES ('73', null, 'River Spirits', 'Appease the river spirits with offerings.', 'npc1.jpg', 'We can’t afford a flood.', '36', '960', '670', '210', '0', 'Shaman Kura', '0', null);
+INSERT INTO `quests` VALUES ('74', null, 'Beast of the Hills', 'Slay the horned beast sighted near the hills.', 'npc2.jpg', 'The farmers are terrified.', '37', '1000', '700', '215', '0', 'Old Merchant', '1', '2');
+INSERT INTO `quests` VALUES ('75', null, 'Mage’s Request', 'Gather arcane dust from elemental ruins.', 'npc3.jpg', 'Handle with extreme care.', '38', '1040', '730', '220', '0', 'Mage Elandra', '0', null);
+INSERT INTO `quests` VALUES ('76', null, 'Reinforcement Call', 'Send a signal to eastern barracks.', 'npc4.jpg', 'They need backup.', '39', '420', '260', null, '1', 'Arena Master', '0', null);
+INSERT INTO `quests` VALUES ('77', null, 'The Gladiator’s Mark', 'Win a flawless arena match.', 'npc1.jpg', 'Leave no room for doubt.', '40', '1100', '800', '230', '0', 'Arena Master', '0', null);
+INSERT INTO `quests` VALUES ('78', null, 'Forest Ambush', 'Defend the caravan from bandits in the forest.', 'npc2.jpg', 'They won’t see us coming.', '41', '1150', '850', '235', '0', 'Trader Hassan', '0', null);
+INSERT INTO `quests` VALUES ('79', null, 'Lost Relic', 'Recover the lost relic from ancient ruins.', 'npc3.jpg', 'This relic holds great power.', '42', '1180', '880', '240', '0', 'Librarian Theo', '0', null);
+INSERT INTO `quests` VALUES ('80', null, 'Herbal Hunt', 'Collect rare herbs for the apothecary.', 'npc4.jpg', 'Every potion depends on these.', '43', '460', '300', null, '1', 'Healer Mira', '0', null);
+INSERT INTO `quests` VALUES ('81', null, 'Sentry Duty', 'Keep watch over the southern gate.', 'npc1.jpg', 'No one gets past unnoticed.', '44', '1210', '900', '250', '0', 'Guard Captain', '0', null);
+INSERT INTO `quests` VALUES ('82', null, 'Wolves at the Gate', 'Drive away the wolf pack threatening the village.', 'npc2.jpg', 'The livestock is in danger.', '45', '1250', '940', '255', '0', 'Old Merchant', '0', null);
+INSERT INTO `quests` VALUES ('83', null, 'Ancient Texts', 'Copy ancient texts for the mage’s study.', 'npc3.jpg', 'Accuracy is key.', '46', '1280', '960', '260', '0', 'Mage Elandra', '0', null);
+INSERT INTO `quests` VALUES ('84', null, 'Water Purification', 'Cleanse the town’s water supply.', 'npc4.jpg', 'The people are counting on you.', '47', '480', '320', null, '1', 'Blacksmith', '0', null);
+INSERT INTO `quests` VALUES ('85', null, 'Guard Escort', 'Escort the noble safely through the forest.', 'npc1.jpg', 'The nobles’ lives are precious.', '48', '1300', '1000', '270', '0', 'Guard Captain', '0', null);
+INSERT INTO `quests` VALUES ('86', null, 'Beast Tamer', 'Capture the wild beast without harming it.', 'npc2.jpg', 'It’s a test of skill.', '49', '1340', '1040', '275', '0', 'Arena Master', '0', null);
+INSERT INTO `quests` VALUES ('87', null, 'Mystic Trial', 'Complete the shaman’s trial of endurance.', 'npc3.jpg', 'Only the worthy survive.', '50', '1380', '1080', '280', '0', 'Shaman Kura', '0', null);
+INSERT INTO `quests` VALUES ('88', null, 'Supply Run', 'Deliver supplies to the outpost.', 'npc4.jpg', 'Speed and discretion required.', '51', '520', '350', null, '1', 'Old Merchant', '0', null);
+INSERT INTO `quests` VALUES ('89', null, 'Shadow Stalker', 'Track the shadowy figure through the city.', 'npc1.jpg', 'No one knows who they are.', '52', '1420', '1120', '290', '0', 'Mage Elandra', '0', null);
+INSERT INTO `quests` VALUES ('90', null, 'Craftsman’s Request', 'Gather materials for the blacksmith.', 'npc2.jpg', 'Strong weapons need strong materials.', '53', '1450', '1150', '295', '0', 'Blacksmith', '0', null);
+INSERT INTO `quests` VALUES ('91', null, 'Night Watch', 'Stand guard all night in the town square.', 'npc3.jpg', 'Keep your eyes open.', '54', '540', '360', null, '1', 'Guard Captain', '0', null);
+INSERT INTO `quests` VALUES ('92', null, 'Rescue Mission', 'Save the captive from bandits.', 'npc4.jpg', 'Time is of the essence.', '55', '1500', '1180', '305', '0', 'Arena Master', '0', null);
+INSERT INTO `quests` VALUES ('93', null, 'Herbal Remedy', 'Create a potent remedy with rare herbs.', 'npc1.jpg', 'Healing the sick is urgent.', '56', '1540', '1200', '310', '0', 'Healer Mira', '0', null);
+INSERT INTO `quests` VALUES ('94', null, 'Fire Watch', 'Put out the fire threatening the granary.', 'npc2.jpg', 'Protect our food supply.', '57', '580', '400', null, '1', 'Old Merchant', '0', null);
+INSERT INTO `quests` VALUES ('95', null, 'Gladiator’s Challenge', 'Defeat the champion without losing a round.', 'npc3.jpg', 'Glory awaits the brave.', '58', '1580', '1240', '320', '0', 'Arena Master', '0', null);
+INSERT INTO `quests` VALUES ('96', null, 'Ancient Altar', 'Cleanse the ancient altar from corruption.', 'npc4.jpg', 'The spirits must be appeased.', '59', '1620', '1280', '325', '0', 'Shaman Kura', '0', null);
+INSERT INTO `quests` VALUES ('97', null, 'Messenger\'s Duty', 'Deliver urgent messages to allied towns.', 'npc1.jpg', 'No time to waste.', '60', '600', '420', null, '1', 'Old Merchant', '0', null);
+INSERT INTO `quests` VALUES ('98', null, 'Bandit Hideout', 'Infiltrate the bandit camp and retrieve stolen goods.', 'npc2.jpg', 'Stay quiet and strike fast.', '61', '1650', '1320', '335', '0', 'Trader Hassan', '0', null);
+INSERT INTO `quests` VALUES ('99', null, 'Cursed Forest', 'Lift the curse plaguing the forest.', 'npc3.jpg', 'Darkness has taken root.', '62', '1680', '1350', '340', '0', 'Shaman Kura', '0', null);
+INSERT INTO `quests` VALUES ('100', null, 'Herbal Collection', 'Gather medicinal herbs from the hills.', 'npc4.jpg', 'Every leaf counts.', '63', '620', '430', null, '1', 'Healer Mira', '0', null);
+INSERT INTO `quests` VALUES ('101', null, 'Gate Defense', 'Protect the northern gate from invaders.', 'npc1.jpg', 'Hold the line at all costs.', '64', '1700', '1380', '350', '0', 'Guard Captain', '0', null);
+INSERT INTO `quests` VALUES ('102', null, 'Wild Boar Hunt', 'Track and hunt the wild boar threatening crops.', 'npc2.jpg', 'Precision is key.', '65', '1750', '1420', '355', '0', 'Old Merchant', '1', '2');
+INSERT INTO `quests` VALUES ('103', null, 'Ancient Library', 'Recover lost scrolls from the ruins.', 'npc3.jpg', 'Knowledge is power.', '66', '1780', '1450', '360', '0', 'Librarian Theo', '0', null);
+INSERT INTO `quests` VALUES ('104', null, 'Water Supply Repair', 'Fix the broken aqueduct supplying the town.', 'npc4.jpg', 'Without water, we perish.', '67', '640', '450', null, '1', 'Blacksmith', '0', null);
+INSERT INTO `quests` VALUES ('105', null, 'Escort Mission', 'Escort the merchant caravan safely through dangerous lands.', 'npc1.jpg', 'Danger lurks at every corner.', '68', '1800', '1480', '370', '0', 'Trader Hassan', '0', null);
+INSERT INTO `quests` VALUES ('106', null, 'Beast Tracking', 'Locate the missing hunting beast.', 'npc2.jpg', 'The forest is alive with secrets.', '69', '1850', '1520', '375', '0', 'Arena Master', '0', null);
+INSERT INTO `quests` VALUES ('107', null, 'Trial of Strength', 'Prove your might in the gladiator arena.', 'npc3.jpg', 'Only the strong survive.', '70', '1880', '1550', '380', '0', 'Arena Master', '0', null);
+INSERT INTO `quests` VALUES ('108', null, 'Supply Transport', 'Deliver vital supplies to the frontline.', 'npc4.jpg', 'Speed and stealth required.', '71', '660', '470', null, '1', 'Old Merchant', '0', null);
+INSERT INTO `quests` VALUES ('109', null, 'Shadow Pursuit', 'Track the elusive shadow through the city streets.', 'npc1.jpg', 'They are always one step ahead.', '72', '1920', '1580', '390', '0', 'Mage Elandra', '0', null);
+INSERT INTO `quests` VALUES ('110', null, 'Crafting Materials', 'Collect materials for the town’s craftsmen.', 'npc2.jpg', 'Quality tools require quality materials.', '73', '1950', '1600', '395', '0', 'Blacksmith', '0', null);
+INSERT INTO `quests` VALUES ('111', null, 'Night Watch Duty', 'Keep vigil through the night to protect the town.', 'npc3.jpg', 'Alertness saves lives.', '74', '680', '480', null, '1', 'Guard Captain', '0', null);
+INSERT INTO `quests` VALUES ('112', null, 'Rescue Operation', 'Rescue hostages from the bandit camp.', 'npc4.jpg', 'Time is running out.', '75', '2000', '1650', '405', '0', 'Arena Master', '0', null);
+INSERT INTO `quests` VALUES ('113', null, 'Healing Potion', 'Prepare a batch of healing potions.', 'npc1.jpg', 'The sick need relief.', '76', '2040', '1680', '410', '0', 'Healer Mira', '0', null);
+INSERT INTO `quests` VALUES ('114', null, 'Fire Suppression', 'Extinguish the fire threatening the granary.', 'npc2.jpg', 'Protect our food.', '77', '700', '500', null, '1', 'Old Merchant', '0', null);
+INSERT INTO `quests` VALUES ('115', null, 'Champion’s Duel', 'Defeat the reigning champion without losing a round.', 'npc3.jpg', 'Glory is within reach.', '78', '2080', '1720', '420', '0', 'Arena Master', '0', null);
+INSERT INTO `quests` VALUES ('116', null, 'Altar Cleansing', 'Cleanse the corrupted altar.', 'npc4.jpg', 'Restore balance to the land.', '79', '2120', '1750', '425', '0', 'Shaman Kura', '0', null);
+INSERT INTO `quests` VALUES ('117', null, 'Urgent Messages', 'Deliver important messages to allied settlements.', 'npc1.jpg', 'Speed is of the essence.', '80', '720', '520', null, '1', 'Old Merchant', '0', null);
+INSERT INTO `quests` VALUES ('118', null, 'Mountain Patrol', 'Patrol the mountain passes to deter enemy scouts.', 'npc2.jpg', 'Keep your eyes sharp.', '81', '2400', '1950', '430', '0', 'Guard Captain', '0', null);
+INSERT INTO `quests` VALUES ('119', null, 'Lost Relic', 'Find the ancient relic lost in the catacombs.', 'npc3.jpg', 'It holds untold power.', '82', '2450', '1980', '435', '0', 'Librarian Theo', '0', null);
+INSERT INTO `quests` VALUES ('120', null, 'Herbalist’s Aid', 'Assist the herbalist in gathering rare plants.', 'npc4.jpg', 'Every plant has a purpose.', '83', '740', '540', null, '1', 'Healer Mira', '0', null);
+INSERT INTO `quests` VALUES ('121', null, 'Fortress Reinforcement', 'Bring reinforcements to the fortress under siege.', 'npc1.jpg', 'The walls must hold.', '84', '2500', '2020', '445', '0', 'General Marcus', '0', null);
+INSERT INTO `quests` VALUES ('122', null, 'Beast Hunt', 'Track and slay the legendary beast threatening villages.', 'npc2.jpg', 'A challenge for the brave.', '85', '2550', '2050', '450', '0', 'Arena Master', '1', '3');
+INSERT INTO `quests` VALUES ('123', null, 'Ancient Puzzle', 'Solve the ancient puzzle guarding the treasure.', 'npc3.jpg', 'Mind and courage are needed.', '86', '2580', '2080', '455', '0', 'Mage Elandra', '0', null);
+INSERT INTO `quests` VALUES ('124', null, 'Waterway Repair', 'Fix the damaged waterway supplying the city.', 'npc4.jpg', 'Without water, life ends.', '87', '760', '550', null, '1', 'Blacksmith', '0', null);
+INSERT INTO `quests` VALUES ('125', null, 'Escort the Envoy', 'Ensure the safe passage of the royal envoy.', 'npc1.jpg', 'Diplomacy is on the line.', '88', '2600', '2100', '465', '0', 'Trader Hassan', '0', null);
+INSERT INTO `quests` VALUES ('126', null, 'Shadow Stalker', 'Eliminate the shadow stalker haunting the streets.', 'npc2.jpg', 'No one is safe.', '89', '2650', '2130', '470', '0', 'Mage Elandra', '0', null);
+INSERT INTO `quests` VALUES ('127', null, 'Gladiator’s Challenge', 'Defeat 10 challengers in the arena.', 'npc3.jpg', 'Prove your dominance.', '90', '2680', '2150', '475', '0', 'Arena Master', '0', null);
+INSERT INTO `quests` VALUES ('128', null, 'Supply Run', 'Deliver essential supplies to remote outposts.', 'npc4.jpg', 'Every minute counts.', '91', '780', '560', null, '1', 'Old Merchant', '0', null);
+INSERT INTO `quests` VALUES ('129', null, 'Investigate Disturbance', 'Investigate strange happenings near the village.', 'npc1.jpg', 'Something is amiss.', '92', '2700', '2170', '485', '0', 'Guard Captain', '0', null);
+INSERT INTO `quests` VALUES ('130', null, 'Crafting Request', 'Gather rare materials for special equipment.', 'npc2.jpg', 'Only the finest will do.', '93', '2750', '2200', '490', '0', 'Blacksmith', '0', null);
+INSERT INTO `quests` VALUES ('131', null, 'Night Watch', 'Guard the city walls overnight.', 'npc3.jpg', 'Stay alert.', '94', '800', '570', null, '1', 'Guard Captain', '0', null);
+INSERT INTO `quests` VALUES ('132', null, 'Rescue the Prisoners', 'Free prisoners captured by bandits.', 'npc4.jpg', 'Their freedom depends on you.', '95', '2800', '2230', '500', '0', 'Arena Master', '0', null);
+INSERT INTO `quests` VALUES ('133', null, 'Potion Brewing', 'Brew powerful potions for the upcoming battle.', 'npc1.jpg', 'Ingredients are key.', '96', '2840', '2260', '505', '0', 'Healer Mira', '0', null);
+INSERT INTO `quests` VALUES ('134', null, 'Fire Watch', 'Keep watch for fires in the forest.', 'npc2.jpg', 'Prevent disaster.', '97', '820', '580', null, '1', 'Old Merchant', '0', null);
+INSERT INTO `quests` VALUES ('135', null, 'Champion’s Gauntlet', 'Survive the champion’s gauntlet undefeated.', 'npc3.jpg', 'Only the worthy pass.', '98', '2880', '2290', '515', '0', 'Arena Master', '0', null);
+INSERT INTO `quests` VALUES ('136', null, 'Sacred Grove', 'Protect the sacred grove from defilers.', 'npc4.jpg', 'Nature must be preserved.', '99', '2920', '2320', '520', '0', 'Shaman Kura', '0', null);
+INSERT INTO `quests` VALUES ('137', null, 'Final Test', 'Complete the final test to prove your worth.', 'npc1.jpg', 'Your destiny awaits.', '100', '3000', '2400', '525', '0', 'General Marcus', '0', null);
+INSERT INTO `quests` VALUES ('138', null, 'Kill 5 Rats', 'Clean the tavern cellar by killing 5 rats.', '0_1.jpg', 'Those rats are ruining the cellar! Help us get rid of them.', '5', '20', '100', '10', '0', 'Tavern Keeper', '1', '1');
+INSERT INTO `quests` VALUES ('139', null, 'Kill 5 Rats', 'Clean the tavern cellar by killing 5 rats.', '0_1.jpg', 'Those rats are ruining the cellar! Help us get rid of them.', '10', '30', '150', '20', '0', 'Tavern Keeper', '1', '1');
+INSERT INTO `quests` VALUES ('140', null, 'Kill 5 Rats', 'Clean the tavern cellar by killing 5 rats.', '0_1.jpg', 'Those rats are ruining the cellar! Help us get rid of them.', '15', '40', '200', '30', '0', 'Tavern Keeper', '1', '1');
+INSERT INTO `quests` VALUES ('141', null, 'Deliver Message', 'Deliver a message to the blacksmith.', '0_2.jpg', 'We need this message delivered quickly to the blacksmith.', '3', '15', '80', '40', '0', 'Town Crier', '0', null);
+INSERT INTO `quests` VALUES ('142', null, 'Deliver Message', 'Deliver a message to the blacksmith.', '0_2.jpg', 'We need this message delivered quickly to the blacksmith.', '7', '25', '130', '50', '0', 'Town Crier', '0', null);
+INSERT INTO `quests` VALUES ('143', null, 'Deliver Message', 'Deliver a message to the blacksmith.', '0_2.jpg', 'We need this message delivered quickly to the blacksmith.', '12', '35', '180', '60', '0', 'Town Crier', '0', null);
+INSERT INTO `quests` VALUES ('144', null, 'Win a Duel', 'Win one arena battle against another player.', '0_3.jpg', 'Show your skill in the arena and defeat your opponent.', '20', '50', '250', '70', '0', 'Arena Master', '0', null);
+INSERT INTO `quests` VALUES ('145', null, 'Win a Duel', 'Win one arena battle against another player.', '0_3.jpg', 'Show your skill in the arena and defeat your opponent.', '30', '70', '350', '80', '0', 'Arena Master', '0', null);
+INSERT INTO `quests` VALUES ('146', null, 'Win a Duel', 'Win one arena battle against another player.', '0_3.jpg', 'Show your skill in the arena and defeat your opponent.', '40', '90', '450', '90', '0', 'Arena Master', '0', null);
+INSERT INTO `quests` VALUES ('147', null, 'Kill 5 Rats', 'Clean the tavern cellar by killing 5 rats.', '0_1.jpg', 'Those rats are ruining the cellar! Help us get rid of them.', '5', '20', '100', '100', '0', 'Tavern Keeper', '1', '1');
+INSERT INTO `quests` VALUES ('148', null, 'Kill 5 Rats', 'Clean the tavern cellar by killing 5 rats.', '0_1.jpg', 'Those rats are ruining the cellar! Help us get rid of them.', '10', '30', '150', '110', '0', 'Tavern Keeper', '1', '1');
+INSERT INTO `quests` VALUES ('149', null, 'Kill 5 Rats', 'Clean the tavern cellar by killing 5 rats.', '0_1.jpg', 'Those rats are ruining the cellar! Help us get rid of them.', '15', '40', '200', '120', '0', 'Tavern Keeper', '1', '1');
+INSERT INTO `quests` VALUES ('150', null, 'Deliver Message', 'Deliver a message to the blacksmith.', '0_2.jpg', 'We need this message delivered quickly to the blacksmith.', '3', '15', '80', '130', '0', 'Town Crier', '0', null);
+INSERT INTO `quests` VALUES ('151', null, 'Deliver Message', 'Deliver a message to the blacksmith.', '0_2.jpg', 'We need this message delivered quickly to the blacksmith.', '7', '25', '130', '140', '0', 'Town Crier', '0', null);
+INSERT INTO `quests` VALUES ('152', null, 'Deliver Message', 'Deliver a message to the blacksmith.', '0_2.jpg', 'We need this message delivered quickly to the blacksmith.', '12', '35', '180', '150', '0', 'Town Crier', '0', null);
+INSERT INTO `quests` VALUES ('153', null, 'Win a Duel', 'Win one arena battle against another player.', '0_3.jpg', 'Show your skill in the arena and defeat your opponent.', '20', '50', '250', '160', '0', 'Arena Master', '0', null);
+INSERT INTO `quests` VALUES ('154', null, 'Win a Duel', 'Win one arena battle against another player.', '0_3.jpg', 'Show your skill in the arena and defeat your opponent.', '30', '70', '350', '170', '0', 'Arena Master', '0', null);
+INSERT INTO `quests` VALUES ('155', null, 'Win a Duel', 'Win one arena battle against another player.', '0_3.jpg', 'Show your skill in the arena and defeat your opponent.', '40', '90', '450', '180', '0', 'Arena Master', '0', null);
+INSERT INTO `quests` VALUES ('156', null, 'Collect 10 Herbs', 'Gather 10 healing herbs from the forest.', '0_4.jpg', 'The healer needs these herbs to make medicines.', '25', '60', '300', '190', '0', 'Healer', '0', null);
+INSERT INTO `quests` VALUES ('157', null, 'Collect 10 Herbs', 'Gather 10 healing herbs from the forest.', '0_4.jpg', 'The healer needs these herbs to make medicines.', '35', '80', '400', '200', '0', 'Healer', '0', null);
+INSERT INTO `quests` VALUES ('158', null, 'Collect 10 Herbs', 'Gather 10 healing herbs from the forest.', '0_4.jpg', 'The healer needs these herbs to make medicines.', '45', '100', '500', '210', '0', 'Healer', '0', null);
+INSERT INTO `quests` VALUES ('159', null, 'Defeat the Bandit Leader', 'Eliminate the bandit leader terrorizing the village.', '0_5.jpg', 'Our village is safe only if you kill the bandit leader.', '30', '70', '350', '220', '0', 'Village Elder', '1', '3');
+INSERT INTO `quests` VALUES ('160', null, 'Defeat the Bandit Leader', 'Eliminate the bandit leader terrorizing the village.', '0_5.jpg', 'Our village is safe only if you kill the bandit leader.', '40', '90', '450', '230', '0', 'Village Elder', '0', null);
+INSERT INTO `quests` VALUES ('161', null, 'Defeat the Bandit Leader', 'Eliminate the bandit leader terrorizing the village.', '0_5.jpg', 'Our village is safe only if you kill the bandit leader.', '50', '110', '550', '240', '0', 'Village Elder', '0', null);
+INSERT INTO `quests` VALUES ('162', null, 'Escort the Merchant', 'Protect the merchant on his journey to the next town.', '0_6.jpg', 'The roads are dangerous; escort the merchant safely.', '35', '80', '400', '250', '0', 'Merchant', '0', null);
+INSERT INTO `quests` VALUES ('163', null, 'Escort the Merchant', 'Protect the merchant on his journey to the next town.', '0_6.jpg', 'The roads are dangerous; escort the merchant safely.', '45', '100', '500', '260', '0', 'Merchant', '0', null);
+INSERT INTO `quests` VALUES ('164', null, 'Escort the Merchant', 'Protect the merchant on his journey to the next town.', '0_6.jpg', 'The roads are dangerous; escort the merchant safely.', '55', '120', '600', '270', '0', 'Merchant', '0', null);
+INSERT INTO `quests` VALUES ('165', null, 'Hunt the Desert Wyrm', 'Slay the monstrous wyrm lurking beneath the desert sands.', '0_7.jpg', 'The beast swallows caravans whole. Only you can stop it.', '60', '250', '800', '325', '0', 'Desert Commander', '1', '3');
+INSERT INTO `quests` VALUES ('166', null, 'Hunt the Desert Wyrm', 'Slay the monstrous wyrm lurking beneath the desert sands.', '0_7.jpg', 'The beast swallows caravans whole. Only you can stop it.', '70', '300', '1000', '330', '0', 'Desert Commander', '1', '3');
+INSERT INTO `quests` VALUES ('167', null, 'Hunt the Desert Wyrm', 'Slay the monstrous wyrm lurking beneath the desert sands.', '0_7.jpg', 'The beast swallows caravans whole. Only you can stop it.', '80', '350', '1200', '335', '0', 'Desert Commander', '1', '3');
+INSERT INTO `quests` VALUES ('168', null, 'Retrieve the Cursed Artifact', 'Venture into the ruins and retrieve a powerful artifact guarded by the undead.', '0_8.jpg', 'Legends say the artifact corrupts the weak. Are you strong enough?', '65', '270', '850', '340', '0', 'Arcanist Veleron', '0', null);
+INSERT INTO `quests` VALUES ('169', null, 'Retrieve the Cursed Artifact', 'Venture into the ruins and retrieve a powerful artifact guarded by the undead.', '0_8.jpg', 'Legends say the artifact corrupts the weak. Are you strong enough?', '75', '320', '1100', '345', '0', 'Arcanist Veleron', '0', null);
+INSERT INTO `quests` VALUES ('170', null, 'Retrieve the Cursed Artifact', 'Venture into the ruins and retrieve a powerful artifact guarded by the undead.', '0_8.jpg', 'Legends say the artifact corrupts the weak. Are you strong enough?', '85', '380', '1300', '350', '0', 'Arcanist Veleron', '0', null);
+INSERT INTO `quests` VALUES ('171', null, 'Siege the Shadow Fortress', 'Lead a strike force to infiltrate the fortress of the dark cultists.', '0_9.jpg', 'No one has returned from the fortress alive... yet.', '70', '300', '900', '355', '0', 'General Tharon', '0', null);
+INSERT INTO `quests` VALUES ('172', null, 'Siege the Shadow Fortress', 'Lead a strike force to infiltrate the fortress of the dark cultists.', '0_9.jpg', 'No one has returned from the fortress alive... yet.', '80', '350', '1200', '360', '0', 'General Tharon', '0', null);
+INSERT INTO `quests` VALUES ('173', null, 'Siege the Shadow Fortress', 'Lead a strike force to infiltrate the fortress of the dark cultists.', '0_9.jpg', 'No one has returned from the fortress alive... yet.', '90', '400', '1500', '365', '0', 'General Tharon', '0', null);
+INSERT INTO `quests` VALUES ('174', null, 'Slay the Void Tyrant', 'Defeat the ancient Void Tyrant who feeds on worlds.', '1_0.jpg', 'He is eternal, he is hunger, and now he awaits you.', '90', '500', '2000', '370', '0', 'Chrono-Seer Lysara', '1', '3');
+INSERT INTO `quests` VALUES ('175', null, 'Slay the Void Tyrant', 'Defeat the ancient Void Tyrant who feeds on worlds.', '1_0.jpg', 'He is eternal, he is hunger, and now he awaits you.', '95', '600', '2500', '375', '0', 'Chrono-Seer Lysara', '1', '3');
+INSERT INTO `quests` VALUES ('176', null, 'Slay the Void Tyrant', 'Defeat the ancient Void Tyrant who feeds on worlds.', '1_0.jpg', 'He is eternal, he is hunger, and now he awaits you.', '100', '800', '3000', '500', '0', 'Chrono-Seer Lysara', '1', '3');
+INSERT INTO `quests` VALUES ('177', null, 'Defend the Gates of Solara', 'Stand with the last defenders of the golden city against the demonic horde.', '1_1.jpg', 'Our walls shall not fall today. Not while you still breathe.', '91', '550', '2100', '510', '0', 'Captain Myros', '0', null);
+INSERT INTO `quests` VALUES ('178', null, 'Defend the Gates of Solara', 'Stand with the last defenders of the golden city against the demonic horde.', '1_1.jpg', 'Our walls shall not fall today. Not while you still breathe.', '96', '650', '2700', '515', '0', 'Captain Myros', '0', null);
+INSERT INTO `quests` VALUES ('179', null, 'Defend the Gates of Solara', 'Stand with the last defenders of the golden city against the demonic horde.', '1_1.jpg', 'Our walls shall not fall today. Not while you still breathe.', '100', '900', '3200', '520', '0', 'Captain Myros', '0', null);
+INSERT INTO `quests` VALUES ('180', null, 'The Final Trial', 'Face your mirror self in a deadly trial of strength, wit, and will.', '1_2.jpg', 'Only one of you may emerge. Will it be you, or the darkness within?', '92', '580', '2200', '525', '0', 'Master Altherion', '0', null);
+INSERT INTO `quests` VALUES ('181', null, 'The Final Trial', 'Face your mirror self in a deadly trial of strength, wit, and will.', '1_2.jpg', 'Only one of you may emerge. Will it be you, or the darkness within?', '97', '680', '2800', '530', '0', 'Master Altherion', '0', null);
+INSERT INTO `quests` VALUES ('182', null, 'The Final Trial', 'Face your mirror self in a deadly trial of strength, wit, and will.', '1_2.jpg', 'Only one of you may emerge. Will it be you, or the darkness within?', '100', '1000', '3500', '535', '0', 'Master Altherion', '0', null);
+INSERT INTO `quests` VALUES ('9001', null, 'Whispers in the North', 'Investigate rumors of unrest in the frozen Ashen Vale.', 'npc_general.jpg', 'Captain Elrik has caught wind of unsettling whispers in the north. He needs someone brave enough to verify them.', '85', '850', '1800', '540', '0', 'Captain Elrik', '0', null);
+INSERT INTO `quests` VALUES ('9002', '9001', 'Tracks in the Snow', 'Follow the signs of rebel activity and report your findings.', 'npc_scout.jpg', 'Scout Mira guides you through the perilous ice fields, helping track rebel footprints.', '86', '900', '1900', '545', '0', 'Scout Mira', '0', null);
+INSERT INTO `quests` VALUES ('9003', '9002', 'Saboteur\'s Den', 'Infiltrate a hidden rebel outpost and eliminate the saboteur.', 'npc_rogue.jpg', 'A cunning saboteur is undermining supply lines. Find their den and stop them.', '87', '1000', '2000', '550', '0', 'Shade Dalan', '0', null);
+INSERT INTO `quests` VALUES ('9004', '9003', 'Rebel War Council', 'Eavesdrop on a rebel war meeting and bring back intel.', 'npc_spy.jpg', 'The time to strike is coming. But first, we need to know their plans. Trust no one.', '88', '1100', '2150', '555', '0', 'Agent Cyra', '1', '3');
+INSERT INTO `quests` VALUES ('9005', '9004', 'Crush the Commander', 'Face the rebel leader in the highlands and put an end to the rebellion.', 'npc_warlord.jpg', 'This is it. The commander who started it all awaits. The fate of the north hangs in balance.', '89', '1250', '2300', '560', '0', 'Warlord Kharax', '1', '3');
+INSERT INTO `quests` VALUES ('9006', '9005', 'Betrayal in the Ranks', 'Uncover the traitor leaking information to the rebels.', 'npc_spy.jpg', 'Agent Cyra suspects there’s a mole in the king’s council. Find proof.', '90', '1350', '2500', '565', '0', 'Agent Cyra', '0', null);
+INSERT INTO `quests` VALUES ('9007', '9006', 'Fortress Under Siege', 'Lead a strike to break the rebel siege on the northern fortress.', 'npc_warlord.jpg', 'Warlord Kharax calls upon your strength to rally the defenders.', '91', '1500', '2700', '570', '0', 'Warlord Kharax', '0', null);
+INSERT INTO `quests` VALUES ('9008', '9007', 'The Dark Ritual', 'Stop the rebels from completing a forbidden ritual that could doom the realm.', 'npc_mage.jpg', 'High Mage Valera warns of a dark ritual in the shadowed woods.', '92', '1650', '2900', '575', '0', 'High Mage Valera', '0', null);
+INSERT INTO `quests` VALUES ('9009', '9008', 'Shadows in the Mist', 'Hunt down rebel assassins lurking in the fog.', 'npc_rogue.jpg', 'Shade Dalan returns with vital info on assassin movements.', '93', '1800', '3100', '580', '0', 'Shade Dalan', '1', '3');
+INSERT INTO `quests` VALUES ('9010', '9009', 'Final Stand at Ashen Peak', 'Confront the last of the rebels and secure peace for the north.', 'npc_warlord.jpg', 'Warlord Kharax prepares for the decisive battle atop Ashen Peak.', '94', '2000', '3500', '585', '0', 'Warlord Kharax', '1', '3');
+INSERT INTO `quests` VALUES ('9011', '9010', 'A Hero’s Reward', 'Celebrate your victory with the king’s recognition and a grand reward.', 'npc_king.jpg', 'King Alaric honors your bravery and sacrifices.', '95', '2500', '4000', '590', '0', 'King Alaric', '0', null);
+INSERT INTO `quests` VALUES ('9012', '9011', 'The Siege Breaker', 'Lead the final assault to break the rebel siege on the capital.', 'npc_warlord.jpg', 'Warlord Kharax entrusts you with this crucial mission.', '96', '2800', '4500', '595', '0', 'Warlord Kharax', '0', null);
+INSERT INTO `quests` VALUES ('9013', '9012', 'Into the Heart of Darkness', 'Infiltrate the rebel stronghold and retrieve the stolen relic.', 'npc_rogue.jpg', 'Shade Dalan provides stealth tactics for your mission.', '97', '3000', '4800', '600', '0', 'Shade Dalan', '0', null);
+INSERT INTO `quests` VALUES ('9014', '9013', 'The Cursed Artifact', 'Destroy the cursed relic before it corrupts the land.', 'npc_mage.jpg', 'High Mage Valera warns of the artifact’s devastating power.', '98', '3200', '5200', '610', '0', 'High Mage Valera', '1', '3');
+INSERT INTO `quests` VALUES ('9015', '9014', 'Betrayal Revealed', 'Expose the rebel leader’s hidden allies within the kingdom.', 'npc_spy.jpg', 'Agent Cyra shares secret intelligence to aid your cause.', '99', '3500', '5600', '620', '0', 'Agent Cyra', '0', null);
+INSERT INTO `quests` VALUES ('9016', '9015', 'Ashen Rebellion: Final Judgment', 'Face the rebel leader in a decisive battle to end the rebellion.', 'npc_king.jpg', 'King Alaric stands with you for the kingdom’s fate.', '100', '4000', '6000', '630', '0', 'King Alaric', '1', '3');
 
 -- ----------------------------
 -- Table structure for `report_fight`

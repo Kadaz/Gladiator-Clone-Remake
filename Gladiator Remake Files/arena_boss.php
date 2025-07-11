@@ -41,6 +41,35 @@ $stmt = $conn->prepare("SELECT *, is_premium FROM gracze WHERE id = ?");
 $stmt->bind_param("i", $player_id);
 $stmt->execute();
 $player = $stmt->get_result()->fetch_assoc();
+$bonus_dmg = 0;
+$bonus_def = 0;
+$bonus_xp = 0;
+$bonus_gold = 0;
+$bonus_crit = 0;
+
+$deity = $conn->query("
+    SELECT bonus_type, bonus_value 
+    FROM deities d 
+    JOIN gracze g ON g.deity_id = d.id 
+    WHERE g.id = $player_id
+")->fetch_assoc();
+
+if ($deity) {
+    switch ($deity['bonus_type']) {
+        case 'damage': $bonus_dmg = (int)$deity['bonus_value']; break;
+        case 'defense': $bonus_def = (int)$deity['bonus_value']; break;
+        case 'xp': $bonus_xp = (int)$deity['bonus_value']; break;
+        case 'gold': $bonus_gold = (int)$deity['bonus_value']; break;
+        case 'crit_chance': $bonus_crit = (int)$deity['bonus_value']; break;
+    }
+}
+
+// 🟨 Load deity bonus
+$deity = null;
+if (!empty($player['deity_id'])) {
+    $res = $conn->query("SELECT bonus_type, bonus_value FROM deities WHERE id = {$player['deity_id']} LIMIT 1");
+    $deity = $res->fetch_assoc();
+}
 
 if (isset($_POST['reset'])) {
     unset($_SESSION['boss_enemy'], $_SESSION['boss_enemy_hp'], $_SESSION['boss_player_hp'], $_SESSION['boss_log'], $_SESSION['boss_cooldowns'], $_SESSION['boss_reward'], $_SESSION['boss_effects']);
@@ -117,6 +146,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
     $bonus_sila = 0;
     $enemy_stunned = false;
+	$deity_bonus_sila = 0;
+$deity_bonus_msg = '';
+if ($deity && $deity['bonus_type'] === 'damage') {
+    $deity_bonus_sila = (int)$deity['bonus_value'];
+    $deity_bonus_msg = "⚡ Deity Bonus +{$deity_bonus_sila} STR";
+}
     if (!empty($_SESSION['boss_effects'])) {
         foreach ($_SESSION['boss_effects'] as $index => &$effect) {
             if ($effect['type'] === 'buff' && $effect['attr'] === 'sila') $bonus_sila += $effect['value'];
@@ -126,7 +161,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         }
     }
 
-    $player_dmg = rand(10, 20) + floor(($player['sila'] + $bonus_sila) * 0.5);
+    $base_sila = $player['sila'] + $bonus_sila + $bonus_dmg;
+
+$player_dmg = rand(10, 20) + floor($base_sila * 0.5);
+
+// 💥 Ares crit
+if ($bonus_crit > 0 && rand(1, 100) <= $bonus_crit) {
+    $player_dmg *= 2;
+    $log[] = "<span class='log-player-skill' style='color:red;'>💥 Ares Critical Hit!</span>";
+}
     $enemy_dmg = rand($enemy['min_dmg'], $enemy['max_dmg']);
 
     if (ctype_digit($action) && isset($skills[$action])) {
@@ -142,11 +185,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $player_dmg = 0;
         }
     } elseif ($action === 'basic') {
-        $log[] = "<span class='log-player-attack'>[$time] You hit {$enemy['name']} for $player_dmg</span>";
+    $log[] = "<span class='log-player-attack'>[$time] You hit {$enemy['name']} for $player_dmg</span>";
+
+    // ✅ Show Deity bonus message (if exists)
+    if (!empty($deity_bonus_msg)) {
+        $log[] = "<span class='log-heal' style='color:gold;'>$deity_bonus_msg</span>";
     }
+}
 
     if ($enemy_hp - $player_dmg > 0 && !$enemy_stunned) {
-        $player_hp -= $enemy_dmg;
+        if ($bonus_def > 0) {
+    $reduction = floor($enemy_dmg * ($bonus_def / 100));
+    $enemy_dmg -= $reduction;
+    $log[] = "<span class='log-heal'>💧 Poseidon reduced damage by $reduction</span>";
+}
+$player_hp -= $enemy_dmg;
         $log[] = "<span class='log-enemy-attack'>[$time] {$enemy['name']} hits for $enemy_dmg</span>";
     } elseif ($enemy_stunned) {
         $log[] = "<span class='log-heal'>💫 Enemy stunned and skips turn!</span>";
@@ -162,7 +215,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     // ✅ Reward
     if ($enemy_hp <= 0 && $player_hp > 0 && empty($_SESSION['boss_reward'])) {
         $xp = $enemy['xp_reward'];
-        $gold = $enemy['gold_reward'];
+$gold = $enemy['gold_reward'];
+
+if (!empty($player['is_premium'])) {
+    $xp = floor($xp * 1.25);
+    $log[] = "<span class='log-reward' style='color:gold;'>👑 Premium Bonus: +25% XP</span>";
+}
+
+if ($bonus_xp > 0) {
+    $xp = floor($xp * (1 + $bonus_xp / 100));
+    $log[] = "<span class='log-reward'>📘 Athena Bonus: +$bonus_xp% XP</span>";
+}
+
+if ($bonus_gold > 0) {
+    $gold = floor($gold * (1 + $bonus_gold / 100));
+    $log[] = "<span class='log-reward'>💰 Hades Bonus: +$bonus_gold% gold</span>";
+}
 		if (!empty($player['is_premium'])) {
            $xp = floor($xp * 1.25); // +25% XP
            $log[] = "<span class='log-reward' style='color:gold;'>👑 Premium Bonus applied: +25% XP</span>";

@@ -117,7 +117,7 @@ while ($row = $result->fetch_assoc()) {
 echo "<h2>📘 Your Active Quests</h2>";
 
 $stmt = $conn->prepare("
-    SELECT q.id, q.title, q.exp_reward, q.gold_reward, q.reward_item_id, pq.status 
+    SELECT q.id, q.title, q.exp_reward, q.gold_reward, q.reward_item_id, q.requires_battle, pq.status 
     FROM player_quests pq 
     JOIN quests q ON pq.quest_id = q.id 
     WHERE pq.player_id = ? AND pq.status = 'active'
@@ -128,7 +128,17 @@ $user_quests = $stmt->get_result();
 
 while ($quest = $user_quests->fetch_assoc()) {
     echo "<p><strong>{$quest['title']}</strong> - Status: {$quest['status']}<br>";
+
+    if (!empty($quest['requires_battle'])) {
+        echo "<a href='quest_battle.php?quest_id={$quest['id']}'>⚔️ Fight</a> ";
+    } else {
+        if (!empty($quest['requires_battle'])) {
+    echo "<a href='quest_battle.php?quest_id={$quest['id']}'>⚔️ Fight</a> ";
+} else {
     echo "<a href='complete_quest.php?quest_id={$quest['id']}'>🏁 Complete</a> ";
+}
+    }
+
     echo "<a href='quest.php?abandon={$quest['id']}' class='abandon-btn'>❌ Abandon</a>";
     echo "</p>";
 }
