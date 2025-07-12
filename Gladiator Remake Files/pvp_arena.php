@@ -71,6 +71,8 @@ $result = $stmt->get_result();
 <h2>🏟️ PvP Arena</h2>
 <p>Logged in as: <strong><?= htmlspecialchars($player_name) ?></strong></p>
 
+<p><li><a href="tournament_list.php">🏆 Tournaments</a></li></p>
+
 <?php if (!$can_fight): ?>
     <p style="color:red;">⚠️ You must wait <?= $remaining ?> seconds before your next PvP battle.</p>
 <?php endif; ?>
