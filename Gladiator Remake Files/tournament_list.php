@@ -57,4 +57,5 @@ $result = $stmt->get_result();
     </table>
 <?php endif; ?>
 
+<br><a href="player_tournaments.php">← My Tournaments</a> | <a href="index.php">🏠 Dashboard</a>
 <br><a href="index.php">← Back to Dashboard</a>

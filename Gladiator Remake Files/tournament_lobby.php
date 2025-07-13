@@ -128,4 +128,5 @@ if ($past->num_rows == 0) {
     echo "</ul>";
 }
 ?>
+<a href="tournament_bracket.php?id=<?= $tournament_id ?>"><button>🧩 View Bracket</button></a>
 <br><a href="player_tournaments.php">← My Tournaments</a> | <a href="index.php">🏠 Dashboard</a>

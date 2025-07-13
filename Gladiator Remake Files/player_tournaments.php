@@ -98,13 +98,41 @@ $finished_res = $finished->get_result();
   <table border="1" cellspacing="0" cellpadding="4">
     <tr><th>Name</th><th>Ended</th><th>Final Position</th><th>Status</th></tr>
     <?php while ($row = $finished_res->fetch_assoc()): ?>
-      <tr>
-        <td><?= htmlspecialchars($row['name']) ?></td>
-        <td><?= $row['end_time'] ?></td>
-        <td><?= $row['bracket_position'] ?? '-' ?></td>
-        <td><?= $row['eliminated'] ? '❌ Eliminated' : '🏆 Finished' ?></td>
-      </tr>
-    <?php endwhile; ?>
+  <tr>
+    <td><?= htmlspecialchars($row['name']) ?></td>
+    <td><?= $row['end_time'] ?></td>
+    <td><?= $row['bracket_position'] ?? '-' ?></td>
+    <td><?= $row['eliminated'] ? '❌ Eliminated' : '🏆 Finished' ?></td>
+  </tr>
+
+  <!-- ✅ Show Top 3 if rewards exist -->
+  <?php
+    $tour_id = (int)$row['id'];
+    $top3 = $conn->query("
+        SELECT r.position, g.login, r.reward_gold, r.reward_xp 
+        FROM tournament_rewards r 
+        JOIN gracze g ON g.id = r.player_id 
+        WHERE r.tournament_id = $tour_id 
+        ORDER BY r.position ASC
+    ");
+    if ($top3->num_rows > 0):
+  ?>
+  <tr>
+    <td colspan="4">
+      🏅 <strong>Top 3 Players:</strong><br>
+      <ol>
+        <?php while ($p = $top3->fetch_assoc()): ?>
+          <li>
+            <?= htmlspecialchars($p['login']) ?> — 
+            <?= $p['reward_gold'] ?>💰, <?= $p['reward_xp'] ?>⭐
+            (Place #<?= $p['position'] ?>)
+          </li>
+        <?php endwhile; ?>
+      </ol>
+    </td>
+  </tr>
+  <?php endif; ?>
+<?php endwhile; ?>
   </table>
 <?php endif; ?>
 

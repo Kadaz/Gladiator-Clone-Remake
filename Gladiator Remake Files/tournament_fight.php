@@ -95,14 +95,78 @@ if ($winner_id == $player_id) {
                     AND tournament_id = {$match['tournament_id']}");
 }
 
+$conn->query("
+    UPDATE tournament_players 
+    SET eliminated = 1 
+    WHERE tournament_id = {$match['tournament_id']} 
+      AND player_id IN (
+          SELECT player_id FROM (
+              SELECT player_id FROM tournament_players
+              WHERE tournament_id = {$match['tournament_id']} AND losses >= 3
+          ) AS sub
+      )
+");
+
 /* -----------------------------------------------------------
-   6) Redirect back
+   6) AUTO-MATCH + Redirect back
 ------------------------------------------------------------ */
+$tournament_id = (int)$match['tournament_id'];
+
+// Auto-matchmaking: Βρες 2 διαθέσιμους παίκτες χωρίς active match
+$eligible = [];
+$res = $conn->query("
+    SELECT tp.player_id
+    FROM tournament_players tp
+    LEFT JOIN (
+        SELECT player1_id AS pid FROM tournament_matches WHERE tournament_id = $tournament_id AND winner_id IS NULL
+        UNION
+        SELECT player2_id AS pid FROM tournament_matches WHERE tournament_id = $tournament_id AND winner_id IS NULL
+    ) active_matches ON tp.player_id = active_matches.pid
+    WHERE tp.tournament_id = $tournament_id AND tp.eliminated = 0 AND active_matches.pid IS NULL
+    ORDER BY RAND()
+");
+while ($r = $res->fetch_assoc()) {
+    $eligible[] = $r['player_id'];
+}
+
+if (count($eligible) >= 2) {
+    $p1 = $eligible[0];
+    $p2 = $eligible[1];
+
+    /* --- Υπολογισμός επόμενου round --------------------------------- */
+    $maxRound = (int)($conn->query("
+        SELECT COALESCE(MAX(round),1) AS r
+        FROM tournament_matches
+        WHERE tournament_id = $tournament_id
+    ")->fetch_assoc()['r']);
+
+    /* Ελέγχει αν υπάρχουν ακόμα ανοιχτά ματς στο τρέχον round         */
+    $open = (int)($conn->query("
+        SELECT COUNT(*) AS c
+        FROM tournament_matches
+        WHERE tournament_id = $tournament_id
+          AND round = $maxRound
+          AND winner_id IS NULL
+    ")->fetch_assoc()['c']);
+
+    $nextRound = ($open === 0) ? $maxRound + 1 : $maxRound;
+    /* ---------------------------------------------------------------- */
+
+    $stmt = $conn->prepare("
+        INSERT INTO tournament_matches
+              (tournament_id, player1_id, player2_id, round, match_time)
+        VALUES (?, ?, ?, ?, NOW())
+    ");
+    $stmt->bind_param("iiii", $tournament_id, $p1, $p2, $nextRound);
+    $stmt->execute();
+}
+
+// Τελικό redirect
 $_SESSION['tourn_msg'] = ($winner_id == $player_id)
     ? "🏆 You defeated $enemy_name!"
     : "💀 You were defeated by $enemy_name.";
 
-header("Location: tournament_lobby.php?id={$match['tournament_id']}");
+header("Location: tournament_lobby.php?id=$tournament_id");
 exit;
 
 ?>
