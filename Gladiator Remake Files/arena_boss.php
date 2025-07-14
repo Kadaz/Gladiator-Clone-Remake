@@ -390,3 +390,4 @@ window.addEventListener("load", () => {
 .log-reward { color: purple; font-weight: bold; }
 .level-up { color: gold; font-weight: bold; }
 </style>
+<br><a href="index.php">← Back to Dashboard</a>
