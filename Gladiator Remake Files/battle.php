@@ -42,6 +42,21 @@ $limit_check->close();
 if ($battles_last_hour >= 10) {
     die("<h3 style='color:red'>⛔ You have reached your battle limit (10 per hour). Try again later.</h3><a href='index.php'>← Back</a>");
 }
+// Load player
+$stmt = $conn->prepare("SELECT * FROM gracze WHERE id = ?");
+$stmt->bind_param("i", $player_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$player = $result->fetch_assoc();
+if (!$player) die("Player not found.");
+
+$enemy_pool = [
+    ['name' => 'Training Dummy', 'hp' => 50, 'min_dmg' => 0, 'max_dmg' => 5],
+    ['name' => 'Fire Imp', 'hp' => 55, 'min_dmg' => 3, 'max_dmg' => 8],
+    ['name' => 'Skeleton Warrior', 'hp' => 70, 'min_dmg' => 5, 'max_dmg' => 12],
+    ['name' => 'Goblin Raider', 'hp' => 60, 'min_dmg' => 4, 'max_dmg' => 10],
+    ['name' => 'Dark Sorcerer', 'hp' => 45, 'min_dmg' => 7, 'max_dmg' => 15],
+];
 
 // Reset battle manually (Start New Battle)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reset'])) {
@@ -103,22 +118,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
-
-// Load player
-$stmt = $conn->prepare("SELECT * FROM gracze WHERE id = ?");
-$stmt->bind_param("i", $player_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$player = $result->fetch_assoc();
-if (!$player) die("Player not found.");
-
-$enemy_pool = [
-    ['name' => 'Training Dummy', 'hp' => 50, 'min_dmg' => 0, 'max_dmg' => 5],
-    ['name' => 'Fire Imp', 'hp' => 55, 'min_dmg' => 3, 'max_dmg' => 8],
-    ['name' => 'Skeleton Warrior', 'hp' => 70, 'min_dmg' => 5, 'max_dmg' => 12],
-    ['name' => 'Goblin Raider', 'hp' => 60, 'min_dmg' => 4, 'max_dmg' => 10],
-    ['name' => 'Dark Sorcerer', 'hp' => 45, 'min_dmg' => 7, 'max_dmg' => 15],
-];
 
 if (!isset($_SESSION['enemy']) || !isset($_SESSION['battle_enemy_hp'])) {
     $enemy = $enemy_pool[array_rand($enemy_pool)];
