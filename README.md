@@ -18,6 +18,8 @@ You may found the database in SQL forlder. The database name is gladiatus.
 
 db.php is the file you can modify the settings for mysql.
 
+You can test the project here: https://gladiatustmg.free.nf/
+
 ## Support Me
 
 If you find this project useful, you can support me here: [Donate via PayPal](https://paypal.me/ApostolosMitsakoulis)
